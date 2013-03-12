@@ -105,21 +105,6 @@ Once the problem of creating an empty database is tackled, nobody seems to have 
 </ol><div>On past projects, the teams have stored development and test data sets as groups of csv or XML files.  Both of these files can be easily version-ed, diff-ed, and modified using excel or open office.  I prefer csv files as they are more concise and contain a lot less noise.&nbsp; Once you have these file sets and the requisite knowledge of the database structure it&#8217;s relatively pleasant to work with them to maintain known state(s) of the data. By running the database build and load in a CI build we can continually verify that we know how to build a database. Using the populated database we can confirm that our functional tests of the application(s) are still working against a consistent data set. </div></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Hey Toast,<br />Thanks for the comment. I&#39;ve used a lot of the Red Gate Tools and found them helpful in more than a few situations.  Sql Storage Compress sounds interesting and addresses the copy and restore time.  It doesn&#39;t address lack of understanding of the database, having to deal with huge amounts of data, or versioning and diff-ing easily over time.<br />   Steve</div>
-</div>
-<div class='comment'>
-<div class='author'>toast</div>
-<div class='content'>
-Hi!<br /><br />warning - about to plug a product from my current company&#8230;<br /><br />You can detach, copy, reattach a database if you want to quickly restore its contents to a known (saved) point. I guess you would then run your DB deploy scripts to update the schema appropriately.<br /><br />This need not use stupid amounts of disk space if you use something like (get ready for plug) Red Gate&#39;s SQL Storage Compress. That product can be used to compress your database files such that the copy command above takes less time (less to copy) and less disk. The database acts like normal when it is attached, it just happens to be 40% the size&#8230;<br /><br />of course, it costs money while your solution doesn&#39;t, but I think it would be worth checking out both SQL Virtual Restore and SQL Storage Compress.  www.red-gate.com</div>
-</div>
-</div>
 
 </div>
 

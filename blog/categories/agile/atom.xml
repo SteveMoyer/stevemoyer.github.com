@@ -4,7 +4,7 @@
   <title><![CDATA[Category: agile | Coding Libetartian]]></title>
   <link href="http://blog.stevemoyer.net/blog/categories/agile/atom.xml" rel="self"/>
   <link href="http://blog.stevemoyer.net/"/>
-  <updated>2013-03-12T14:16:54-07:00</updated>
+  <updated>2013-03-12T16:01:23-07:00</updated>
   <id>http://blog.stevemoyer.net/</id>
   <author>
     <name><![CDATA[Steve Moyer]]></name>
@@ -82,21 +82,6 @@ protected void Page_Load(object sender, EventArgs e)
 <div xmlns='http://www.w3.org/1999/xhtml'><p>I've recently embarked on a journey to learn both Emacs and Clojure (on Ubuntu). I've made some progress learning the basics of clojure and the basics of emacs but I've struggled with getting a development flow going. </p><p>I'm going to try and document what I've learned and am learning. I'd appreciate any helpful hints, tips, or comments that people have. <strong> While writing this post I stumbled on </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2009/03/learning-clojure-and-emacs.html'><strong>Curran's blog</strong></a><strong> which has most of what I wanted to capture and </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2008/06/hello.htmlblogspot.com/'><strong>a lot more</strong></a><strong>.  </strong></p><p><strong>Emacs Installation</strong></p><p>I'm not sure it's the best way to do it but I installed emacs 23 from the from the ubuntu package manager and followed Bradford Cross's emacs <a href='http://measuringmeasures.blogspot.com/2010/01/my-new-clojure-emacs-setup.html'>setup steps</a>.</p><p>I recently watched this <a href='http://www.vimeo.com/1013263'>screencast</a> by Stuart Halloway (thanks to <a href='http://twitter.com/timwee'>Tim Wee</a>) and enabled ido.el by following the instructions on <a href='http://www.emacswiki.org/emacs/InteractivelyDoThings'>emacswiki</a>. I strongly prefer the file selection with ido.el to the default behavior.</p><p><strong>Clojure installation</strong></p><p>I also started off installing clojure from the package manager as well but I soon started using the <a title='lein' href='http://github.com/technomancy/leiningen'>leiningen</a> build tool for clojure. Leinigen makes things pretty easy and manages your dependencies and classpath.</p><p><strong>Using Leiningen</strong></p><p>(With the lein file in the current directory or on the path</p><p>Starting a new project:</p><p><em>lein new &lt;project name&gt;</em></p><p><em>cp lein &lt;projectname&gt;/</em></p><p><em>cd </em><em>&lt;projectname&gt;/</em></p><p>Download Dependencies:</p><p><em>lein deps</em></p><p>start a repl for the project:</p><p><em>lein repl</em></p><p>starting a swank server:</p><p><em>lein swank</em></p><p/><p><strong>TDD Flow</strong></p><p>I've only recently started to get any flow when coding. I'm hoping people can give me some tips to make this more effective.</p><p>To get set up I run through a set of steps</p><ol><li>Open a terminal window and start emacs in the terminal. </li><li>Open another terminal tab(ctrl-shift-t) and navigate to the project directory.</li><li>If the project is not new skip to step 6.</li><li>Add the following to the generated project.clj file to enable lein swank:<br/>:dev-dependencies [<br/>[swank-clojure "1.1.0"]<br/>[leiningen/lein-swank "1.1.0"]<br/>]</li><li>Run <code><em>lein deps</em></code> to download dependencies</li><li>Run <em>lein swank</em> to start the swank server</li><li>Switch back to the emacs tab (ctrl-page up)</li><li>I have a widescreen monitor rotated to profile so I normally split screen horizontally (C-x, 2)</li><li>Start the swank server in one window (M-x slime-connect)</li><li>Switch to the other window (C-x, o)</li><li>Open clojure test file (C-x, C-f, select file)</li><li>Add/edit test</li><li>Save test file (C-x, C-s)</li><li>"Load the file" to update the state of the repl (C-c, C-l)</li><li>Switch to the slime repl (C-x, o to switch to the other window)</li><li>Make test fail by executing the unit tests in the repl: (clojure.test/run-tests 'sample.namespace-of-tests) or to run all tests: (clojure.test/run-all-tests)</li><li>Implement code to make test pass. </li><li>Run tests and watch them pass</li></ol><p/></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Thanks MAC!<br />Once I fooled ELPA into actually installing it without error it makes things much easier.</div>
-</div>
-<div class='comment'>
-<div class='author'>MAC</div>
-<div class='content'>
-You should look at clojure-test-mode for emacs. Short description can be found here http://snamellit.com/wordpress/?p=20.<br /><br />Alternatively look at circumspec. Intro video here: http://www.vimeo.com/9770382</div>
-</div>
-</div>
 
 ]]></content>
   </entry>
@@ -167,16 +152,6 @@ I can have most of this set up on my local box in about 30 minutes or set up on 
 </div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Jez Humble</div>
-<div class='content'>
-You might be interested to hear that ThoughtWorks makes a pretty awesome tool that does CI (amongst other things) really well. Go Community Edition is free to download and has a bunch of features that Hudson and TeamCity don&#39;t, such as built in pipelines for multi-stage builds, and really powerful test failure analysis. You can download it here: http://bit.ly/c0l3hq</div>
-</div>
-</div>
 
 ]]></content>
   </entry>
@@ -210,31 +185,6 @@ When people don't see much value in QA's, I generally think they haven't worked 
 I'm sure I've left out many other things.  How else do QA's provide value to projects?</div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Theresa Neate</div>
-<div class='content'>
-As a QA who&#39;s worked on projects with you I&#39;m really happy to see your comments.  That&#39;s exactly what I was thinking, and to be honest, I agree that we need to pick up developer skills (especially in an agile world).<br /><br />It saddens me when I hear that &quot;the BA&#39;s can do the tests&quot; or this project does not warrant a full time QA, as in my opinion every project warrants a QA, no matter how small or how technical.<br /><br />In a changing world the QAs should pick up more technical skills (and should be made to), not excluded or considered &quot;extras&quot;.<br /><br />Those are my thoughts for now...</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-@ Derek - Great point about QA&#39;s picking up some developer skills.  I agree that all members of the team should edge out and pick up skills associated with other roles.</div>
-</div>
-<div class='comment'>
-<div class='author'>Derek Hammer</div>
-<div class='content'>
-There has been a huge amount of focus on integrating the &quot;front-end&quot; of development in Agile. Teams that are practicing Agile work hard to incorporate the user and business side of their projects into their daily routines. However, QA has been sort of ignored and maintained as a separate entity.<br /><br />Instead, we need to find a way to integrate the QA into the daily workflow of the team, as well. Practically, what this means to me is that QAs are going to have to become a little more general purpose and pick up some developer skills (many of them already do!) and that developers are going to need to pick up some basic QA skills. Then we can throw them all together as one team.<br /><br />I have actually discussed such an approach on my blog : http://www.derekhammer.com/2010/03/24/-programming-inverted-pyramid-.html . This is just one approach (and is likely too extreme but for the most adventurous of teams). There are likely countless others; we just need to start discussing these types of things in front of Agile people.</div>
-</div>
-<div class='comment'>
-<div class='author'>AenimA</div>
-<div class='content'>
-That was an eye-opening read for me. I&#39;m a young developer and i have had the fortune to not be in a team where testers aren&#39;t colocated and first class citizens. You&#39;ve got my mind wondering how bad it could be. Thanks for that.</div>
-</div>
-</div>
 
 ]]></content>
   </entry>
@@ -248,31 +198,6 @@ That was an eye-opening read for me. I&#39;m a young developer and i have had th
 <div xmlns='http://www.w3.org/1999/xhtml'>Whenever I roll on to a new client there are a few things that I find to be leading indicators for the success of the engagement.<br/><ul><li>How long it takes to get a badge/computer/access to the building.  Hopefully this stuff is ready and waiting when you arrive. I have seen cases where a badge takes a few weeks and a computer takes up to two months.  It's particularly awesome if they won't provide you with a computer and won't allow your computer on their network.  If I don't have all of this stuff by the end of the first week on the client it's a bad sign.    <br/></li><li>The amount of time it takes before I hear the first mention of filing a ticket.  Something like "Here is your laptop, if you want a mouse or keyboard file a separate ticket for each and we'll get them for you."  I've really come to hate the words "file a ticket", particularly when preceded by "I forgot to" and followed by "so that won't be ready for a few weeks."</li><li>Availability of client personnel.  If the people I'm supposed to be working with are MIA or are splitting time with a bunch of other projects I lose a bit of confidence.  <br/></li></ul>I used to have a few more which seem to have slipped my mind.  Do you have any other early indicators for project/engagement success or failure? <br/> <br/></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Number of times scolded by a facilities manager for rearranging furniture.  This week, &quot;you can&#39;t move your chair between floors!&quot;, &quot;you can&#39;t use those (unused) desks from that (unused) room!&quot;.  I&#39;m hoping next time it&#39;ll be &quot;you can&#39;t take your laptop to a meeting room with filing a facilities ticket and having us move it for you&quot;</div>
-</div>
-<div class='comment'>
-<div class='author'>marc</div>
-<div class='content'>
-Excellent stuff!!  Can it begin before you&#39;ve even started working with the client? We went to visit a prospect yesterday.  We presented ourselves at the reception desk &quot;you are not on our system&quot; says grumpy.  Ummmm.  We call the prospect who comes down to meet us.  &quot;They are with me&quot; he says to grumpy.  &quot;They are not on the system.  They can&#39;t have passes until they are on the system&quot;.  So we spend the next ten minutes having our personal details entered into a system so that we can get passes so that we can be escorted to a meeting room for an hour meeting and be escorted back out again.  And we want to work with there?</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Haha, I&#39;ve had that happen as well.  It&#39;s also nice when they think they know why you&#39;re there but are completely wrong.</div>
-</div>
-<div class='comment'>
-<div class='author'>Anonymous</div>
-<div class='content'>
-After we were left with the person we are to work with, the first question he ask is &quot;So, what are you supposed to do here?&quot;</div>
-</div>
-</div>
 
 ]]></content>
   </entry>

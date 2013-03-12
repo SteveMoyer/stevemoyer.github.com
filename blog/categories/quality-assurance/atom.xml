@@ -4,7 +4,7 @@
   <title><![CDATA[Category: quality assurance | Coding Libetartian]]></title>
   <link href="http://blog.stevemoyer.net/blog/categories/quality-assurance/atom.xml" rel="self"/>
   <link href="http://blog.stevemoyer.net/"/>
-  <updated>2013-03-12T14:16:54-07:00</updated>
+  <updated>2013-03-12T16:01:23-07:00</updated>
   <id>http://blog.stevemoyer.net/</id>
   <author>
     <name><![CDATA[Steve Moyer]]></name>
@@ -42,31 +42,6 @@ When people don't see much value in QA's, I generally think they haven't worked 
 I'm sure I've left out many other things.  How else do QA's provide value to projects?</div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Theresa Neate</div>
-<div class='content'>
-As a QA who&#39;s worked on projects with you I&#39;m really happy to see your comments.  That&#39;s exactly what I was thinking, and to be honest, I agree that we need to pick up developer skills (especially in an agile world).<br /><br />It saddens me when I hear that &quot;the BA&#39;s can do the tests&quot; or this project does not warrant a full time QA, as in my opinion every project warrants a QA, no matter how small or how technical.<br /><br />In a changing world the QAs should pick up more technical skills (and should be made to), not excluded or considered &quot;extras&quot;.<br /><br />Those are my thoughts for now...</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-@ Derek - Great point about QA&#39;s picking up some developer skills.  I agree that all members of the team should edge out and pick up skills associated with other roles.</div>
-</div>
-<div class='comment'>
-<div class='author'>Derek Hammer</div>
-<div class='content'>
-There has been a huge amount of focus on integrating the &quot;front-end&quot; of development in Agile. Teams that are practicing Agile work hard to incorporate the user and business side of their projects into their daily routines. However, QA has been sort of ignored and maintained as a separate entity.<br /><br />Instead, we need to find a way to integrate the QA into the daily workflow of the team, as well. Practically, what this means to me is that QAs are going to have to become a little more general purpose and pick up some developer skills (many of them already do!) and that developers are going to need to pick up some basic QA skills. Then we can throw them all together as one team.<br /><br />I have actually discussed such an approach on my blog : http://www.derekhammer.com/2010/03/24/-programming-inverted-pyramid-.html . This is just one approach (and is likely too extreme but for the most adventurous of teams). There are likely countless others; we just need to start discussing these types of things in front of Agile people.</div>
-</div>
-<div class='comment'>
-<div class='author'>AenimA</div>
-<div class='content'>
-That was an eye-opening read for me. I&#39;m a young developer and i have had the fortune to not be in a team where testers aren&#39;t colocated and first class citizens. You&#39;ve got my mind wondering how bad it could be. Thanks for that.</div>
-</div>
-</div>
 
 ]]></content>
   </entry>

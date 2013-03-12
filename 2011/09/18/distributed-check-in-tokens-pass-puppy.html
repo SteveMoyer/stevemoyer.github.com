@@ -117,21 +117,6 @@ As a rails novice I was quite happy to discover how easy it was to deploy an app
 </div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Hey Simon,<br />  We actually use the migrations numbering slightly differently.  We only need the token to assign a number and check in the script.  You can develop your script at any time with any desired number and then you reassign a permanent number and check it in when you have the token.  The drawback I see with the ticket book is that it assumes a check-in order.  If you check in your higher numbered script and I check in lower numbered script after my script won&#39;t be run until each machine has it&#39;s database rebuilt(or down version-ed past my number).  However the ticket process would be just about the same if you took the ticket at check-in time rather than in advance.</div>
-</div>
-<div class='comment'>
-<div class='author'>Simon Brunning</div>
-<div class='content'>
-A check-in token is too course grained for dbdeploy script numbering.<br /><br />We use a raffle ticket book. That way we can reserve the numbers we want without blocking anyone else from writing scripts too. Works across branches, too.</div>
-</div>
-</div>
 
 </div>
 

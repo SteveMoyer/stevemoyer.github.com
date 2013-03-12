@@ -136,21 +136,6 @@
 <div xmlns='http://www.w3.org/1999/xhtml'><p>As a software developer it amazes me how many software developers simply go on doing what they&#8217;ve been doing without making any attempt to grow or improve. At some point I hop in the car and begin the drive home. It doesn&#8217;t take too long before I realize that it&#8217;s not just developers. Many people can&#8217;t be bothered to pay any attention to what they are doing in any setting. How many times during each trip do I come up behind someone in the fast lane (or carpool lane) going 10-20 miles per hour slower than majority of the traffic on the freeway. It&#8217;s at this point that I begin to wonder why they are doing what they are doing. This list usually amounts to something like the following:</p><ol><li>They think it&#8217;s ok because they are going the posted speed limit (or within some miles per hour of it)</li><li>They can&#8217;t stand the thought of anyone going faster than them.</li><li>They&#8217;re taking a moral stand against those going over the posted speed limit.</li><li>They like the far left lanes because there is never anyone close in front of them.</li><li>&#8230;</li></ol><p>As I get down the list, I realize that while there are some people who may identify with the reasons above, the majority of these people are likely just not paying any attention. They get on the freeway, merge over to the fast lane(s), and completely check out. They don&#8217;t notice the large line of cars piling up behind then. They don&#8217;t notice the frustrated people who resort to passing them in the slower lanes (at worst having to pass 2 or 3 lanes over). They&#8217;ve probably been driving many years and at no point have they noticed any of these things happening.</p><p>While I&#8217;m often happy to ridicule and mock them as we drive along, what I&#8217;d really like to do is lay it out for them:</p><p><span style=' font-size:large;'><strong>You are creating traffic</strong></span></p><p>As the cars pile up behind you the amount of congestion is increasing. Two cars driving slowly in the wrong lanes can just about block the entire freeway. Everyone else will be delayed because of you.</p><p><span style=' font-size:large;'><strong>You aren&#8217;t gaining anything</strong></span></p><p>If you just move a few lanes over you can still go the same speed without blocking anyone.</p><p><span style=' font-size:large;'><strong>You are creating a traffic hazard</strong></span></p><p>As cars rapidly approach from behind you they find themselves with the choice to either pass on the slow side or sit in congestion behind you. In either case you are causing the freeway to be less safe than it should be.</p><p><span style=' font-size:large;'><strong>Here are a few simple easy to follow rules</strong></span></p><ol><li>If you can&#8217;t talk and drive at the same time you either a) don&#8217;t talk or b) don&#8217;t drive. Take your pick.</li><li>You should drive in the slowest lane that can contain your speed.</li><li>Should the need to pass arise you need to pass in a reasonable fashion. Speed up at least 5 miles per hour faster than the person you are passing. After completing the pass move back to the prior lane if it&#8217;s safe to do so. If you can&#8217;t pass at a difference of at least 5 miles per hour than you should slow down and stay behind the car until there is a point when you can.</li><li>If you aren&#8217;t going faster than the regular traffic in the fast lanes you have absolutely no business in the carpool lane</li><li>If all of the lanes on the freeway are going a pace that is uncomfortable for you, perhaps you would be more comfortable on surface streets.</li><li>It is your job as a driver to know how many cars are in front of you and how far away they are, how many cars are behind you and how far away they are, what the pace of traffic is in the lanes to either side of you. If you don&#8217;t know these things you are an unsafe driver. </li></ol><p><span style=' font-size:large;'><strong>So, what&#8217;s the point?</strong></span></p><p>I&#8217;m sure that&#8217;s more than enough of me ranting about oblivious freeway drivers. The same thing applies to software developers (and other team members). You may not be the best or fastest at what you do but it is your job to keep up with what other people are doing to be better and or faster. I&#8217;d hope that you&#8217;re also trying to figure out how you could be better and or faster. Even if you aren&#8217;t, the one thing you should make sure you aren&#8217;t doing is holding back others or possibly even the entire team. One or two people clogging up the works is often enough to stall or seriously slow down even the most productive team. </p><p> </p></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>ravi</div>
-<div class='content'>
-Just like cops enforcing free flowing traffic, management needs to expose slow drivers. If management does not care about this, slow drivers will continue driving slower.</div>
-</div>
-<div class='comment'>
-<div class='author'>Bill</div>
-<div class='content'>
-AMEN!!!!</div>
-</div>
-</div>
 
 </div>
   
@@ -191,21 +176,6 @@ AMEN!!!!</div>
 <div xmlns='http://www.w3.org/1999/xhtml'><p>I&#8217;ve recently embarked on a journey to learn both Emacs and Clojure (on Ubuntu). I&#8217;ve made some progress learning the basics of clojure and the basics of emacs but I&#8217;ve struggled with getting a development flow going. </p><p>I&#8217;m going to try and document what I&#8217;ve learned and am learning. I&#8217;d appreciate any helpful hints, tips, or comments that people have. <strong> While writing this post I stumbled on </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2009/03/learning-clojure-and-emacs.html'><strong>Curran&#8217;s blog</strong></a><strong> which has most of what I wanted to capture and </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2008/06/hello.htmlblogspot.com/'><strong>a lot more</strong></a><strong>.  </strong></p><p><strong>Emacs Installation</strong></p><p>I&#8217;m not sure it&#8217;s the best way to do it but I installed emacs 23 from the from the ubuntu package manager and followed Bradford Cross&#8217;s emacs <a href='http://measuringmeasures.blogspot.com/2010/01/my-new-clojure-emacs-setup.html'>setup steps</a>.</p><p>I recently watched this <a href='http://www.vimeo.com/1013263'>screencast</a> by Stuart Halloway (thanks to <a href='http://twitter.com/timwee'>Tim Wee</a>) and enabled ido.el by following the instructions on <a href='http://www.emacswiki.org/emacs/InteractivelyDoThings'>emacswiki</a>. I strongly prefer the file selection with ido.el to the default behavior.</p><p><strong>Clojure installation</strong></p><p>I also started off installing clojure from the package manager as well but I soon started using the <a title='lein' href='http://github.com/technomancy/leiningen'>leiningen</a> build tool for clojure. Leinigen makes things pretty easy and manages your dependencies and classpath.</p><p><strong>Using Leiningen</strong></p><p>(With the lein file in the current directory or on the path</p><p>Starting a new project:</p><p><em>lein new &lt;project name&gt;</em></p><p><em>cp lein &lt;projectname&gt;/</em></p><p><em>cd </em><em>&lt;projectname&gt;/</em></p><p>Download Dependencies:</p><p><em>lein deps</em></p><p>start a repl for the project:</p><p><em>lein repl</em></p><p>starting a swank server:</p><p><em>lein swank</em></p><p/><p><strong>TDD Flow</strong></p><p>I&#8217;ve only recently started to get any flow when coding. I&#8217;m hoping people can give me some tips to make this more effective.</p><p>To get set up I run through a set of steps</p><ol><li>Open a terminal window and start emacs in the terminal. </li><li>Open another terminal tab(ctrl-shift-t) and navigate to the project directory.</li><li>If the project is not new skip to step 6.</li><li>Add the following to the generated project.clj file to enable lein swank:<br/>:dev-dependencies [<br/>[swank-clojure &#8220;1.1.0&#8221;]<br/>[leiningen/lein-swank &#8220;1.1.0&#8221;]<br/>]</li><li>Run <code><em>lein deps</em></code> to download dependencies</li><li>Run <em>lein swank</em> to start the swank server</li><li>Switch back to the emacs tab (ctrl-page up)</li><li>I have a widescreen monitor rotated to profile so I normally split screen horizontally (C-x, 2)</li><li>Start the swank server in one window (M-x slime-connect)</li><li>Switch to the other window (C-x, o)</li><li>Open clojure test file (C-x, C-f, select file)</li><li>Add/edit test</li><li>Save test file (C-x, C-s)</li><li>&#8220;Load the file&#8221; to update the state of the repl (C-c, C-l)</li><li>Switch to the slime repl (C-x, o to switch to the other window)</li><li>Make test fail by executing the unit tests in the repl: (clojure.test/run-tests &#8216;sample.namespace-of-tests) or to run all tests: (clojure.test/run-all-tests)</li><li>Implement code to make test pass. </li><li>Run tests and watch them pass</li></ol><p/></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Thanks MAC!<br />Once I fooled ELPA into actually installing it without error it makes things much easier.</div>
-</div>
-<div class='comment'>
-<div class='author'>MAC</div>
-<div class='content'>
-You should look at clojure-test-mode for emacs. Short description can be found here http://snamellit.com/wordpress/?p=20.<br /><br />Alternatively look at circumspec. Intro video here: http://www.vimeo.com/9770382</div>
-</div>
-</div>
 
 </div>
   
@@ -303,16 +273,6 @@ I can have most of this set up on my local box in about 30 minutes or set up on 
 </div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Jez Humble</div>
-<div class='content'>
-You might be interested to hear that ThoughtWorks makes a pretty awesome tool that does CI (amongst other things) really well. Go Community Edition is free to download and has a bunch of features that Hudson and TeamCity don&#39;t, such as built in pipelines for multi-stage builds, and really powerful test failure analysis. You can download it here: http://bit.ly/c0l3hq</div>
-</div>
-</div>
 
 </div>
   
@@ -391,16 +351,6 @@ You might be interested to hear that ThoughtWorks makes a pretty awesome tool th
 <div xmlns='http://www.w3.org/1999/xhtml'>I&#8217;m against the use of the mouse in most cases.  That&#8217;s not to say that I&#8217;m particularly good at avoiding it.  It requires you to take your hands off the keyboard and breaks up the flow of what you are doing.  There is a solution to this problem, the pointing sticks in the middle of the keyboards. These don&#8217;t require you to stray nearly as far from typing position. They works pretty well but require that you&#8217;re typing on a laptop(an IBM or Dell to be specific).  When you are working on a desktop and not a laptop you&#8217;re pretty much screwed.  Looking around on the web I&#8217;ve seen very few options and most of them have limited availability at best.<br/><br/>In my ideal world I could get something like the <a href='http://www.amazon.com/Microsoft-Natural-Ergo-Keyboard-4000/dp/B000A6PPOK'>Microsoft Natural Ergo Keyboard 4000</a> but with the addition of a pointing stick.  You might say that there are usb keyboards which have a touch pad on them but touchpads aren&#8217;t nearly as integrated and I detest the clunkiness of using them.  This is my opinion and is certainly <a href='http://news.cnet.com/8301-17938_105-10010673-1.html'>not unanimous</a>.  It took me a week or two of using a pointing stick to start liking it.<br/><br/>Why is this such a big deal for me?  Even on a desktop, I like to type with the keyboard sitting on top of my thighs.  The side effect of this is that the mouse is nowhere near me.  My alternate computer usage has been sitting on the couch with my computer hooked up to my HDTV.  If you&#8217;ve ever tried to use a traditional mouse on the couch you probably know how quickly the pain comes.  <br/><br/>While my desire for a desktop keyboard with a pointing stick may not be all that common it&#8217;s certainly not unique.  Why don&#8217;t there seem to be keyboards which meet my requirements?  I&#8217;m guessing patents and the company or companies holding them (IBM?).  Does anyone have any good solutions?<br/></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Kirkistan</div>
-<div class='content'>
-Your idea of a perfect keyboard is just what I am looking for as well. Did you ever find a Microsoft Natural 4000 with a pointing stick? I&#39;d buy it today!</div>
-</div>
-</div>
 
 </div>
   
@@ -461,31 +411,6 @@ When people don&#8217;t see much value in QA&#8217;s, I generally think they hav
 I&#8217;m sure I&#8217;ve left out many other things.  How else do QA&#8217;s provide value to projects?</div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Theresa Neate</div>
-<div class='content'>
-As a QA who&#39;s worked on projects with you I&#39;m really happy to see your comments.  That&#39;s exactly what I was thinking, and to be honest, I agree that we need to pick up developer skills (especially in an agile world).<br /><br />It saddens me when I hear that &quot;the BA&#39;s can do the tests&quot; or this project does not warrant a full time QA, as in my opinion every project warrants a QA, no matter how small or how technical.<br /><br />In a changing world the QAs should pick up more technical skills (and should be made to), not excluded or considered &quot;extras&quot;.<br /><br />Those are my thoughts for now&#8230;</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-@ Derek - Great point about QA&#39;s picking up some developer skills.  I agree that all members of the team should edge out and pick up skills associated with other roles.</div>
-</div>
-<div class='comment'>
-<div class='author'>Derek Hammer</div>
-<div class='content'>
-There has been a huge amount of focus on integrating the &quot;front-end&quot; of development in Agile. Teams that are practicing Agile work hard to incorporate the user and business side of their projects into their daily routines. However, QA has been sort of ignored and maintained as a separate entity.<br /><br />Instead, we need to find a way to integrate the QA into the daily workflow of the team, as well. Practically, what this means to me is that QAs are going to have to become a little more general purpose and pick up some developer skills (many of them already do!) and that developers are going to need to pick up some basic QA skills. Then we can throw them all together as one team.<br /><br />I have actually discussed such an approach on my blog : http://www.derekhammer.com/2010/03/24/-programming-inverted-pyramid-.html . This is just one approach (and is likely too extreme but for the most adventurous of teams). There are likely countless others; we just need to start discussing these types of things in front of Agile people.</div>
-</div>
-<div class='comment'>
-<div class='author'>AenimA</div>
-<div class='content'>
-That was an eye-opening read for me. I&#39;m a young developer and i have had the fortune to not be in a team where testers aren&#39;t colocated and first class citizens. You&#39;ve got my mind wondering how bad it could be. Thanks for that.</div>
-</div>
-</div>
 
 </div>
   
@@ -526,56 +451,6 @@ That was an eye-opening read for me. I&#39;m a young developer and i have had th
 <div xmlns='http://www.w3.org/1999/xhtml'>I have some thoughts on offshoring that I&#8217;d be interested in getting some feedback on.  Agree/disagree at will.<br/><br/>If a software developer (BA,QA,PM, etc.) is little more than a typist then it makes perfect sense.   <br/>If I send work offshore it costs me 1/X times my onshore rates. <br/><br/>Let&#8217;s assume the average skill level is more or less the same onshore and offshore.  This has been my experience with my fellow thoughtworkers. <br/><br/>To make things easy let&#8217;s also assume a programmer in your favorite offshoring location (I chose India because it has the best food :) ) commands a salary that is 1/9th that of an onshore developer. I made up this number based on the first salary numbers I could find on the net. ( Indian developer ~10k USD (~450k INR), US developer ~90k USD)  If I&#8217;m way off let me know in the comments.<br/><br/>Even the most optimistic person will agree that there is some additional overhead that goes along with this setup.  For Example, network connections between the offices, additional development servers, and a certain amount of overlap of roles in each place.  Given our 1/9th multiplier these costs seem pretty minor. <br/><br/>There are other more substantial issues:  <br/><ul><li>Employee morale decreases on both ends when people constantly have to work late or get up early to have meetings across a wide spread of time zones. <br/></li><li>Network sluggishness makes sharing a common code repository difficult and leads to long  check-in cycles and/or painful merges.</li><li>Communicating requirements through typed documents is not effective and is even less so when crossing cultural boundaries.</li><li>People are blocked and can&#8217;t continue their work because they need answers from people who are not available.  <br/></li><li>Transparency is often low within a single office.  It&#8217;s almost non-existent when you add many time zones and thousands of miles to the mix.</li></ul><br/>The drags on productivity listed above can be mitigated to a fair extent:<br/><ul><li>Have team members alternate spending chunks of time working in both locations.  Getting to know all members of the team and working side by side with them in the trenches will increase morale, communication, and transparency.  Video conferencing equipment can help as well but isn&#8217;t a substitute for working together face to face.  This is a pretty significant cost.<br/></li><li>Collaboration tools like Mingle and Cruise can help keep people on the same page and ensure that you aren&#8217;t stepping on each other&#8217;s toes. (yep, I&#8217;m plugging my employer&#8217;s products)</li><li>Distributed version control such as Git or Mercurial are supposed to help with some of the repository issues.<br/></li></ul>When all of this is added up does offshore development actually cost less?  What have you observed?<br/><br/>My hypothesis is that on average the chances of poor outcomes are higher and the costs may not be significantly different.  <br/><br/>Why do I suspect that this is the case?  Here&#8217;s an anecdote for what I imagine is the average case of offshoring:<br/>Company A spends a lot of money on their in-house product development.  CTO Smith observes that development is slow(and getting slower) and that Company A is getting a poor return on their investment.  Because programming is like typing, they need more typists&#8230; at a lower cost.  They hire a larger number of programmers via the lowest rate offshoring firm available.  The project starts slowly.  When the project is well behind schedule the answer is to increase resources significantly, incurring additional cost.  Not much if anything is delivered and the quality of deliverables is very low.  <br/><br/>This is <b>not</b> a condemnation of offshoring. It&#8217;s a condemnation of that idea that a company which doesn&#8217;t run consistently successful projects onshore will be successful in running projects offshore.  It&#8217;s a challenge to find high performing people.  It&#8217;s a challenge to run successful projects.  Even under good conditions some projects will fail.  Offshoring adds additional challenges.  <br/><br/>Is it worth it to take on these additional challenges?<br/><br/>I think in many cases it is.  If we reviewed successfully offshored projects what would we find? My guess is we&#8217;d find consistently successful deliveries with costs in the realm of 1/2 to 1/3 what it would cost to develop onshore(I just made up these numbers.  Lawyered!).  These companies took the opportunity to scale up(or replace?) their already successful onshore development operation.  They would do so by creating a high end offshore team.  <br/><br/>Assuming my hypothesis is correct, I further suggest:<br/><ul><li>Quality BA&#8217;s, Developers, QA&#8217;s, PM&#8217;s are hard to find.  Offshoring should be utilized to scale up because you will have a  larger pool to draw from. You will assume  additional risk however you may also save a significant amount of money.  <br/></li><li>If costs are really the main driver for outsourcing, I think a company considering outsourcing should do two things:  1. Take a long hard look at why development is so expensive (and/or results are so poor) in your organization.  What makes you think doing things offshore will produce different results.  2. Consider co-locating the entire team, including stakeholders and business owners, offshore for the duration of the project. </li><li>Project success is impacted much more by the abilities of the people on the team than where the project is developed.  if you&#8217;re hiring average typists, you&#8217;re probably ok.  If you&#8217;re hiring average software developers, you&#8217;re in for a lot of pain regardless of where they are physically located.</li></ul><br/>What do you think?<br/></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Brett Miller</div>
-<div class='content'>
-Great article&#8230;especially on the idea: If you can&#39;t do it onshore, why do you think you can do it offshore?<br /><br />Communication is a problem, Blocking is a problem, Perceived Savings is just that &#8230; Perceived.<br /><br />I actually put together my own post on the subject:<br /><br />http://www.customsoftwarebypreston.com/offshore-software-development<br /><br />Any feedback?<br /><br />Thanks,<br /><br />Brett Miller</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-@Paul,  I thought about breaking out onshore/offshore/mixed but decided I didn&#39;t want to make an already long post any longer.  I think all of those different variables would be interesting to consider in the area of offshoring.  I know where I stand on them when it comes to onshore work(cross functional teams, collaborative, shared responsibility).  I&#39;m not sure if that fact that it&#39;s offshore or mixed would change my perspective on them.  I&#39;m guessing I&#39;d feel that those things are even more important when developing across distances.</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Thanks Ganesh, I think those are all great points.</div>
-</div>
-<div class='comment'>
-<div class='author'>Ganesh</div>
-<div class='content'>
-Hi Steve, Here goes my thoughts -  Offshoring in my opinion should be considered strategic where you are willing to go throiugh the pain and start reaping the benefits after a stabilization phase. e.g. Trainline program in Thoughtworks India. Tactical engagements (12-6 months less) do not deliver the value proposition including lower cost, ability to scale and access to large talent pool etc. Acutally in my experience though you will deliver you really go through a lot of pain as you point out. It does not make sense. In summray I would say<br />- Think really hard on what, and how long you are going to engage in a offshore relationship. It needs to make not only economic (cost) sense it should also take into account IPs being shared, capabilities being build (or lost)<br />- Cultutral fit of your offshore partner/vendor. Try explaining distributed and/or offshore agile to your customer :). Project success depends on this point, I think<br />- Before engaging an offshore vendor understand the value additions and track those during the relationship (this sadly I think never happens and the focus switches completely on preceived cost savings as the relationship progresses)</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-@Anon - Thanks for reading my post.  I think I must have done a poor job of communicating because I&#39;m having trouble connecting your summary to what I wrote.<br /><br />&quot;So you find that there are NO benefits out of offshoring?  * Clearly 1/9th of the cost should not be considered as a benefit.<br />&quot;<br /><br />I explicitly described my vision of successful offshoring having quite large benefits(consistent delivery and 1/3 to 1/2 the cost).<br /><br />&quot;* Every manager who offshore the work is essentially an Id**t.&quot;<br /><br />I didn&#39;t say anything approaching this.  I would phrase is this way:  If you have idiot managers managing your project the offshored version is unlikely to turn out any better than the onshored version.(they&#39;ll both run out poorly) <br /><br /><br />&quot;* Only highly paid Onshore BAs, QAs and Developers can do the Enterprise Development/Engg work.&quot;<br /><br />The point I was trying to make here is that the lower cost providers in a given locale are almost certainly not a good bet for successful projects.  If software development was a commodity(or close to it) the lowest cost option might be a consistent winner.  If you have the skill to judge quality and aptitude you&#39;d be better off paying a 2 or 3 times the average wage for offshore talent.   <br /><br /><br />&quot;* If you still offshore, then you should rotate the onshore and offshore folks around the locations, but the onshore folks would be still paid the same while working at an offshore location.&quot;<br /><br />I said nothing about what people should be paid while they are on offshore rotation.  I&#39;d think this would vary based on where they live long term <b>and</b> how long they will be there.  The same goes for people coming onshore.  There are many other factors that would likely play in.<br /><br /><br />&quot;* There are no good Lowly paid - $10K USD - offshore engg teams.&quot;<br /><br />I won&#39;t even speculate on what the lowest amount is you could pay anywhere in the world for a good developer.  I will say if they are good and you are paying them less than average for their locale it&#39;s unlikely that you&#39;ll be paying them that for long.<br /><br />&quot;And still you will not question the fact behind why would a typical Enterprise Engg development job should cost $100K per person.&quot;<br /><br />I would hope that a typical enterprise engineering development job pays what it does is because that person delivers more than that amount of value to the business.</div>
-</div>
-<div class='comment'>
-<div class='author'>Anonymous</div>
-<div class='content'>
-So you find that there are NO benefits out of offshoring?<br /><br />To Summarize, you mean<br />* Clearly 1/9th of the cost should not be considered as a benefit.<br />* Every manager who offshore the work is essentially an Id**t.<br />* Only highly paid Onshore BAs, QAs and Developers can do the Enterprise Development/Engg work.<br />* If you still offshore, then you should rotate the onshore and offshore folks around the locations, but the onshore folks would be still paid the same while working at an offshore location. <br />* There are no good Lowly paid - $10K USD - offshore engg teams.<br /><br />And still you will not question the fact behind why would a typical Enterprise Engg development job should cost $100K per person.</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-@Arron - Yep, Brooks Law is the key reason I think costs for failed projects are probably about the same on and off shore. In both cases they are bounded only by the amount of money the company is willing to spend.  Since adding large numbers of people doesn&#39;t help the project they both expand to chew up all available funds.</div>
-</div>
-<div class='comment'>
-<div class='author'>Paul</div>
-<div class='content'>
-I agree - the extra hidden costs are in management and collaboration/teaming. I would break out the organizational and teaming forms used too, like assembly line , functional team oriented vs. cross-functional team, collaborative/component build oriented. Other , shared responsibilities vs. divided. on-shore only vs. off-shore only teams or mixed on-shore/off-shore.<br />Its funny how the assembly line form always creeps back - I attribute to newbie/un-informed managers/management. My two cents.</div>
-</div>
-<div class='comment'>
-<div class='author'>Aaron</div>
-<div class='content'>
-I would add a bit.  I think you are pretty close, but another factor that creeps in is that with the perceived lower cost.  In particular, when the first sign of schedule trouble arrives, the people managing the money tend to more quickly add programmers.  Then Brooks law kicks in, and suddenly, you have 10 pairs doing less than what 2 pairs could, plus several layers of management oversight, etc.<br /><br />As a fellow TWer, I want distributed models to work, but I am also suspicious of the motives of people who want to leverage offshore purely for cost reasons.  It usually comes from a deep misunderstanding of what drives software development cost in the first place.</div>
-</div>
-</div>
 
 </div>
   
@@ -616,31 +491,6 @@ I would add a bit.  I think you are pretty close, but another factor that creeps
 <div xmlns='http://www.w3.org/1999/xhtml'>Whenever I roll on to a new client there are a few things that I find to be leading indicators for the success of the engagement.<br/><ul><li>How long it takes to get a badge/computer/access to the building.  Hopefully this stuff is ready and waiting when you arrive. I have seen cases where a badge takes a few weeks and a computer takes up to two months.  It&#8217;s particularly awesome if they won&#8217;t provide you with a computer and won&#8217;t allow your computer on their network.  If I don&#8217;t have all of this stuff by the end of the first week on the client it&#8217;s a bad sign.    <br/></li><li>The amount of time it takes before I hear the first mention of filing a ticket.  Something like &#8220;Here is your laptop, if you want a mouse or keyboard file a separate ticket for each and we&#8217;ll get them for you.&#8221;  I&#8217;ve really come to hate the words &#8220;file a ticket&#8221;, particularly when preceded by &#8220;I forgot to&#8221; and followed by &#8220;so that won&#8217;t be ready for a few weeks.&#8221;</li><li>Availability of client personnel.  If the people I&#8217;m supposed to be working with are MIA or are splitting time with a bunch of other projects I lose a bit of confidence.  <br/></li></ul>I used to have a few more which seem to have slipped my mind.  Do you have any other early indicators for project/engagement success or failure? <br/> <br/></div></div>
 
 
-<h2>Comments</h2>
-
-
-<div class='comments'>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Number of times scolded by a facilities manager for rearranging furniture.  This week, &quot;you can&#39;t move your chair between floors!&quot;, &quot;you can&#39;t use those (unused) desks from that (unused) room!&quot;.  I&#39;m hoping next time it&#39;ll be &quot;you can&#39;t take your laptop to a meeting room with filing a facilities ticket and having us move it for you&quot;</div>
-</div>
-<div class='comment'>
-<div class='author'>marc</div>
-<div class='content'>
-Excellent stuff!!  Can it begin before you&#39;ve even started working with the client? We went to visit a prospect yesterday.  We presented ourselves at the reception desk &quot;you are not on our system&quot; says grumpy.  Ummmm.  We call the prospect who comes down to meet us.  &quot;They are with me&quot; he says to grumpy.  &quot;They are not on the system.  They can&#39;t have passes until they are on the system&quot;.  So we spend the next ten minutes having our personal details entered into a system so that we can get passes so that we can be escorted to a meeting room for an hour meeting and be escorted back out again.  And we want to work with there?</div>
-</div>
-<div class='comment'>
-<div class='author'>Steve Moyer</div>
-<div class='content'>
-Haha, I&#39;ve had that happen as well.  It&#39;s also nice when they think they know why you&#39;re there but are completely wrong.</div>
-</div>
-<div class='comment'>
-<div class='author'>Anonymous</div>
-<div class='content'>
-After we were left with the person we are to work with, the first question he ask is &quot;So, what are you supposed to do here?&quot;</div>
-</div>
-</div>
 
 </div>
   
