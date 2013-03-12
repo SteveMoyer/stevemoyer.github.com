@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Simplest Thing That Could Possibly Work - Coding Libetartian</title>
+  <meta name="author" content="Steve Moyer">
+
+  
+  <meta name="description" content="Note: I wrote this post a while ago when it was bugging the shit out of me(12/10/08) but didn&#8217;t get around to finishing it up until now. I&# &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.stevemoyer.net/2008/12/29/simplest-thing-that-could-possibly-work.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding Libetartian" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding Libetartian</a></h1>
+  
+    <h2>STEVE MOYER'S THOUGHTS ON CREATING SOFTWARE FOR REMUNERATION AND FINDING THE FREEDOM TO DO IT.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.stevemoyer.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Simplest Thing That Could Possibly Work</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-29T20:45:00-08:00" pubdate data-updated="true">Dec 29<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+Note: I wrote this post a while ago when it was bugging the shit out of me(12/10/08) but didn&#8217;t get around to finishing it up until now.
+
+I&#8217;ve recently had a lengthy discussion with a Sr. Developer who swears by &#8220;the simplest thing that could <span style="font-weight: bold;">possibly</span> work&#8221; (emphasis his).  In his mind that seems to mean:
+<ol><li>Lowest number of classes.</li><li>Performing many tasks in one place.</li><li>Using manual inspection of system level output to verify behavior.</li><li>Creating a large number of Utility/Manager manager classes which perform a variety of unrelated functions.</li><li>Wedging nested if after nested if into the code.</li></ol>The results of this are pretty easy to see:
+<ol><li>A few God classes which perform many highly coupled functions.</li><li>Behavior that is very difficult to unit test except in the case where unit==system.</li><li>Constant merging of changes between developers working on things that in theory are not related.</li><li>Developers reluctant to make any changes because they have no idea what ripple effects those changes might have through the system.</li></ol>Clearly, obsessing on a single XP saying (without even really understanding it) makes for poor code.
+
+Reviewing the info I found on the saying I sumarize:
+Do the simplest thing that could possibly make the unit tests pass.  When the unit tests pass, refactor until the code is simple  and easy to understand.
+
+That summary sounds a lot different to me than slapping nasty code into nasty code without a decent regression suite of tests.</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>evan</div>
+<div class='content'>
+I think the dude&#39;s auto correct changed &#39;simplest&#39; to &#39;easiest&#39;. Ew.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+To my view, &#8220;The simplest thing that could possibly work.&#8221; does not mean tightly coupled God classes.<BR/><BR/>It does mean not writing a bunch of code that accomplishes something above and beyond the feature you&#8217;re working on.<BR/><BR/>It is a good point that any good XP or Agile idea can be misunderstood.<BR/><BR/>Once you&#8217;ve learned and seen a bunch of examples, the catch phrase &#8220;The Simplest Thing That Could Possibly Work&#8221; is useful.  The catch phrase, by itself could end up justifying bad practices.</div>
+</div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Steve Moyer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-29T20:45:00-08:00" pubdate data-updated="true">Dec 29<span>th</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/agile/'>agile</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.stevemoyer.net/2008/12/29/simplest-thing-that-could-possibly-work.html" data-via="steve_g_moyer" data-counturl="http://blog.stevemoyer.net/2008/12/29/simplest-thing-that-could-possibly-work.html" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2008/12/23/diagnosis.html" title="Previous Post: Diagnosis">&laquo; Diagnosis</a>
+      
+      
+        <a class="basic-alignment right" href="/2009/11/16/transitioning-to-open-source.html" title="Next Post: Transitioning to open source">Transitioning to open source &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard is for Everyone</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B testing in .net (with nToggle)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html">Distributed Check-in Tokens: Pass-The-Puppy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SteveMoyer">@SteveMoyer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SteveMoyer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Steve Moyer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100589840); }catch(e){}</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'codinglibertarian';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

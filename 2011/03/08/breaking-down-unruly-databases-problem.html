@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Breaking Down Unruly Databases: The Problem - Coding Libetartian</title>
+  <meta name="author" content="Steve Moyer">
+
+  
+  <meta name="description" content="In my last post on nDump I talked about a tool I&#8217;ve created to import and export data from MS SQL Server databases. &nbsp;In this post I want &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.stevemoyer.net/2011/03/08/breaking-down-unruly-databases-problem.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding Libetartian" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding Libetartian</a></h1>
+  
+    <h2>STEVE MOYER'S THOUGHTS ON CREATING SOFTWARE FOR REMUNERATION AND FINDING THE FREEDOM TO DO IT.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.stevemoyer.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Breaking Down Unruly Databases: The Problem</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-08T00:05:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+In my <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html">last post</a> on <a href="https://github.com/SteveMoyer/nDump/wiki">nDump </a>I talked about a tool I&#8217;ve created to import and export data from MS SQL Server databases. &nbsp;In this post I want to lay out some of my motivation for doing so.<br />
+<br />
+Often when starting at a new client we arrive to find a legacy database/databases which seem nearly incomprehensible.  Development and CI often run against a shared databases which are backups of production.  The state of the data is in a constant flux. &nbsp;If someone desires to run a local database, restoring at least a few gigs of database backups is required.  One reason this is necessary is that the database(s) can&#8217;t easily be recreated from scripts.  This is relatively easy to get around by breaking creation scripts into parts and employing tools such as <a href="http://dbdeploy.com/">DBDeploy</a> to run them in order.<br />
+<br />
+Once the problem of creating an empty database is tackled, nobody seems to have the requisite knowledge to populate it with the basic data necessary to run the application.  There are many problems that spring from a lack of the ability to create minimal data sets: <br />
+<div><ol><li>Returning to a known data set is time consuming, requiring  restoring a large backup.</li>
+<li>The development and functional test data sets can&#8217;t be easily version-ed.  While you can check in a backup, there is no reasonable way to diff it against a previous version.</li>
+<li>Functional tests are often brittle as they rely upon the state of the data which tends to be rather inconsistent.</li>
+<li>Finding data requires searching through a large data set.</li>
+<li>Deciphering incremental changes to the state of the data  is no small challenge.</li>
+</ol><div>On past projects, the teams have stored development and test data sets as groups of csv or XML files.  Both of these files can be easily version-ed, diff-ed, and modified using excel or open office.  I prefer csv files as they are more concise and contain a lot less noise.&nbsp; Once you have these file sets and the requisite knowledge of the database structure it&#8217;s relatively pleasant to work with them to maintain known state(s) of the data. By running the database build and load in a CI build we can continually verify that we know how to build a database. Using the populated database we can confirm that our functional tests of the application(s) are still working against a consistent data set. </div></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Hey Toast,<br />Thanks for the comment. I&#39;ve used a lot of the Red Gate Tools and found them helpful in more than a few situations.  Sql Storage Compress sounds interesting and addresses the copy and restore time.  It doesn&#39;t address lack of understanding of the database, having to deal with huge amounts of data, or versioning and diff-ing easily over time.<br />   Steve</div>
+</div>
+<div class='comment'>
+<div class='author'>toast</div>
+<div class='content'>
+Hi!<br /><br />warning - about to plug a product from my current company&#8230;<br /><br />You can detach, copy, reattach a database if you want to quickly restore its contents to a known (saved) point. I guess you would then run your DB deploy scripts to update the schema appropriately.<br /><br />This need not use stupid amounts of disk space if you use something like (get ready for plug) Red Gate&#39;s SQL Storage Compress. That product can be used to compress your database files such that the copy command above takes less time (less to copy) and less disk. The database acts like normal when it is attached, it just happens to be 40% the size&#8230;<br /><br />of course, it costs money while your solution doesn&#39;t, but I think it would be worth checking out both SQL Virtual Restore and SQL Storage Compress.  www.red-gate.com</div>
+</div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Steve Moyer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-08T00:05:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sql/'>sql</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.stevemoyer.net/2011/03/08/breaking-down-unruly-databases-problem.html" data-via="steve_g_moyer" data-counturl="http://blog.stevemoyer.net/2011/03/08/breaking-down-unruly-databases-problem.html" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/03/06/ndump-managing-development-and-test.html" title="Previous Post: nDump: Managing development and test data sets for MS SQL Server">&laquo; nDump: Managing development and test data sets for MS SQL Server</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/04/27/usage-is-not-substitute-for-tests.html" title="Next Post: Usage is not a substitute for tests">Usage is not a substitute for tests &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard is for Everyone</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B testing in .net (with nToggle)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html">Distributed Check-in Tokens: Pass-The-Puppy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SteveMoyer">@SteveMoyer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SteveMoyer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Steve Moyer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100589840); }catch(e){}</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'codinglibertarian';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

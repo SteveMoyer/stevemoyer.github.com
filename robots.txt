@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://SteveMoyer.github.com/sitemap.xml 
+Sitemap: http://blog.stevemoyer.net/sitemap.xml 

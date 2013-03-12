@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Teams | Coding Libetartian]]></title>
+  <link href="http://blog.stevemoyer.net/blog/categories/teams/atom.xml" rel="self"/>
+  <link href="http://blog.stevemoyer.net/"/>
+  <updated>2013-03-12T13:32:17-07:00</updated>
+  <id>http://blog.stevemoyer.net/</id>
+  <author>
+    <name><![CDATA[Steve Moyer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Diagnosis]]></title>
+    <link href="http://blog.stevemoyer.net/2008/12/23/diagnosis.html"/>
+    <updated>2008-12-23T00:24:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2008/12/23/diagnosis</id>
+    <content type="html"><![CDATA[<div class='post'>
+In my <a href="http://codinglibertarian.blogspot.com/2008/12/cancer.html">last post</a>, I pointed out that I think we should treat cancerous team members more like cancer and less like team members.  <a href="http://thoughtadrian.blogspot.com/">Adrian</a> correctly commented that being cancerous is a slider and not a check box.  So, throwing out the easy to diagnose cancerous team member I'm currently working with, I thought it would be interesting to try and come up with some symptoms and warning signs that can help to diagnose whether your tumor is malignant or benign.<br/>
+
+First, I want to draw a distinction between between unproductive and cancerous.  Simply producing very little does not necessarily make you a cancer. For example, your gallbladder does not do much for you when healthy, but it's not until it starts causing you pain(and hurting other organs?) that you think about having it removed.  I would argue that the costs of keeping an unproductive team member are enough reason to strongly consider getting rid of them, but I don't think they generally demand the urgency and immediate action that a cancerous team member often does.<br/><br/>
+
+<span style="font-size:130%;"><span style="font-weight: bold;">Team Member is not participating in optional team activities</span>
+</span><br/><span style="font-weight: bold;">
+When it's a risk factor:</span><br/> The person is MIA from most team activities.  There are many legitimate reasons why someone is unable to participate: family commitments, other personal interests, and other work activities for example.<br/>
+
+<span style="font-weight: bold;">When it's a symptom:</span><br/> The person is generally(but not specifically) critical of team activities.  "Brownbag lunches suck" isn't constructive/helpful.<br/>
+
+<span style="font-weight: bold;">When you have cancer:</span><br/> Everyone on the team breathes a sigh of relief when the person doesn't show up.<br/><br/>
+<span style="font-size:130%;">
+<span style="font-weight: bold;">Team Member is disagreeable</span></span>
+<br/><span style="font-weight: bold;">
+When it's a risk factor:</span><br/> The person stubbornly holds to their positions in spite of evidence to the contrary.  All of us occasionally dig our feet in the sand, at least it indicates that we give a damn.<br/>
+
+<span style="font-weight: bold;">When it's a symptom:</span><br/> The person won't present any reasons for their position.  It's pretty hard to have a reasonable discussion with someone when they won't present their reasons for holding a position nor hear yours.<br/>
+
+<span style="font-weight: bold;">When you have cancer:</span> Once a decision is made, the person refuses let it go, and brings it up continually.<br/>
+<br/>
+<span style="font-size:130%;"><span style="font-weight: bold;">Team Member is a distraction</span></span><br/>
+<span style="font-weight: bold;">
+When it's a risk factor:</span> The person often distracts/interrupts another member of the team.  Sometimes a team member needs a distraction to take a brief mental break or the distraction is a request for help.<br/>
+
+<span style="font-weight: bold;">When it's a symptom:</span><br/> The person continually distracts/interrupts the entire team.  Wasting one person's time is one thing, wasting the whole team's time is bigger problem.<br/>
+
+<span style="font-weight: bold;">When you have cancer:</span><br/> The person continually distracts/interrupts the entire team in a rude manner with things that are off topic and/or not related to the task at hand.<br/>
+<br/>
+<span style="font-size:130%;"><span style="font-weight: bold;">Nobody knows what the Team Member is doing </span></span><br/>
+<span style="font-weight: bold;">
+When it's a risk factor:</span><br/> The person's tasks are vague or not defined.  Some tasks are hard to define/describe, maybe someone with more knowledge of the area can help them.<br/>
+
+<span style="font-weight: bold;">When it's a symptom:</span> The person is slow to finish tasks and unable to share task status.  Some tasks take longer than expected but hopefully not all of them.  When a person is almost done for long periods of time it's definitely a smell.<br/>
+
+<span style="font-weight: bold;">When you have cancer:</span> When the person finishes a task is generally when someone else needs to pick it up and spend a lot of time fixing it.<br/>
+<br/>
+<span style="font-size:130%;"><span style="font-weight: bold;">Team Member refuses to change</span></span><br/>
+<span style="font-weight: bold;">
+When it's a risk factor:</span><br/> The person has trouble growing their skills and picking up new ones.  Some people take longer to learn than others, if they're making an honest effort it should eventually pay off.<br/>
+
+<span style="font-weight: bold;">When it's a symptom:</span><br/> The person simply mangles new thoughts and ideas to fit their current world view.  With agile you need to create a first draft of your complete requirements quickly so you can get a couple iterations of work on it before having everyone sign off on it so we can start to design the architecture in detail...<br/>
+
+<span style="font-weight: bold;"> When you have cancer:</span> The person actively discourages others from considering new ideas and putting them into action.<br/>
+<br/>
+I'm sure I've left out many signs and symptoms so please let me know of any that you think should be added to the list.</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Adrian</div>
+<div class='content'>
+Interesting angle.<BR/><BR/>I've thought of a few behaviors, but many of them overlap and so don't seem to add significant insight. I'll have to think more on that.<BR/><BR/>On another note, it would interesting to juxtapose what fully healthy behavior looks like in each of your examples.<BR/><BR/>For example - strong anti-cancerous behavior related to optional activities is to actually organize them, solicit feedback from other team members on things they'd like to do/see, etc. So - organizing brownbags, delivering talks, bringing speakers in might be counterexamples to cancerous behavior.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cancer]]></title>
+    <link href="http://blog.stevemoyer.net/2008/12/16/cancer.html"/>
+    <updated>2008-12-16T08:34:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2008/12/16/cancer</id>
+    <content type="html"><![CDATA[<div class='post'>
+Imagine for a second that you have  gallbladder cancer.  You've had it for a few year now but it's recently been diagnosed.  As far as you know the cancer hasn't yet spread to other organs but you wonder about it every day.  After consulting doctors, and friends and family you've narrowed down your options: you can try and move the cancer to one of your lungs, at least then your gall bladder should start to function more normally, wait around and hope  that a few massages in the area would turn it back into normal tissue, or simply do nothing and live with it.
+
+These options seem pretty ridiculous, but wait there's more.  Now imagine for a second that you were paying $100k a year(not to mention  maintenance cost) to keep that cancer.  Furthermore, let suppose that the cost of surgery to remove it is very low with a very high probability of full recovery.
+
+Your selected set of options just went from silly to unbelievable.  What reasons might someone have for refusing to have the cancer removed?
+<ol><li>The cancer has been around a long time. We've been living with it for a while.  Why should we get rid of it now?</li><li>The cancer might come around, we just need to give it a chance.</li><li>Won't the other organs miss it when it's gone?</li></ol>As silly as this sounds in a health care setting, anyone reading this most people figured out about two sentences in that I'm talking about a cancerous member of a software team.  It's amazing how reluctant most businesses are to get rid of cancerous team members.  Yes firing people is hard, but if you are not capable and willing to do it when necessary then you are doing yourself a disservice.  People always seem to be worried about giving cancerous team members many chances to improve.   As if magically on the seventh chance the person will turn it all around.  We're not talking about people who are on the fence, or people who have just have had had a bad couple of weeks.  Do we really owe chances to someone who has shown them self to be  cancerous?  Why?  Is there really a chance that someone will go from being cancerous to being highly positive?  What are the costs of doing this? What is the expected return on that investment?</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>jacobson</div>
+<div class='content'>
+related: http://www.infoq.com/news/2009/01/handling-your-underperformer</div>
+</div>
+<div class='comment'>
+<div class='author'>Adrian</div>
+<div class='content'>
+Here's part of the problem in general. There is insufficient focus and/or visibility to the health of the whole individual. There's a gallbladder manager and a lung manager, etc., who have their own ideas of what healthy means for different "components" of the body.<BR/><BR/>Transmission of "health status" of each organ gets distorted in a sort of anatomy telephone game, where the decision maker (the brain?; the doctor?) has to aggregate health status of various organs and doesn't necessary see the cancer through the status fog.<BR/><BR/>Another issue that I suggest be guarded against - this binary nature of cancerous or not. It's a continuum. Yes some folks come out very far on the malignant end of the scale and should be excised. But some cancers are operable. And some can be repurposed into roles where their cancer symptoms do not appear and don't impact others (extreme example: parking lot attendant).</div>
+</div>
+<div class='comment'>
+<div class='author'>jacobson</div>
+<div class='content'>
+I've heard that broccoli is good for preventing cancer.  What about covering said cancer in broccoli to see if it</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>

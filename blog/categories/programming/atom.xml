@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: programming | Coding Libetartian]]></title>
+  <link href="http://blog.stevemoyer.net/blog/categories/programming/atom.xml" rel="self"/>
+  <link href="http://blog.stevemoyer.net/"/>
+  <updated>2013-03-12T13:32:17-07:00</updated>
+  <id>http://blog.stevemoyer.net/</id>
+  <author>
+    <name><![CDATA[Steve Moyer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Learning Emacs and Clojure]]></title>
+    <link href="http://blog.stevemoyer.net/2010/08/06/learning-emacs-and-clojure.html"/>
+    <updated>2010-08-06T00:36:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/08/06/learning-emacs-and-clojure</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'><p>I've recently embarked on a journey to learn both Emacs and Clojure (on Ubuntu). I've made some progress learning the basics of clojure and the basics of emacs but I've struggled with getting a development flow going. </p><p>I'm going to try and document what I've learned and am learning. I'd appreciate any helpful hints, tips, or comments that people have. <strong> While writing this post I stumbled on </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2009/03/learning-clojure-and-emacs.html'><strong>Curran's blog</strong></a><strong> which has most of what I wanted to capture and </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2008/06/hello.htmlblogspot.com/'><strong>a lot more</strong></a><strong>.  </strong></p><p><strong>Emacs Installation</strong></p><p>I'm not sure it's the best way to do it but I installed emacs 23 from the from the ubuntu package manager and followed Bradford Cross's emacs <a href='http://measuringmeasures.blogspot.com/2010/01/my-new-clojure-emacs-setup.html'>setup steps</a>.</p><p>I recently watched this <a href='http://www.vimeo.com/1013263'>screencast</a> by Stuart Halloway (thanks to <a href='http://twitter.com/timwee'>Tim Wee</a>) and enabled ido.el by following the instructions on <a href='http://www.emacswiki.org/emacs/InteractivelyDoThings'>emacswiki</a>. I strongly prefer the file selection with ido.el to the default behavior.</p><p><strong>Clojure installation</strong></p><p>I also started off installing clojure from the package manager as well but I soon started using the <a title='lein' href='http://github.com/technomancy/leiningen'>leiningen</a> build tool for clojure. Leinigen makes things pretty easy and manages your dependencies and classpath.</p><p><strong>Using Leiningen</strong></p><p>(With the lein file in the current directory or on the path</p><p>Starting a new project:</p><p><em>lein new &lt;project name&gt;</em></p><p><em>cp lein &lt;projectname&gt;/</em></p><p><em>cd </em><em>&lt;projectname&gt;/</em></p><p>Download Dependencies:</p><p><em>lein deps</em></p><p>start a repl for the project:</p><p><em>lein repl</em></p><p>starting a swank server:</p><p><em>lein swank</em></p><p/><p><strong>TDD Flow</strong></p><p>I've only recently started to get any flow when coding. I'm hoping people can give me some tips to make this more effective.</p><p>To get set up I run through a set of steps</p><ol><li>Open a terminal window and start emacs in the terminal. </li><li>Open another terminal tab(ctrl-shift-t) and navigate to the project directory.</li><li>If the project is not new skip to step 6.</li><li>Add the following to the generated project.clj file to enable lein swank:<br/>:dev-dependencies [<br/>[swank-clojure "1.1.0"]<br/>[leiningen/lein-swank "1.1.0"]<br/>]</li><li>Run <code><em>lein deps</em></code> to download dependencies</li><li>Run <em>lein swank</em> to start the swank server</li><li>Switch back to the emacs tab (ctrl-page up)</li><li>I have a widescreen monitor rotated to profile so I normally split screen horizontally (C-x, 2)</li><li>Start the swank server in one window (M-x slime-connect)</li><li>Switch to the other window (C-x, o)</li><li>Open clojure test file (C-x, C-f, select file)</li><li>Add/edit test</li><li>Save test file (C-x, C-s)</li><li>"Load the file" to update the state of the repl (C-c, C-l)</li><li>Switch to the slime repl (C-x, o to switch to the other window)</li><li>Make test fail by executing the unit tests in the repl: (clojure.test/run-tests 'sample.namespace-of-tests) or to run all tests: (clojure.test/run-all-tests)</li><li>Implement code to make test pass. </li><li>Run tests and watch them pass</li></ol><p/></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Thanks MAC!<br />Once I fooled ELPA into actually installing it without error it makes things much easier.</div>
+</div>
+<div class='comment'>
+<div class='author'>MAC</div>
+<div class='content'>
+You should look at clojure-test-mode for emacs. Short description can be found here http://snamellit.com/wordpress/?p=20.<br /><br />Alternatively look at circumspec. Intro video here: http://www.vimeo.com/9770382</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[White Space]]></title>
+    <link href="http://blog.stevemoyer.net/2010/01/23/white-space_23.html"/>
+    <updated>2010-01-23T16:41:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2010/01/23/white-space_23</id>
+    <content type="html"><![CDATA[<div class='post'>
+Ok I'll say it. I hate checkstyle. More specifically, I hate quite a
+few of the standard checkstyle rules. What do the following code
+snippets have in common?
+
+
+<script type="syntaxhighlighter" class="brush: java">&lt;![CDATA[  
+public void myFunction(){  
+...  
+}
+]]&gt;</script>
+
+<script type="syntaxhighlighter" class="brush: java">&lt;![CDATA[  public void myFunction()  
+{  
+...  
+} </script>
+
+
+<script type="syntaxhighlighter" class="brush: java">&lt;![CDATA[  
+public void myFunction(String param ) {
+  ... 
+}</script>
+
+That's right, there's a good chance that they'll cause the checkstyle limit to be exceeded on my current project, for the following reasons:
+<ol><li>There is no space between the ) and {</li>
+<li> The { is on a new line</li>
+<li>There is a space before the )
+</li></ol>
+
+
+Too many checkstyle violations will cause the build to fail.  To remedy this enough violations will have to be manually fixed.  That's the annoying part of it.  In my mind these type of white space differences are completely insignificant.  I know there are many of you out there who obsess about this stuff and I won't get you started about tabs vs. spaces.  I will say that unless you have automated code formatting run on all modified files before check-in you should not have checkstyle failing your builds.  How much time has been wasted splitting string constants because they are over a certain number of characters?
+
+
+How to avoid this type of BS:
+<ul>
+<li>Any white space formatting you can't live without should be automatic and not require user action.</li>
+<li> Only fail your build on errors, not warnings.  Also, the violations listed above should be set as warnings.</li>
+<li>Before spending any significant amount of time feeding the checkstyle, fill out your TPS cover sheet first and have it ready to go.</li>
+</ul></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Simplest Thing That Could Possibly Work]]></title>
+    <link href="http://blog.stevemoyer.net/2008/12/29/simplest-thing-that-could-possibly-work.html"/>
+    <updated>2008-12-29T20:45:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2008/12/29/simplest-thing-that-could-possibly-work</id>
+    <content type="html"><![CDATA[<div class='post'>
+Note: I wrote this post a while ago when it was bugging the shit out of me(12/10/08) but didn't get around to finishing it up until now.
+
+I've recently had a lengthy discussion with a Sr. Developer who swears by "the simplest thing that could <span style="font-weight: bold;">possibly</span> work" (emphasis his).  In his mind that seems to mean:
+<ol><li>Lowest number of classes.</li><li>Performing many tasks in one place.</li><li>Using manual inspection of system level output to verify behavior.</li><li>Creating a large number of Utility/Manager manager classes which perform a variety of unrelated functions.</li><li>Wedging nested if after nested if into the code.</li></ol>The results of this are pretty easy to see:
+<ol><li>A few God classes which perform many highly coupled functions.</li><li>Behavior that is very difficult to unit test except in the case where unit==system.</li><li>Constant merging of changes between developers working on things that in theory are not related.</li><li>Developers reluctant to make any changes because they have no idea what ripple effects those changes might have through the system.</li></ol>Clearly, obsessing on a single XP saying (without even really understanding it) makes for poor code.
+
+Reviewing the info I found on the saying I sumarize:
+Do the simplest thing that could possibly make the unit tests pass.  When the unit tests pass, refactor until the code is simple  and easy to understand.
+
+That summary sounds a lot different to me than slapping nasty code into nasty code without a decent regression suite of tests.</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>evan</div>
+<div class='content'>
+I think the dude&#39;s auto correct changed &#39;simplest&#39; to &#39;easiest&#39;. Ew.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+To my view, "The simplest thing that could possibly work." does not mean tightly coupled God classes.<BR/><BR/>It does mean not writing a bunch of code that accomplishes something above and beyond the feature you're working on.<BR/><BR/>It is a good point that any good XP or Agile idea can be misunderstood.<BR/><BR/>Once you've learned and seen a bunch of examples, the catch phrase "The Simplest Thing That Could Possibly Work" is useful.  The catch phrase, by itself could end up justifying bad practices.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>

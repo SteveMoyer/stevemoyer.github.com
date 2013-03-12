@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
-  <meta name="author" content="Your Name">
+  <title>Coding Libetartian</title>
+  <meta name="author" content="Steve Moyer">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="Problem Statement:
+As organizations embrace iterative software development they often find themselves weighed down by their legacy databases. These &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,10 +19,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://SteveMoyer.github.com">
+  <link rel="canonical" href="http://blog.stevemoyer.net/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Coding Libetartian" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -36,9 +37,9 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">My Octopress Blog</a></h1>
+  <h1><a href="/">Coding Libetartian</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>STEVE MOYER'S THOUGHTS ON CREATING SOFTWARE FOR REMUNERATION AND FINDING THE FREEDOM TO DO IT.</h2>
   
 </hgroup>
 
@@ -50,7 +51,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:SteveMoyer.github.com" />
+    <input type="hidden" name="q" value="site:blog.stevemoyer.net" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -66,7 +67,713 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-11T13:47:00-07:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Problem Statement:</u></span></b></h2>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">As organizations embrace iterative software development they often find themselves weighed down by their legacy databases. These databases seem nearly impossible to understand. &nbsp;They have multiple levels of tangled stored procedure calls, missing relational integrity, obsolete and duplicated data, circular references between databases, etc. &nbsp;Some employees understand portions of the database. Nobody wants to make any significant changes for fear of unintended consequences. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Developers(henceforth devs) and Quality Engineers(QEs) typically work off of a shared development environment which hosts backups from production. The development environment often diverges from production as devs make their changes directly to the shared database. QEs add data to support their testing. Temporary changes often persist and the data is in a constant state of flux. The devs and QEs are reluctant to restore new backups as they may lose the schema changes and data they have built up.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Database Administrators(DBAs) tend to host their own production copies outside of the development environment. &nbsp;They’re less interested in what is going on in development. They are concerned with Production. &nbsp;They deploy changes to production on their own cycle and often do not apply the changes to the development environment.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">When it’s time to deploy a release, a barrage of development changes are dropped on the DBAs. They most likely do not have context for the development changes and don’t have much time to review them. They are not happy that someone sent a script that would overwrite the performance optimizations they have already deployed to production. Eventually the changes are applied and verified in a staging environment. There are times when releases are smooth. More often, they are followed by a mad scramble to fix the problems.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Unfortunately, this situation is more the rule than the exception. Within the software development process, the lowest cost next step appears to be adding another table/procedure/band aid to the picture. Priorities, deadlines, and fear rarely afford the opportunity to reduce the &nbsp;technical debt and improve the process in a meaningful way. How can an organization regain flexibility and start to chip away at the mounting cost of change?</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Goals and Guidelines For a Solution:</u></span></b></h2>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">If all of your database applications were well-understood, had robust automated test coverage, or were not under development, it’s likely you would have stopped reading. To improve the situation, what needs to be accomplished? </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Build Knowledge about the Databases</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Legacy databases contain a large amount of latent knowledge. Stored procedures are often the source of truth when it comes to portions of business logic. How the tables relate to each other may describe requirements of the system. Quirks in the design may tell parts of the development story. The people who originally held this knowledge may be long gone. It would be a shame to spend significant time untangling the web only to start over the next time someone moves on.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Allow for an Iterative Progress</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">To solve a problem of this size it is necessary to take it one piece at a time. Legacy databases are usually too complex for any one person to hold in memory. When one section is understood, the knowledge can be captured and the process can move to the next section. It should be easy run the automated process over and over. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate a Minimum Viable Database </span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copies of production databases are great for troubleshooting and reporting. They’re terrible for development and automated testing. For development and testing, the dataset should be small enough to understand what is in it. The data it contains should be meaningful. It also needs to allow a functional application to run on top of it.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Keep the Schema Close to Production </span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Once the Minimum Viable Database is reasonably under control, you’re going to want to start making schema and procedure changes, eventually propagating them to production. Maintaining a list of things that are different in development and production is annoying and error prone. Keep the list as short as possible.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Version Changes</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The schema, data, and other products of the process are important and valuable. They should be kept in source control alongside the application code. While database backups are useful for many purposes, they should be avoided as products of the process.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Solving the Problem:</u></span></b></h2>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Many tools on the market seem to go a long way towards unraveling the problem. Some compare two database structures and generate differential scripts to sync them. Others generate test data. None of them are open, robust, iterative, and able to be fully automated. Keep them in your arsenal. They will come in handy.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Through exercising the following process you can accomplish the goals stated above.</span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create a Schema Baseline </span></b></h3>
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">1. Generate schema and stored procedure scripts </span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate scripts capable of creating your databases complete with schema and stored procedures but without data. Modify the scripts until they run successfully through without intervention.&nbsp;</span></b><br />
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><br /></span></b>
+<br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create an Initial Dataset </span></b></h3>
+<br />
+<b style="font-weight: normal;"><span style="font-family: Arial;"><span style="font-size: 15.333333015441895px; white-space: pre-wrap;"><br /></span></span></b>
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-q_r0EQ3_WU8/UT4-Wy-qfTI/AAAAAAAABHg/Sfv5D6kezBM/s1600/DataCreationCycle.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="370" src="http://4.bp.blogspot.com/-q_r0EQ3_WU8/UT4-Wy-qfTI/AAAAAAAABHg/Sfv5D6kezBM/s400/DataCreationCycle.jpg" width="400" /></a></div>
+<b style="font-weight: normal;"><span style="font-family: Arial;"><span style="font-size: 15.333333015441895px; white-space: pre-wrap;"><br /></span></span></b>
+<br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.1 Pick a Target Feature<span class="Apple-tab-span" style="white-space: pre;"> </span> &nbsp;</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Select a feature or area of the application to work on. A good starting place my be log a user into the application and viewing the start screen.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.2 Automate a test to perform the steps(Optional but recommended)</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The feature will be tested over and over as additional data is added. To save time and effort, an automated test should be created for. As the application my not be functioning, a working deployment of the application can be used to construct your test.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.3 Run the Selected Feature</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Exercise the test(s) of the selected feature. Debug the application or review errors to determine which missing data caused the failures. If the feature is working as expected, <u>return to step 2.1.</u></span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.4 Select a Group of Tables</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Select a small numbers of tables related to the feature being worked on.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.5 Create Data to Populate the Selected Tables</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">There are many strategies to get data for a given table:</span></b><br />
+<ul><b style="font-weight: normal;">
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create it manually in the database tables</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create it manually in storage files(xml,csv,tab delimited, etc.)</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copy a filtered subset from production(if appropriate). Recommended for “reference” tables</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Use the working portions of the application to create data</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Use a data generator</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copy and modify other data you have already created</span></b></li>
+</b></ul>
+<b style="font-weight: normal;">
+</b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.6 Export the data to storage files, if necessary</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Storage files should be human readable, version-able, and diff-able (CSV,tab delimited,XML, etc.). &nbsp;Unless the data was entered directly into the storage files it will need to be exported to them. &nbsp;There are many tools that can export data to the above mentioned file types. Select a tool that suitable tool as needed. Exporting will be done repeatedly and must be completely automated. </span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.7 Re-create the databases and load the data</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Re-create the database schemas from scratch and load all of the data from the storage files. There are many options for loading the data from the storage files. Most database tools have bulk load facilities. The re-creation and load should be transparent on failure and must be completely automated. If the load fails, addition data may need be created for dependent tables. &nbsp;When the load is successful, <u>return to step 2.3 and continue until the feature is working.</u></span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.8 Commit changes</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Working in small cycles is highly recommended. Commit to version control frequently. If desired, <u>return to step 2.1 and select another feature.</u></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Ongoing Development</span></b></h3>
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Changing Schema and/or Stored Procedures</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Once the baseline structure is established, version control should be treated as the beginning of the path to production for schema and stored procedure changes. To introduce a change, create a numbered or time-stamped migration script. Store the migration scripts in a single location within your version control.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Adding or Changing Data</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The process of adding and changing data is similar to the initial data creation process. &nbsp;Load the current the data locally, or in an isolated environment. Change the data as desired. Care should be take to minimize the changes to only those that are desired. Export the data again and commit the changes.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Application Releases</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Migration scripts can be packaged with application builds and deployed to a given environment at the same time as the application. Good migration systems track which migrations have been applied and run only migrations which have not already been applied to the target environment.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Benefits:</u></span></b></h2>
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Reduced Risk of Releases</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">With the database build, migration, and load process completely automated, each member of the team can operate on a local copy of the database. DBAs can easily follow the proposed changes to the databases and expose their own to developers. &nbsp;All internal releases (Continuous Integration, test, staging) can employ the automation as well. Before hitting production, all changes will have been executed many times. Breaking changes will be visible earlier when intervention is less costly.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Increased Consistency of Automated Tests</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Employing an explicitly created dataset, which does not rely on consistency of data refreshed from production, will decrease false negative test results.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Increased developer productivity</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Working with smaller datasets in a local environment allows devs to cut down cycle times and suffer fewer unintended collisions. Working locally also significantly decreases the impact of network or shared environment downtime. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+</h3>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard Is for Everyone</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-31T20:49:00-07:00" pubdate data-updated="true">Jul 31<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Many jobs today require heavy computer and internet use. &nbsp;How fluently you perform these activities affects how much of your time and focus you can dedicate to what you are trying to accomplish. Most of the time, switching between the keyboard and mouse slows you down. In addition, for&nbsp;some people, using the mouse is painful. <br />
+<br />
+Most people can use CTRL-C and CTRL-V to copy and paste. Some people have invested a fair amount of time in learning keyboard shortcuts(and avoiding the mouse).  Unfortunately many other people, including developers, don&#8217;t think keyboard shortcuts are relevant for them.  Some simply don&#8217;t know what they&#8217;re missing. I think this is a tragedy.&nbsp;Most applications support keyboard shortcuts and if you haven&#8217;t already, take 15 or 30 minutes as you go about some task and try an learn the shortcuts. &nbsp;It can be rough at first but will pay dividends pretty quickly.&nbsp;Here are some activities where I think sticking to the keyboard is valuable for all computer users.<br />
+<h3>
+<u>Switching Between Applications and Tabs (primarily Windows):</u></h3>
+Alt-Tab = Switch to the next running application(Alt-Shift-Tab to go to previous)<br />
+Ctrl-Tab = Go to the next tabbed window(Ctrl-Shift-Tab to go to previous)<br />
+Alt-F4 = Close the currently selected application<br />
+Ctrl-F4 = Close the currently selected tab<br />
+<h3>
+<u>Gmail</u></h3>
+If you use gmail and haven&#8217;t yet enabled keyboard shortcuts, you&#8217;re missing out. Managing your inbox is so much easier with the keyboard.
+Once you <a href="http://support.google.com/mail/bin/answer.py?hl=en&amp;answer=6594">turn on keyboard shortcuts</a> (assuming your cursor isn&#8217;t in a textbox) you can type &#8220;?&#8221; to see what shortcuts are available.<br />
+<h4>
+A few basics:</h4>
+gi = go to inbox<br />
+gl = go to label<br />
+c = compose<br />
+r = reply<br />
+/ = activate search box<br />
+<h4>
+Actions on messages in your inbox:</h4>
+After you turn on keyboard shortcuts you may notice that there is now a small shaded cursor next to one message in the list.<br />
+j = move to next message<br />
+k = move to previous message in the list<br />
+x = select or de-select the message<br />
+e = archive selected messages<br />
+# = delete selected messages<br />
+<h3>
+<u>Surfing the Web</u></h3>
+For most people, surfing the web is a whole lot of clicking.  It doesn&#8217;t have to be. There are a number of browser add-ins that help you avoid the mouse.<br />
+<h4>
+Vimium(for Chrome)</h4>
+After installing <a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb">Vimium</a> you can hit the &#8220;?&#8221; key to see what keyboard shortcuts are available<br />
+<br />
+A few basics:<br />
+j = scroll down(notice a pattern here?)<br />
+k = scroll up<br />
+f = display a key combination to follow links, select textboxes, click buttons, etc.<br />
+H = go back in history<br />
+Watch <a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb">the video</a> to see it in action.<br />
+<br />
+<a href="https://addons.mozilla.org/en-us/firefox/addon/vimperator/">Vimperator</a>(for Firefox) is similar to vimium<br />
+<a href="http://5digits.org/pentadactyl/">Pentadactyl</a> (for Firefox) is also good but not for the faint of heart.<br />
+<br />
+What are your favorite tools/shortcuts that help you stick to the keyboard?<br />
+<br />
+<br />
+<br /></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-02T22:05:00-08:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Over the last few weeks of 2011 I&#8217;ve been playing around with Vim and Rails.  I know many people are pairing using Vim.  I also know people are using Vim and screen along with some sort of voice chat to pair remotely. One of the limitations(and strengths) of pairing is that both users are working in the same session.  Only one person can be typing/browsing/whatever at a time.  This can be good when you&#8217;re writing code but tends to suck when you&#8217;re doing research (on the web or in the code base). 
+<br/><br/> 
+Introducing screen to the mix has the ability to break this dependency on a single session.  Each member of the pair can have their own instance of vim in half of a split terminal. Everything that is happening in the screen terminal is still visible to each member of the pair but they have the ability to be active at the same time in separate &#8220;windows&#8221; of the screen session.  Can you write the next failing test while I extract this method? Can you look up what parameters the method I&#8217;m about to call expects?
+<br/><br/>
+It&#8217;s quite possible this practice is widespread and I just haven&#8217;t seen it in my little corner of the .Net world.  Are people already using screen this way?  If so, how is it working out?</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Thanks for your comment Rob. <br /><br />What you&#39;ve described is certainly the standard pairing setup.  The difference lies in that in this case both members of the pair would have access to the same code base and same &quot;screen&quot; on the pairing station.  Also they&#39;d both have autonomy to act independently in their half of the screen session. In your example I can bring up the code for the interface we wrote an hour ago in half of the shared screen while you are guessing without looking.  While the result is the same, the results of what I do pops up on the screen you are actively making that guess on.  I don&#39;t have to pass the laptop over to show you what I found or dictate it.<br /><br />Related to your note:  Thoughtworks blog aggregator is the cause of the problem.  It mis-links all of my posts and other people&#39;s(whose blogs are hosted on blogger.com).  It also will show a post as new if I add a tag to it in addition to other problems like reposting hundreds of posts of other people&#39;s blogs constantly.  If I subscribe to my feed directly, it links correctly.</div>
+</div>
+<div class='comment'>
+<div class='author'>Rob Hunter</div>
+<div class='content'>
+In the face-to-face pairing world, I&#39;ve often seen a multi-computer setup for pairing. A single computer for the pair (the &quot;pairing station&quot;) and one or more spare machines (usually the developers&#39; laptops).<br /><br />The bulk of the time, both members of the pair focus on the shared screen. When something comes up that suits attention-splitting, one person might check use their laptop to look up the documentation while the other tries to guess without looking.<br /><br />I&#39;ve found this style to happen naturally, although I&#39;ve heard of less-experienced pairs having trouble focussing.<br /><br /><br />(unrelated note: this post is showing up in the <a href="http://www.thoughtworks.com/blogs/current" rel="nofollow">Planet TW</a> feeds with the right title, right body, but wrong link. Instead, it points to <a href="http://blog.stevemoyer.net/2008/12/simplest-thing-that-could-possibly-work.html" rel="nofollow">an older post of yours</a>.)</div>
+</div>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B Testing in .net (With nToggle)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-06T20:20:00-08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+In order to add the most basic support for A/B testing to <a href="https://github.com/SteveMoyer/nToggle">nToggle</a>&nbsp;I have added the ability to specify your own custom repository for the status of a toggle. &nbsp;By implementing a custom repository we can write code to determine which version of a feature a given user of the applicaiton should see.
+<br />
+<br />
+<b>Example:(If you aren&#8217;t seeing the embedded code, click through to the full post.)</b>
+<br />
+&nbsp; In my application I have a drop down list for selecting models of cars. &nbsp;The number of items in this list is large and I am going to replace it with an auto-complete textbox which I think will create a better user experience. I think this change could have a large impact on users of the application so I&#8217;m only going to release it to power users to get feedback.  Everyone else will continue to see the old version of the application. 
+<br />
+<br />
+First I wrap the new and old code in a web feature toggle:
+<script src="https://gist.github.com/1344145.js?file=CarModelDropDownMarkup.aspx">
+</script>
+<br />
+<br />
+Second I add the new toggle to my web.config:
+<script src="https://gist.github.com/1344151.js?file=CarModel.xml"></script>
+ Notice that my new toggle has a property on it called &#8220;repository&#8221;.  This tells nToggle where to look for the status of this toggle.  
+<br />
+<br />
+The last step is implementing a repository which will determine if the current user is a power user:
+<script src="https://gist.github.com/1344158.js?file=PowerUserToggleRepository.cs"></script>
+<br/>
+<br/>
+That&#8217;s all there is to it.  In just a few lines of configuration and code we have created a very simple A/B test of a new feature.  <b>Disclaimer:</b>  This method is intended for short term use during development and transition.  Feature toggles should be short lived and I recommend removing them(and the branches you have created in your code) as soon as reasonable.</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html">Distributed Check-in Tokens: Pass-The-Puppy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-18T21:02:00-07:00" pubdate data-updated="true">Sep 18<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+On many software development teams there is a section of code or some development artifacts which will collide if two people/pairs check in at the same time. &nbsp;In order to stop this from happening many teams adopt a check in token. &nbsp;Only the people who have the token can check in the given resource.<div>
+<br /></div>
+<div>
+On my current team we have two such resources: &nbsp;<a href="http://dbdeploy.com/software/net/">our numbered database migration scripts</a> (which will fail if any two have the same number) and our <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html">functional test data csv files</a>. &nbsp;</div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-Mi4d7SwD8Ls/Tna4B3EdDgI/AAAAAAAAAu0/23VjrsvYLjI/s1600/puppy.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://2.bp.blogspot.com/-Mi4d7SwD8Ls/Tna4B3EdDgI/AAAAAAAAAu0/23VjrsvYLjI/s320/puppy.jpg" width="285" /></a></div>
+<div>
+<br /></div>
+<div>
+Co-located teams can use a stuffed animal(like ours above) or some other physical token. &nbsp; For distributed teams a physical token is not an option.</div>
+<div>
+<br /></div>
+<div>
+To enable all of our team members to use the tokens I created a rails app I call <a href="https://github.com/SteveMoyer/pass_the_puppy">pass-the-puppy</a>. This app is simple and low volume, so a free <a href="http://www.heroku.com/">Heroku</a> account is sufficient to host it for the team. &nbsp;Any team which needs &nbsp;a set token can clone&nbsp;<a href="https://github.com/SteveMoyer/pass_the_puppy">the app</a> from <a href="https://github.com/">github</a> and create their own Heroku app. &nbsp;<a href="http://pass-the-puppy.heroku.com/">Sample application</a></div>
+<div>
+<br /></div>
+<div>
+As a rails novice I was quite happy to discover how easy it was to deploy an app to Heroku. &nbsp;Warning, it&#8217;s not aesthetically pleasing.</div>
+<div>
+<br /></div>
+<div>
+<br /></div>
+</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Hey Simon,<br />  We actually use the migrations numbering slightly differently.  We only need the token to assign a number and check in the script.  You can develop your script at any time with any desired number and then you reassign a permanent number and check it in when you have the token.  The drawback I see with the ticket book is that it assumes a check-in order.  If you check in your higher numbered script and I check in lower numbered script after my script won&#39;t be run until each machine has it&#39;s database rebuilt(or down version-ed past my number).  However the ticket process would be just about the same if you took the ticket at check-in time rather than in advance.</div>
+</div>
+<div class='comment'>
+<div class='author'>Simon Brunning</div>
+<div class='content'>
+A check-in token is too course grained for dbdeploy script numbering.<br /><br />We use a raffle ticket book. That way we can reserve the numbers we want without blocking anyone else from writing scripts too. Works across branches, too.</div>
+</div>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/27/numbing-pain-isn-necessarily-good.html">Numbing the Pain Isn&#8217;t Necessarily Good</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-27T20:36:00-07:00" pubdate data-updated="true">Apr 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>A few months ago I bought a pair of <a href="http://www.vibramfivefingers.com/index.htm">Vibram Five Fingers</a> shoes. &nbsp;When I first started wearing them I realized my normal tennis/running shoes had been hiding a few things from me. &nbsp;The standard way I run/walk is on my heel. &nbsp;This means that I&#8217;m limiting the ability of my foot to absorb some of the impact of taking a step. This causes more of the impact to go directly onto my heel and up my leg. &nbsp;Also my Plantar Fascia were very very tight. &nbsp;This is important feedback that I wasn&#8217;t getting.</p><p>When I had pain from running, I&#8217;d take Aleve to temper the pain and swelling, and continue to run the same way. &nbsp;Eventually the stress lead to more significant problems that weren&#8217;t so easy to ignore. &nbsp; By changing the way I step I&#8217;m able to eliminate a major contributor to the pain. &nbsp;At first the change is hard. &nbsp;I was sore for a while from using a new set of muscles. &nbsp;It took focus to not fall back into the old step pattern.</p><p>Now that I&#8217;m adjusted, my calf muscles and plantar fascia are much more flexible. My calves haven&#8217;t cramped in months. &nbsp;I&#8217;m able to comfortably walk barefoot on previously painful surfaces(stepping down on a rock in the street with your heel is not fun).</p><p>As usual, I&#8217;m only mentioning my Five Fingers experience as a metaphor for software development.</p><p>If you are developing an application and bugs keep popping up all over the place, you <strong>can</strong> just just fix the bug and keep on going adding and changing code. &nbsp;Eventually you&#8217;ll spend the vast majority or your time poking and proding and trying to get the system almost stable. &nbsp;You&#8217;ll be afraid to make any changes. Another alternative is that you can start writing tests. &nbsp;Start with a test for that bug. &nbsp;Writing tests will be painful at first. &nbsp;You&#8217;ll be exposing all of your bad habits. &nbsp;Your code will be difficult to test. &nbsp;As you write more and more tests you&#8217;ll be able to start to clean up that code. &nbsp;You&#8217;ll begin to gain the confidence that you can make changes and add features without introducing a bunch of new bugs.</p><p>If your release cycle is six months and the releases never seem to go as planned, you<strong> can</strong> add more time for manual regression or release only every year. &nbsp;&#8220;It&#8217;s a painful 3 months but it only happens once a year&#8221;, you&#8217;ll say. &nbsp;Alternatively you can decide you want to release every month or every week or every commit. &nbsp;You can automate all of the steps to release. &nbsp;You can write system tests that give you confidence that you haven&#8217;t missed deploying a stored procedure or changing permissions on that directory.  You&#8217;ll have some of the same pain but if you&#8217;re writing tests it&#8217;ll be pain in smaller and smaller amounts.  When you test a release after every commit and run tests against it, you&#8217;ll know immediately if you forgot to add that new step to the deployment</p><p>Usually, when there is pain, there are causes of the pain. &nbsp;While you might need to numb the pain you&#8217;d better make sure you remove the cause of the pain as well. &nbsp;Start fixing the cause first and numb only if you still need to. Stop numbing the pain as soon as possible.</p></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/27/usage-is-not-substitute-for-tests.html">Usage Is Not a Substitute for Tests</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-27T20:35:00-07:00" pubdate data-updated="true">Apr 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<p>Some months ago I encountered a large Sql Server database which was not particularly well understood and didn&#8217;t have a test data set. In order to develop a test data set I decided to use a tool(the precursor to <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html" title="nDump">nDump</a>) which I had slapped together in about an hour in late 2009. The tool, though primitive, was already working reasonably well at importing CSV. It had no tests, unit or otherwise. All it had in the way of testing was my manual inspection of the application which consumed the database to verify that it was working correctly.</p><p>As I used the tool to understand and generate data for the Sql Server database I realized that the tool was buggy and lacking features. I decided to refactor and extend it. Because I was focused not on the tool but on the data set for the application, I continued to make changes and add features without adding tests. I did make an attempt to reasonably factor the new code in a similar manner to how I would if I had been writing tests. Not writing tests at that time was a mistake.</p><p>Later in the development I realized this and went back to add tests.  How well had I done at writing testable code?  Not all that well. Much of the code was easily testable but there were more than a few places where files were being created directly or concrete instances were being new-ed up in the middle of a method doing other work.  It certainly takes much more effort to tease the dependencies out and add the tests after the fact.  Hopefully this post will serve as a reminder to keep me from making the same mistake again.</p></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/03/08/breaking-down-unruly-databases-problem.html">Breaking Down Unruly Databases: The Problem</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-08T00:05:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+In my <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html">last post</a> on <a href="https://github.com/SteveMoyer/nDump/wiki">nDump </a>I talked about a tool I&#8217;ve created to import and export data from MS SQL Server databases. &nbsp;In this post I want to lay out some of my motivation for doing so.<br />
+<br />
+Often when starting at a new client we arrive to find a legacy database/databases which seem nearly incomprehensible.  Development and CI often run against a shared databases which are backups of production.  The state of the data is in a constant flux. &nbsp;If someone desires to run a local database, restoring at least a few gigs of database backups is required.  One reason this is necessary is that the database(s) can&#8217;t easily be recreated from scripts.  This is relatively easy to get around by breaking creation scripts into parts and employing tools such as <a href="http://dbdeploy.com/">DBDeploy</a> to run them in order.<br />
+<br />
+Once the problem of creating an empty database is tackled, nobody seems to have the requisite knowledge to populate it with the basic data necessary to run the application.  There are many problems that spring from a lack of the ability to create minimal data sets: <br />
+<div><ol><li>Returning to a known data set is time consuming, requiring  restoring a large backup.</li>
+<li>The development and functional test data sets can&#8217;t be easily version-ed.  While you can check in a backup, there is no reasonable way to diff it against a previous version.</li>
+<li>Functional tests are often brittle as they rely upon the state of the data which tends to be rather inconsistent.</li>
+<li>Finding data requires searching through a large data set.</li>
+<li>Deciphering incremental changes to the state of the data  is no small challenge.</li>
+</ol><div>On past projects, the teams have stored development and test data sets as groups of csv or XML files.  Both of these files can be easily version-ed, diff-ed, and modified using excel or open office.  I prefer csv files as they are more concise and contain a lot less noise.&nbsp; Once you have these file sets and the requisite knowledge of the database structure it&#8217;s relatively pleasant to work with them to maintain known state(s) of the data. By running the database build and load in a CI build we can continually verify that we know how to build a database. Using the populated database we can confirm that our functional tests of the application(s) are still working against a consistent data set. </div></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Hey Toast,<br />Thanks for the comment. I&#39;ve used a lot of the Red Gate Tools and found them helpful in more than a few situations.  Sql Storage Compress sounds interesting and addresses the copy and restore time.  It doesn&#39;t address lack of understanding of the database, having to deal with huge amounts of data, or versioning and diff-ing easily over time.<br />   Steve</div>
+</div>
+<div class='comment'>
+<div class='author'>toast</div>
+<div class='content'>
+Hi!<br /><br />warning - about to plug a product from my current company&#8230;<br /><br />You can detach, copy, reattach a database if you want to quickly restore its contents to a known (saved) point. I guess you would then run your DB deploy scripts to update the schema appropriately.<br /><br />This need not use stupid amounts of disk space if you use something like (get ready for plug) Red Gate&#39;s SQL Storage Compress. That product can be used to compress your database files such that the copy command above takes less time (less to copy) and less disk. The database acts like normal when it is attached, it just happens to be 40% the size&#8230;<br /><br />of course, it costs money while your solution doesn&#39;t, but I think it would be worth checking out both SQL Virtual Restore and SQL Storage Compress.  www.red-gate.com</div>
+</div>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/03/06/ndump-managing-development-and-test.html">nDump: Managing Development and Test Data Sets for MS SQL Server</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-06T16:29:00-08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+<div>I&#8217;ve created a small tool called <a href="https://github.com/SteveMoyer/nDump/wiki">nDump</a> which I&#8217;ve been using to help me gain understanding of and manage data sets for complicated(legacy?) MS Sql Server databases. </div><div><b><br />
+</b><br />
+<b><span class="Apple-style-span">What does it do?</span></b><br />
+<b><span class="Apple-style-span"><br />
+</span></b></div><div></div><div><b>Apply filtering select statements to MSSQL data tables in a source database</b></div><div><b> </b></div><div>By writing select statements to return a small(as small as reasonable) related set of data you force yourself to understand the database while you create a minimal data set.</div><div></div><div><b><br />
+</b><br />
+<b>Save the filtered data to CSV files</b></div><div></div><div>By saving the selected data to CSV files it can be easily version-ed and diff-ed.</div><div></div><div><b><br />
+</b><br />
+<b>Convert and save the CSV files to SQL script files</b></div><div></div><div>Prepare them to be inserted into another database.</div><div></div><div><b><br />
+</b><br />
+<b>Delete the data from the tables in a target database</b></div><div></div><div>Verifies that you have correctly ordered the tables for deletion.  Returns the database to a relatively known starting state.  </div><div><b><br />
+</b><br />
+<b>Apply the SQL script files to the target database</b></div><div></div><div>Ensures that the selected data can be reinserted into the database.  Allows you to run your application against only the data in your set.</div><div></div><div><b><br />
+</b><br />
+<b>Minimal data set generated</b></div><div><b> </b></div><div>Once we have a minimal set of data, a somewhat better understanding of the database, and the application running on this data set there are many things we can do:</div><div><ul><li>Add more data to set by editing the csv files in excel or open office.</li>
+<li>Add more data through the application and use nDump to export it without filters.</li>
+<li>Restore the database to this set of data at any time.  </li>
+<li>Run functional tests off this consistent data set.</li>
+<li>Develop in database isolation without having to restore huge databases.</li>
+</ul></div><div></div><div><div></div></div></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/03/05/feature-toggles-for-net-ntoggle.html">Feature Toggles for .net: nToggle</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-05T15:05:00-08:00" pubdate data-updated="true">Mar 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><div class='post'>
+Late last year my team and I helped a client to decide against <a href="http://martinfowler.com/bliki/FeatureBranch.html">Feature Branching</a> in favor of <a href="http://martinfowler.com/bliki/FeatureToggle.html">Feature Toggles</a>.  After making this decision we realized that there didn&#8217;t seem to be an implementation available for the .net platform so <a href="https://github.com/SteveMoyer/nToggle">nToggle</a> was born.  Usage is simple and there isn&#8217;t a whole lot to it.<br/>
+<br/>
+Let&#8217;s suppose we have a new feature, BlogComments, that we want to toggle. 
+Configure your new toggle as on or off in the project&#8217;s Web.config file.
+<br/>
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[  
+<configuration>
+  <appSettings>
+ <add key="BlogComments" value="False"/>
+  </appSettings>
+ ...
+</configuration>
+]]></script>
+<br/>
+<br/>
+Add a WebFeatureToggle around the new feature in  Asp.net WebForms.
+
+<script type="syntaxhighlighter" class="brush: html"><![CDATA[  
+<%@ Register assembly="nToggle" namespace="nToggle" tagprefix="nToggle" %>
+<nToggle:WebFeatureToggle ID="WebFeatureToggle1" EnabledBy="BlogComments" runat="server" >
+ <span id="enabledby">Blog Comments implementation goes here</span>
+</nToggle:WebFeatureToggle>
+]]></script>
+<br/>
+If you have Web Form elements which should not show up when the feature is enabled you can toggle them too using the RemovedBy attribute
+<script type="syntaxhighlighter" class="brush: html"><![CDATA[  
+<%@ Register assembly="nToggle" namespace="nToggle" tagprefix="nToggle" %>
+<nToggle:WebFeatureToggle ID="WebFeatureToggle2" RemovedBy="BlogComments"  runat="server" >
+ <span id="removedby">Old feature replaced by Blog Comments</span>
+</nToggle:WebFeatureToggle>
+]]></script>
+<br/>
+
+Code in a code behind that should be toggled can use the WebFeatureToggle as well.
+<script type="syntaxhighlighter" class="brush: csharp"><![CDATA[  
+protected void Page_Load(object sender, EventArgs e)
+  {
+   WebFeatureToggle1.RunActionWhenDisabled(CodeToRunIfDisabled);
+   WebFeatureToggle1.RunActionWhenEnabled(CodeToRunIfEnabled);
+  }
+  protected void CodeToRunIfDisabled()
+  {
+  //your code
+  }
+  protected void CodeToRunIfEnabled()
+  {
+  //your code
+  }
+]]></script>
+<br/></div>
+
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -78,7 +785,56 @@
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
+      <li class="post">
+        <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard is for Everyone</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B testing in .net (with nToggle)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html">Distributed Check-in Tokens: Pass-The-Puppy</a>
+      </li>
+    
   </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/SteveMoyer">@SteveMoyer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SteveMoyer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
 </section>
 
 
@@ -91,14 +847,38 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Your Name -
+  Copyright &copy; 2013 - Steve Moyer -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100589840); }catch(e){}</script>
 
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'codinglibertarian';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

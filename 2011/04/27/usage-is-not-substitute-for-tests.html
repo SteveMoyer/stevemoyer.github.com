@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Usage is not a substitute for tests - Coding Libetartian</title>
+  <meta name="author" content="Steve Moyer">
+
+  
+  <meta name="description" content="Some months ago I encountered a large Sql Server database which was not particularly well understood and didn&#8217;t have a test data set. In order &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.stevemoyer.net/2011/04/27/usage-is-not-substitute-for-tests.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding Libetartian" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding Libetartian</a></h1>
+  
+    <h2>STEVE MOYER'S THOUGHTS ON CREATING SOFTWARE FOR REMUNERATION AND FINDING THE FREEDOM TO DO IT.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.stevemoyer.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Usage Is Not a Substitute for Tests</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-27T20:35:00-07:00" pubdate data-updated="true">Apr 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+<p>Some months ago I encountered a large Sql Server database which was not particularly well understood and didn&#8217;t have a test data set. In order to develop a test data set I decided to use a tool(the precursor to <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html" title="nDump">nDump</a>) which I had slapped together in about an hour in late 2009. The tool, though primitive, was already working reasonably well at importing CSV. It had no tests, unit or otherwise. All it had in the way of testing was my manual inspection of the application which consumed the database to verify that it was working correctly.</p><p>As I used the tool to understand and generate data for the Sql Server database I realized that the tool was buggy and lacking features. I decided to refactor and extend it. Because I was focused not on the tool but on the data set for the application, I continued to make changes and add features without adding tests. I did make an attempt to reasonably factor the new code in a similar manner to how I would if I had been writing tests. Not writing tests at that time was a mistake.</p><p>Later in the development I realized this and went back to add tests.  How well had I done at writing testable code?  Not all that well. Much of the code was easily testable but there were more than a few places where files were being created directly or concrete instances were being new-ed up in the middle of a method doing other work.  It certainly takes much more effort to tease the dependencies out and add the tests after the fact.  Hopefully this post will serve as a reminder to keep me from making the same mistake again.</p></div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Steve Moyer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-27T20:35:00-07:00" pubdate data-updated="true">Apr 27<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.stevemoyer.net/2011/04/27/usage-is-not-substitute-for-tests.html" data-via="steve_g_moyer" data-counturl="http://blog.stevemoyer.net/2011/04/27/usage-is-not-substitute-for-tests.html" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/03/08/breaking-down-unruly-databases-problem.html" title="Previous Post: Breaking Down Unruly Databases: The Problem">&laquo; Breaking Down Unruly Databases: The Problem</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/04/27/numbing-pain-isn-necessarily-good.html" title="Next Post: Numbing the pain isn't necessarily good">Numbing the pain isn't necessarily good &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard is for Everyone</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B testing in .net (with nToggle)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html">Distributed Check-in Tokens: Pass-The-Puppy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SteveMoyer">@SteveMoyer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SteveMoyer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Steve Moyer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100589840); }catch(e){}</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'codinglibertarian';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

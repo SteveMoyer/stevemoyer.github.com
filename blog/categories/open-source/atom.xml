@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: open source | Coding Libetartian]]></title>
+  <link href="http://blog.stevemoyer.net/blog/categories/open-source/atom.xml" rel="self"/>
+  <link href="http://blog.stevemoyer.net/"/>
+  <updated>2013-03-12T13:32:17-07:00</updated>
+  <id>http://blog.stevemoyer.net/</id>
+  <author>
+    <name><![CDATA[Steve Moyer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Feature Toggles for .net: nToggle]]></title>
+    <link href="http://blog.stevemoyer.net/2011/03/05/feature-toggles-for-net-ntoggle.html"/>
+    <updated>2011-03-05T15:05:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2011/03/05/feature-toggles-for-net-ntoggle</id>
+    <content type="html"><![CDATA[<div class='post'>
+Late last year my team and I helped a client to decide against <a href="http://martinfowler.com/bliki/FeatureBranch.html">Feature Branching</a> in favor of <a href="http://martinfowler.com/bliki/FeatureToggle.html">Feature Toggles</a>.  After making this decision we realized that there didn't seem to be an implementation available for the .net platform so <a href="https://github.com/SteveMoyer/nToggle">nToggle</a> was born.  Usage is simple and there isn't a whole lot to it.<br/>
+<br/>
+Let's suppose we have a new feature, BlogComments, that we want to toggle. 
+Configure your new toggle as on or off in the project's Web.config file.
+<br/>
+<script type="syntaxhighlighter" class="brush: xml">&lt;![CDATA[  
+<configuration>
+  <appSettings>
+ <add key="BlogComments" value="False"/>
+  </appSettings>
+ ...
+</configuration>
+]]&gt;</script>
+<br/>
+<br/>
+Add a WebFeatureToggle around the new feature in  Asp.net WebForms.
+
+<script type="syntaxhighlighter" class="brush: html">&lt;![CDATA[  
+<%@ Register assembly="nToggle" namespace="nToggle" tagprefix="nToggle" %>
+<nToggle:WebFeatureToggle ID="WebFeatureToggle1" EnabledBy="BlogComments" runat="server" >
+ <span id="enabledby">Blog Comments implementation goes here</span>
+</nToggle:WebFeatureToggle>
+]]&gt;</script>
+<br/>
+If you have Web Form elements which should not show up when the feature is enabled you can toggle them too using the RemovedBy attribute
+<script type="syntaxhighlighter" class="brush: html">&lt;![CDATA[  
+<%@ Register assembly="nToggle" namespace="nToggle" tagprefix="nToggle" %>
+<nToggle:WebFeatureToggle ID="WebFeatureToggle2" RemovedBy="BlogComments"  runat="server" >
+ <span id="removedby">Old feature replaced by Blog Comments</span>
+</nToggle:WebFeatureToggle>
+]]&gt;</script>
+<br/>
+
+Code in a code behind that should be toggled can use the WebFeatureToggle as well.
+<script type="syntaxhighlighter" class="brush: csharp">&lt;![CDATA[  
+protected void Page_Load(object sender, EventArgs e)
+  {
+   WebFeatureToggle1.RunActionWhenDisabled(CodeToRunIfDisabled);
+   WebFeatureToggle1.RunActionWhenEnabled(CodeToRunIfEnabled);
+  }
+  protected void CodeToRunIfDisabled()
+  {
+  //your code
+  }
+  protected void CodeToRunIfEnabled()
+  {
+  //your code
+  }
+]]&gt;</script>
+<br/></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Transitioning to open source]]></title>
+    <link href="http://blog.stevemoyer.net/2009/11/16/transitioning-to-open-source.html"/>
+    <updated>2009-11-16T04:19:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2009/11/16/transitioning-to-open-source</id>
+    <content type="html"><![CDATA[<div class='post'>
+I'm now contributing to an <a href="http://www.google.com.au/url?sa=t&amp;source=web&amp;ct=res&amp;cd=1&amp;ved=0CAcQFjAA&amp;url=http%3A%2F%2Fblog.mises.org%2Farchives%2F009475.asp&amp;ei=3EMBS8eAKdOGkQXQn5zuDA&amp;usg=AFQjCNGPBhbbKD6ixs7DDVezEcZYmSKhKQ&amp;sig2=q2Sfn2kWNPGCihnyGlVwSw">recently open sourced project</a> .     I'm finding that the process of trying to help the project get going to be full of interesting challenges.  Before I dive into that, I'll provide a little background.
+
+The Ludwig von Mises Institute is a non-profit organization dedicated to promoting the Austrian School of economics and spreading the ideas behind the economics of freedom.  Educating people about economics and freedom are particular interests of mine which is what has drawn me to the project.  They have open sourced the code for their websites as well as the books, papers, articles and media owned by the Institute.  The project has been open source for about 9 months an has not gotten much in the way of code contributions aside from the original programmer who has been working on the project in his spare time for about 5 years.  Like many projects and most single developer projects in particular, the projects has grown organically without automated tests.  Little attention has been paid to the amount of effort necessary to get a development environment up and running.  There is a large amount of data access directly in the UI tier as well as a large amount of business logic in the database.  Changes are manually pushed to production and some changes seem to be made directly to the production environment.  The feature request list consists of a few tasks as well as the output of a brainstorming session.
+
+How can we take this project from a one programmer show to a thriving  open source project?
+
+<ol><li><span style="font-weight: bold;">Lower the barriers to entry</span> -  As I mentioned little attention has been paid to the amount of effort necessary to get a developer workstation up and running, and why should there have been.  On a single programmer project there is no cost associated with this,  the original developer has it compiling and running on his own machine and should he need to set up another he more or less knows what it takes.  Getting it running on my local machine for the first time took a couple of days.  For an open source project this kind of up front cost is unacceptable.  Even most of those who are highly motivated to contribute will give up fairly quickly if they can't see a direct path to making valuable contributions. Most of the first week and a half or so that I've spent on the project has been dedicated to easing the process of getting up and running. <ul><li> So far: Checked dependencies into source control.  Set up a command line build which is able to build and run the app(including a local copy of the databases with some data) with minimal configuration after being checked out of source control.
+</li><li>Yet to be done: Ensure that the data makes sense in the context of the app and comprises a representative subset.  Add more detail around installing prerequisites for running the app.
+</li></ul></li><li><span style="font-weight: bold;">Decrease the risk associated of change</span> - Pretty quickly after starting to look at the code I realized that I had no confidence in being able to change it without breaking something, or perhaps even everything.  For example I pulled the business logic classes that were in the web site out into a separate assembly.  Getting the app compiling again was pretty easy but there were a couple places that the classes were loaded via xml that had been broken.  This went unnoticed for a couple of days.  I'd like to have a wide array of unit, integration, and functional tests.  The majority of the code is not unit testable.  I'm not comfortable  structurally changing it to be unit testable without some form of regression available. <ul><li>So Far: Installed CI to ensure that the code and databases compile after each check-in.  Explored the code and application to better understand the domain.
+</li><li>Yet to be done:  Add integration tests and/or functional tests in the areas where a feature is to be developed, refactor to a unit testable condition when those tests are in place.  Add unit testing for areas of the code that I changed.</li></ul></li><li><span style="font-weight: bold;">Deliver business value</span> - I'm shocked and saddened that this is the third thing on my list!  I've been working quite hard for a week and a half and I haven't delivered anything of value to the Institute.  I can't decide if I should have delayed some of the build and ci related tasks and left them to be done in the near future.  On one hand I could have have knocked out a few tasks.  On the other hand a couple of fellow Thoughtworkers are willing to contribute and were able to get going much more quickly than I was.  Another challenge is clearly going to be communication bandwidth.  The team members working on the project are distributed  across the world.  In addition it's being developed in people's free time which makes it even less likely that their availability will line up to allow communication.
+<ul><li> So far:  Some tasks and brainstormed ideas have been added to a wiki
+</li><li>Yet to be done: Determine who the Business Owners and other stakeholders are.  Gather some user stories in a standard format (As a ... I would like to .... so that ...?).  Help the stakeholders to create a prioritized list.  Address availability of requirements or lack there of.  Wrap up non-value generating tasks so Business Value can go to the top of the list where it belongs.
+</li></ul></li><li><span style="font-weight: bold;">Generate interest and buzz</span> - I think <a href="http://www.rationalmind.net/">David</a> and the folks at the institute have done a good job of generating interest in the project by getting the news out there.  I agree with his assertion that getting more people to contribute more than just talk requires getting some exciting stuff done.
+<ul><li>Yet to be done: Deliver, Deliver, Deliver.</li></ul></li></ol>
+I'd appreciate any ideas, thoughts, comments, criticism, etc so feel free to fire away.</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+Sounds like you actually are providing business value by getting tests, CI, builds, etc. running.  You&#39;ve lowered the barrier of entry to people who clearly want to help.<br /><br />I look at that as removing technical debt, which may not have paid dividends yet, but certainly will in the future.  Bravo.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>

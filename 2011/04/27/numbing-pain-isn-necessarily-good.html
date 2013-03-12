@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Numbing the pain isn't necessarily good - Coding Libetartian</title>
+  <meta name="author" content="Steve Moyer">
+
+  
+  <meta name="description" content="A few months ago I bought a pair of Vibram Five Fingers shoes. &nbsp;When I first started wearing them I realized my normal tennis/running shoes had &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.stevemoyer.net/2011/04/27/numbing-pain-isn-necessarily-good.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding Libetartian" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding Libetartian</a></h1>
+  
+    <h2>STEVE MOYER'S THOUGHTS ON CREATING SOFTWARE FOR REMUNERATION AND FINDING THE FREEDOM TO DO IT.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.stevemoyer.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Numbing the Pain Isn't Necessarily Good</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-27T20:36:00-07:00" pubdate data-updated="true">Apr 27<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+<p>A few months ago I bought a pair of <a href="http://www.vibramfivefingers.com/index.htm">Vibram Five Fingers</a> shoes. &nbsp;When I first started wearing them I realized my normal tennis/running shoes had been hiding a few things from me. &nbsp;The standard way I run/walk is on my heel. &nbsp;This means that I&#8217;m limiting the ability of my foot to absorb some of the impact of taking a step. This causes more of the impact to go directly onto my heel and up my leg. &nbsp;Also my Plantar Fascia were very very tight. &nbsp;This is important feedback that I wasn&#8217;t getting.</p><p>When I had pain from running, I&#8217;d take Aleve to temper the pain and swelling, and continue to run the same way. &nbsp;Eventually the stress lead to more significant problems that weren&#8217;t so easy to ignore. &nbsp; By changing the way I step I&#8217;m able to eliminate a major contributor to the pain. &nbsp;At first the change is hard. &nbsp;I was sore for a while from using a new set of muscles. &nbsp;It took focus to not fall back into the old step pattern.</p><p>Now that I&#8217;m adjusted, my calf muscles and plantar fascia are much more flexible. My calves haven&#8217;t cramped in months. &nbsp;I&#8217;m able to comfortably walk barefoot on previously painful surfaces(stepping down on a rock in the street with your heel is not fun).</p><p>As usual, I&#8217;m only mentioning my Five Fingers experience as a metaphor for software development.</p><p>If you are developing an application and bugs keep popping up all over the place, you <strong>can</strong> just just fix the bug and keep on going adding and changing code. &nbsp;Eventually you&#8217;ll spend the vast majority or your time poking and proding and trying to get the system almost stable. &nbsp;You&#8217;ll be afraid to make any changes. Another alternative is that you can start writing tests. &nbsp;Start with a test for that bug. &nbsp;Writing tests will be painful at first. &nbsp;You&#8217;ll be exposing all of your bad habits. &nbsp;Your code will be difficult to test. &nbsp;As you write more and more tests you&#8217;ll be able to start to clean up that code. &nbsp;You&#8217;ll begin to gain the confidence that you can make changes and add features without introducing a bunch of new bugs.</p><p>If your release cycle is six months and the releases never seem to go as planned, you<strong> can</strong> add more time for manual regression or release only every year. &nbsp;&#8220;It&#8217;s a painful 3 months but it only happens once a year&#8221;, you&#8217;ll say. &nbsp;Alternatively you can decide you want to release every month or every week or every commit. &nbsp;You can automate all of the steps to release. &nbsp;You can write system tests that give you confidence that you haven&#8217;t missed deploying a stored procedure or changing permissions on that directory.  You&#8217;ll have some of the same pain but if you&#8217;re writing tests it&#8217;ll be pain in smaller and smaller amounts.  When you test a release after every commit and run tests against it, you&#8217;ll know immediately if you forgot to add that new step to the deployment</p><p>Usually, when there is pain, there are causes of the pain. &nbsp;While you might need to numb the pain you&#8217;d better make sure you remove the cause of the pain as well. &nbsp;Start fixing the cause first and numb only if you still need to. Stop numbing the pain as soon as possible.</p></div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Steve Moyer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-04-27T20:36:00-07:00" pubdate data-updated="true">Apr 27<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.stevemoyer.net/2011/04/27/numbing-pain-isn-necessarily-good.html" data-via="steve_g_moyer" data-counturl="http://blog.stevemoyer.net/2011/04/27/numbing-pain-isn-necessarily-good.html" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/04/27/usage-is-not-substitute-for-tests.html" title="Previous Post: Usage is not a substitute for tests">&laquo; Usage is not a substitute for tests</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html" title="Next Post: Distributed Check-in Tokens: Pass-The-Puppy">Distributed Check-in Tokens: Pass-The-Puppy &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard is for Everyone</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B testing in .net (with nToggle)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html">Distributed Check-in Tokens: Pass-The-Puppy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SteveMoyer">@SteveMoyer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SteveMoyer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Steve Moyer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100589840); }catch(e){}</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'codinglibertarian';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

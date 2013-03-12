@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Build | Coding Libetartian]]></title>
+  <link href="http://blog.stevemoyer.net/blog/categories/build/atom.xml" rel="self"/>
+  <link href="http://blog.stevemoyer.net/"/>
+  <updated>2013-03-12T13:32:17-07:00</updated>
+  <id>http://blog.stevemoyer.net/</id>
+  <author>
+    <name><![CDATA[Steve Moyer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MicroSoft's Total Failure System (MS TFS)]]></title>
+    <link href="http://blog.stevemoyer.net/2010/07/21/microsofts-total-failure-system-ms-tfs.html"/>
+    <updated>2010-07-21T16:36:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/07/21/microsofts-total-failure-system-ms-tfs</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns="http://www.w3.org/1999/xhtml">Let me apologize in advance for my exasperation,  I've been working with TFS.
+<br/>
+My coworker Jonathan McCracken was too nice to MS Team Foundation System in his <a href="http://jonathanmccracken.blogspot.com/2010/07/mvp-microsoftfanboy.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+MyIdeationHasFoundAHome+%28My+Ideation+Has+Found+a+Home%29">MVP != MicrosoftFanBoy post</a>.  Microsoft will tout that all of the tools are integrated.  I would argue that each of the "integrated" tools are pretty close to worst in their class.  I enjoy c# as a language but in general I want to use Visual Studio with ReSharper and then get as far away from the other MS tools as possible.  Disclaimer: I haven't used TFS 2010 but in my experience when something is this bad it may get a bit better but rarely will be completely transformed.
+<br/><br/>
+<big><big><b>Version Control</b>
+</big></big><br/>
+<br/>I agree with Jonathan's assessment that Subversion is a better choice for source control than Team Foundation Version Control(TFVC). I think SVN the gap is quite wide.  Let's say we want to use TFS for builds and project management but use SVN (or anything else) for version control.  To the best of my knowledge there is no way to integrate any other version control system with Team Build.
+<br/><br/>
+Better Choices:  SVN, Git, and Hg.  All of which are free and open source.
+<br/><br/>
+<big><big><b>Builds</b></big></big>
+<br/><br/>
+<b>Build Configuration</b><br/>
+Let's look at Team Build (appropriately abbreviated TB).  Of course
+to use TB we need to be using TFVC so we'll assume we've made the
+mistake of accepting that.
+<br/><br/>
+TB requires you to name your build file TFSBuild.proj.  Upon kicking off a build it downloads the TFSBuild.proj file and rest of that folder's contents to a folder(BuildType) that is nested one level less deep than it's location in source control (TeamBuildTypes/MyBuildType).  Not a particularly big deal since the rest of my project won't be downloaded until after it attempts to load the .proj file.  Say you wanted to have some shared targets between multiple builds: So far as I can tell, you can't do it.  Your .proj file will only be able to use files in it's folder and we've already established that there can only be one project per build folder because it forces it to be named TFSBuild.proj.  All I want is for the build files to be co-located with the project and be flexible.
+<br/><br/>
+<b>
+Build Status</b><br/>
+I want every team member to be aware of the status of all builds that are relevant to them. TB is integrated with Visual Studio but the interface is awful.  There doesn't seem to be an easy way to see the current status of each build type without having to dig through a list of all builds by date.
+<br/><br/>
+Build radiators such as a flat screen showing build status or red/green build light are great to have but unless everyone is consistently in view of them we  probably need a tray icon as well.  The only tray icon I could find would show green any time a build was running.  If you have 9 broken builds and one that was in the process of building the icon would show green!
+<br/><br/>
+When a build fails on TB I almost always have to dig into a raw log to find the details as TB seems to have no intention of giving me the relevant information. Part of this is probably due to that fact that many of the unit tests were NUnit tests.
+<br/><br/>
+<b>Local Builds</b>
+<br/>
+In the past while using NAnt running a build before check-in on a developer machine has been a piece of cake.  With TB 2010 I've heard that the option is to shelve some changes and then queue up a private build.  This is still more complicated than just kicking of a build at the command line and will not work at all if disconnected.  Rather than embracing NAnt and NUnit and making sure they we're integrated they instead created MSBuild and MSTest to kill off NAnt and NUnit.
+<br/><br/>
+Better free/open source choices:  Hudson, CC.net(when I last used it in 2005 probably more so now.)<br/>
+Better Paid options:  Team City(free for small projects), Go(formerly Cruise)
+<br/><br/>
+<big><big><b>Project Management</b></big></big>
+<br/><br/>
+I have minimal experience using the project management part of the suite.  This is due to the fact that almost all of the clients I've worked with have chosen not to use it, even those who seem to blindly take whatever MS gives them.
+<br/><br/>
+Better Free Choices:  Anyone have suggestions here???<br/>
+Better Paid Choices:  Mingle, Version One(last touched in 2005)
+<br/><br/>
+<span style="font-size:130%;"><b>Question </b></span><br/>
+What would your preferred tool set be if you were starting a .net project today?
+<br/>
+Considerations: scalable to a large enterprise, easy to use, easy to integrate, easy to maintain,cost
+<br/><br/>
+My default toolset would look something like:<br/>
+Source Control: SVN or Git if the team is distributed<br/>
+Development Environment: Visual Studio w/ ReSharper<br/>
+Continuous Integration Server: Team City(free for small teams),  Hudson for larger teams or organizations<br/>
+Build Scripting: NAnt<br/>
+Unit Testing: NUnit<br/>
+Project Management: Mingle(free for small projects),  ?? for larger projects<br/>
+<br/>
+Other than Visual Studio and ReSharper I've avoided anything with a price tag.  There are paid tools that I might prefer but for my default I don't want anyone to be able to kill the setup based on budget.
+<br/><br/>
+I can have most of this set up on my local box in about 30 minutes or set up on a server for the team in a couple hours.
+</div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Jez Humble</div>
+<div class='content'>
+You might be interested to hear that ThoughtWorks makes a pretty awesome tool that does CI (amongst other things) really well. Go Community Edition is free to download and has a bunch of features that Hudson and TeamCity don&#39;t, such as built in pipelines for multi-stage builds, and really powerful test failure analysis. You can download it here: http://bit.ly/c0l3hq</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>

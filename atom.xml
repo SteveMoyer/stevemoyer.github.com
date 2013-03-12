@@ -1,16 +1,807 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://SteveMoyer.github.com/atom.xml" rel="self"/>
-  <link href="http://SteveMoyer.github.com/"/>
-  <updated>2013-03-12T10:49:15-07:00</updated>
-  <id>http://SteveMoyer.github.com/</id>
+  <title><![CDATA[Coding Libetartian]]></title>
+  <link href="http://blog.stevemoyer.net/atom.xml" rel="self"/>
+  <link href="http://blog.stevemoyer.net/"/>
+  <updated>2013-03-12T13:32:17-07:00</updated>
+  <id>http://blog.stevemoyer.net/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Steve Moyer]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Regaining Agility in the Face of Legacy Databases]]></title>
+    <link href="http://blog.stevemoyer.net/2013/03/11/regaining-agility-in-face-of-legacy.html"/>
+    <updated>2013-03-11T13:47:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2013/03/11/regaining-agility-in-face-of-legacy</id>
+    <content type="html"><![CDATA[<div class='post'>
+<br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Problem Statement:</u></span></b></h2>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">As organizations embrace iterative software development they often find themselves weighed down by their legacy databases. These databases seem nearly impossible to understand. &nbsp;They have multiple levels of tangled stored procedure calls, missing relational integrity, obsolete and duplicated data, circular references between databases, etc. &nbsp;Some employees understand portions of the database. Nobody wants to make any significant changes for fear of unintended consequences. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Developers(henceforth devs) and Quality Engineers(QEs) typically work off of a shared development environment which hosts backups from production. The development environment often diverges from production as devs make their changes directly to the shared database. QEs add data to support their testing. Temporary changes often persist and the data is in a constant state of flux. The devs and QEs are reluctant to restore new backups as they may lose the schema changes and data they have built up.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Database Administrators(DBAs) tend to host their own production copies outside of the development environment. &nbsp;They’re less interested in what is going on in development. They are concerned with Production. &nbsp;They deploy changes to production on their own cycle and often do not apply the changes to the development environment.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">When it’s time to deploy a release, a barrage of development changes are dropped on the DBAs. They most likely do not have context for the development changes and don’t have much time to review them. They are not happy that someone sent a script that would overwrite the performance optimizations they have already deployed to production. Eventually the changes are applied and verified in a staging environment. There are times when releases are smooth. More often, they are followed by a mad scramble to fix the problems.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Unfortunately, this situation is more the rule than the exception. Within the software development process, the lowest cost next step appears to be adding another table/procedure/band aid to the picture. Priorities, deadlines, and fear rarely afford the opportunity to reduce the &nbsp;technical debt and improve the process in a meaningful way. How can an organization regain flexibility and start to chip away at the mounting cost of change?</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Goals and Guidelines For a Solution:</u></span></b></h2>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">If all of your database applications were well-understood, had robust automated test coverage, or were not under development, it’s likely you would have stopped reading. To improve the situation, what needs to be accomplished? </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Build Knowledge about the Databases</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Legacy databases contain a large amount of latent knowledge. Stored procedures are often the source of truth when it comes to portions of business logic. How the tables relate to each other may describe requirements of the system. Quirks in the design may tell parts of the development story. The people who originally held this knowledge may be long gone. It would be a shame to spend significant time untangling the web only to start over the next time someone moves on.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Allow for an Iterative Progress</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">To solve a problem of this size it is necessary to take it one piece at a time. Legacy databases are usually too complex for any one person to hold in memory. When one section is understood, the knowledge can be captured and the process can move to the next section. It should be easy run the automated process over and over. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate a Minimum Viable Database </span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copies of production databases are great for troubleshooting and reporting. They’re terrible for development and automated testing. For development and testing, the dataset should be small enough to understand what is in it. The data it contains should be meaningful. It also needs to allow a functional application to run on top of it.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Keep the Schema Close to Production </span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Once the Minimum Viable Database is reasonably under control, you’re going to want to start making schema and procedure changes, eventually propagating them to production. Maintaining a list of things that are different in development and production is annoying and error prone. Keep the list as short as possible.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Version Changes</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The schema, data, and other products of the process are important and valuable. They should be kept in source control alongside the application code. While database backups are useful for many purposes, they should be avoided as products of the process.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Solving the Problem:</u></span></b></h2>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Many tools on the market seem to go a long way towards unraveling the problem. Some compare two database structures and generate differential scripts to sync them. Others generate test data. None of them are open, robust, iterative, and able to be fully automated. Keep them in your arsenal. They will come in handy.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Through exercising the following process you can accomplish the goals stated above.</span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create a Schema Baseline </span></b></h3>
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">1. Generate schema and stored procedure scripts </span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate scripts capable of creating your databases complete with schema and stored procedures but without data. Modify the scripts until they run successfully through without intervention.&nbsp;</span></b><br />
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><br /></span></b>
+<br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create an Initial Dataset </span></b></h3>
+<br />
+<b style="font-weight: normal;"><span style="font-family: Arial;"><span style="font-size: 15.333333015441895px; white-space: pre-wrap;"><br /></span></span></b>
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://4.bp.blogspot.com/-q_r0EQ3_WU8/UT4-Wy-qfTI/AAAAAAAABHg/Sfv5D6kezBM/s1600/DataCreationCycle.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="370" src="http://4.bp.blogspot.com/-q_r0EQ3_WU8/UT4-Wy-qfTI/AAAAAAAABHg/Sfv5D6kezBM/s400/DataCreationCycle.jpg" width="400" /></a></div>
+<b style="font-weight: normal;"><span style="font-family: Arial;"><span style="font-size: 15.333333015441895px; white-space: pre-wrap;"><br /></span></span></b>
+<br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.1 Pick a Target Feature<span class="Apple-tab-span" style="white-space: pre;"> </span> &nbsp;</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Select a feature or area of the application to work on. A good starting place my be log a user into the application and viewing the start screen.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.2 Automate a test to perform the steps(Optional but recommended)</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The feature will be tested over and over as additional data is added. To save time and effort, an automated test should be created for. As the application my not be functioning, a working deployment of the application can be used to construct your test.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.3 Run the Selected Feature</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Exercise the test(s) of the selected feature. Debug the application or review errors to determine which missing data caused the failures. If the feature is working as expected, <u>return to step 2.1.</u></span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.4 Select a Group of Tables</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Select a small numbers of tables related to the feature being worked on.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.5 Create Data to Populate the Selected Tables</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">There are many strategies to get data for a given table:</span></b><br />
+<ul><b style="font-weight: normal;">
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create it manually in the database tables</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create it manually in storage files(xml,csv,tab delimited, etc.)</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copy a filtered subset from production(if appropriate). Recommended for “reference” tables</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Use the working portions of the application to create data</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Use a data generator</span></b></li>
+<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copy and modify other data you have already created</span></b></li>
+</b></ul>
+<b style="font-weight: normal;">
+</b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.6 Export the data to storage files, if necessary</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Storage files should be human readable, version-able, and diff-able (CSV,tab delimited,XML, etc.). &nbsp;Unless the data was entered directly into the storage files it will need to be exported to them. &nbsp;There are many tools that can export data to the above mentioned file types. Select a tool that suitable tool as needed. Exporting will be done repeatedly and must be completely automated. </span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.7 Re-create the databases and load the data</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Re-create the database schemas from scratch and load all of the data from the storage files. There are many options for loading the data from the storage files. Most database tools have bulk load facilities. The re-creation and load should be transparent on failure and must be completely automated. If the load fails, addition data may need be created for dependent tables. &nbsp;When the load is successful, <u>return to step 2.3 and continue until the feature is working.</u></span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.8 Commit changes</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Working in small cycles is highly recommended. Commit to version control frequently. If desired, <u>return to step 2.1 and select another feature.</u></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Ongoing Development</span></b></h3>
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Changing Schema and/or Stored Procedures</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Once the baseline structure is established, version control should be treated as the beginning of the path to production for schema and stored procedure changes. To introduce a change, create a numbered or time-stamped migration script. Store the migration scripts in a single location within your version control.</span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Adding or Changing Data</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The process of adding and changing data is similar to the initial data creation process. &nbsp;Load the current the data locally, or in an isolated environment. Change the data as desired. Care should be take to minimize the changes to only those that are desired. Export the data again and commit the changes.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Application Releases</span></b></h4>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Migration scripts can be packaged with application builds and deployed to a given environment at the same time as the application. Good migration systems track which migrations have been applied and run only migrations which have not already been applied to the target environment.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h2>
+<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Benefits:</u></span></b></h2>
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Reduced Risk of Releases</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">With the database build, migration, and load process completely automated, each member of the team can operate on a local copy of the database. DBAs can easily follow the proposed changes to the databases and expose their own to developers. &nbsp;All internal releases (Continuous Integration, test, staging) can employ the automation as well. Before hitting production, all changes will have been executed many times. Breaking changes will be visible earlier when intervention is less costly.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Increased Consistency of Automated Tests</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Employing an explicitly created dataset, which does not rely on consistency of data refreshed from production, will decrease false negative test results.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Increased developer productivity</span></b></h3>
+<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Working with smaller datasets in a local environment allows devs to cut down cycle times and suffer fewer unintended collisions. Working locally also significantly decreases the impact of network or shared environment downtime. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
+<h3>
+</h3>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Keyboard is for Everyone]]></title>
+    <link href="http://blog.stevemoyer.net/2012/07/31/the-keyboard-is-for-everyone.html"/>
+    <updated>2012-07-31T20:49:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2012/07/31/the-keyboard-is-for-everyone</id>
+    <content type="html"><![CDATA[<div class='post'>
+Many jobs today require heavy computer and internet use. &nbsp;How fluently you perform these activities affects how much of your time and focus you can dedicate to what you are trying to accomplish. Most of the time, switching between the keyboard and mouse slows you down. In addition, for&nbsp;some people, using the mouse is painful. <br />
+<br />
+Most people can use CTRL-C and CTRL-V to copy and paste. Some people have invested a fair amount of time in learning keyboard shortcuts(and avoiding the mouse).  Unfortunately many other people, including developers, don&#8217;t think keyboard shortcuts are relevant for them.  Some simply don&#8217;t know what they&#8217;re missing. I think this is a tragedy.&nbsp;Most applications support keyboard shortcuts and if you haven&#8217;t already, take 15 or 30 minutes as you go about some task and try an learn the shortcuts. &nbsp;It can be rough at first but will pay dividends pretty quickly.&nbsp;Here are some activities where I think sticking to the keyboard is valuable for all computer users.<br />
+<h3>
+<u>Switching Between Applications and Tabs (primarily Windows):</u></h3>
+Alt-Tab = Switch to the next running application(Alt-Shift-Tab to go to previous)<br />
+Ctrl-Tab = Go to the next tabbed window(Ctrl-Shift-Tab to go to previous)<br />
+Alt-F4 = Close the currently selected application<br />
+Ctrl-F4 = Close the currently selected tab<br />
+<h3>
+<u>Gmail</u></h3>
+If you use gmail and haven&#8217;t yet enabled keyboard shortcuts, you&#8217;re missing out. Managing your inbox is so much easier with the keyboard.
+Once you <a href="http://support.google.com/mail/bin/answer.py?hl=en&amp;answer=6594">turn on keyboard shortcuts</a> (assuming your cursor isn&#8217;t in a textbox) you can type &#8220;?&#8221; to see what shortcuts are available.<br />
+<h4>
+A few basics:</h4>
+gi = go to inbox<br />
+gl = go to label<br />
+c = compose<br />
+r = reply<br />
+/ = activate search box<br />
+<h4>
+Actions on messages in your inbox:</h4>
+After you turn on keyboard shortcuts you may notice that there is now a small shaded cursor next to one message in the list.<br />
+j = move to next message<br />
+k = move to previous message in the list<br />
+x = select or de-select the message<br />
+e = archive selected messages<br />
+# = delete selected messages<br />
+<h3>
+<u>Surfing the Web</u></h3>
+For most people, surfing the web is a whole lot of clicking.  It doesn&#8217;t have to be. There are a number of browser add-ins that help you avoid the mouse.<br />
+<h4>
+Vimium(for Chrome)</h4>
+After installing <a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb">Vimium</a> you can hit the &#8220;?&#8221; key to see what keyboard shortcuts are available<br />
+<br />
+A few basics:<br />
+j = scroll down(notice a pattern here?)<br />
+k = scroll up<br />
+f = display a key combination to follow links, select textboxes, click buttons, etc.<br />
+H = go back in history<br />
+Watch <a href="https://chrome.google.com/webstore/detail/dbepggeogbaibhgnhhndojpepiihcmeb">the video</a> to see it in action.<br />
+<br />
+<a href="https://addons.mozilla.org/en-us/firefox/addon/vimperator/">Vimperator</a>(for Firefox) is similar to vimium<br />
+<a href="http://5digits.org/pentadactyl/">Pentadactyl</a> (for Firefox) is also good but not for the faint of heart.<br />
+<br />
+What are your favorite tools/shortcuts that help you stick to the keyboard?<br />
+<br />
+<br />
+<br /></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Asynchronous Pair Programming(Duet Programming?)]]></title>
+    <link href="http://blog.stevemoyer.net/2012/01/02/asynchronous-pair-programmingduet.html"/>
+    <updated>2012-01-02T22:05:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2012/01/02/asynchronous-pair-programmingduet</id>
+    <content type="html"><![CDATA[<div class='post'>
+Over the last few weeks of 2011 I&#8217;ve been playing around with Vim and Rails.  I know many people are pairing using Vim.  I also know people are using Vim and screen along with some sort of voice chat to pair remotely. One of the limitations(and strengths) of pairing is that both users are working in the same session.  Only one person can be typing/browsing/whatever at a time.  This can be good when you&#8217;re writing code but tends to suck when you&#8217;re doing research (on the web or in the code base). 
+<br/><br/> 
+Introducing screen to the mix has the ability to break this dependency on a single session.  Each member of the pair can have their own instance of vim in half of a split terminal. Everything that is happening in the screen terminal is still visible to each member of the pair but they have the ability to be active at the same time in separate &#8220;windows&#8221; of the screen session.  Can you write the next failing test while I extract this method? Can you look up what parameters the method I&#8217;m about to call expects?
+<br/><br/>
+It&#8217;s quite possible this practice is widespread and I just haven&#8217;t seen it in my little corner of the .Net world.  Are people already using screen this way?  If so, how is it working out?</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Thanks for your comment Rob. <br /><br />What you&#39;ve described is certainly the standard pairing setup.  The difference lies in that in this case both members of the pair would have access to the same code base and same &quot;screen&quot; on the pairing station.  Also they&#39;d both have autonomy to act independently in their half of the screen session. In your example I can bring up the code for the interface we wrote an hour ago in half of the shared screen while you are guessing without looking.  While the result is the same, the results of what I do pops up on the screen you are actively making that guess on.  I don&#39;t have to pass the laptop over to show you what I found or dictate it.<br /><br />Related to your note:  Thoughtworks blog aggregator is the cause of the problem.  It mis-links all of my posts and other people&#39;s(whose blogs are hosted on blogger.com).  It also will show a post as new if I add a tag to it in addition to other problems like reposting hundreds of posts of other people&#39;s blogs constantly.  If I subscribe to my feed directly, it links correctly.</div>
+</div>
+<div class='comment'>
+<div class='author'>Rob Hunter</div>
+<div class='content'>
+In the face-to-face pairing world, I&#39;ve often seen a multi-computer setup for pairing. A single computer for the pair (the &quot;pairing station&quot;) and one or more spare machines (usually the developers&#39; laptops).<br /><br />The bulk of the time, both members of the pair focus on the shared screen. When something comes up that suits attention-splitting, one person might check use their laptop to look up the documentation while the other tries to guess without looking.<br /><br />I&#39;ve found this style to happen naturally, although I&#39;ve heard of less-experienced pairs having trouble focussing.<br /><br /><br />(unrelated note: this post is showing up in the <a href="http://www.thoughtworks.com/blogs/current" rel="nofollow">Planet TW</a> feeds with the right title, right body, but wrong link. Instead, it points to <a href="http://blog.stevemoyer.net/2008/12/simplest-thing-that-could-possibly-work.html" rel="nofollow">an older post of yours</a>.)</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Basic A/B testing in .net (with nToggle)]]></title>
+    <link href="http://blog.stevemoyer.net/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html"/>
+    <updated>2011-11-06T20:20:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2011/11/06/basic-ab-testing-in-net-with-ntoggle</id>
+    <content type="html"><![CDATA[<div class='post'>
+In order to add the most basic support for A/B testing to <a href="https://github.com/SteveMoyer/nToggle">nToggle</a>&nbsp;I have added the ability to specify your own custom repository for the status of a toggle. &nbsp;By implementing a custom repository we can write code to determine which version of a feature a given user of the applicaiton should see.
+<br />
+<br />
+<b>Example:(If you aren&#8217;t seeing the embedded code, click through to the full post.)</b>
+<br />
+&nbsp; In my application I have a drop down list for selecting models of cars. &nbsp;The number of items in this list is large and I am going to replace it with an auto-complete textbox which I think will create a better user experience. I think this change could have a large impact on users of the application so I&#8217;m only going to release it to power users to get feedback.  Everyone else will continue to see the old version of the application. 
+<br />
+<br />
+First I wrap the new and old code in a web feature toggle:
+<script src="https://gist.github.com/1344145.js?file=CarModelDropDownMarkup.aspx">
+</script>
+<br />
+<br />
+Second I add the new toggle to my web.config:
+<script src="https://gist.github.com/1344151.js?file=CarModel.xml"></script>
+ Notice that my new toggle has a property on it called &#8220;repository&#8221;.  This tells nToggle where to look for the status of this toggle.  
+<br />
+<br />
+The last step is implementing a repository which will determine if the current user is a power user:
+<script src="https://gist.github.com/1344158.js?file=PowerUserToggleRepository.cs"></script>
+<br/>
+<br/>
+That&#8217;s all there is to it.  In just a few lines of configuration and code we have created a very simple A/B test of a new feature.  <b>Disclaimer:</b>  This method is intended for short term use during development and transition.  Feature toggles should be short lived and I recommend removing them(and the branches you have created in your code) as soon as reasonable.</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Distributed Check-in Tokens: Pass-The-Puppy]]></title>
+    <link href="http://blog.stevemoyer.net/2011/09/18/distributed-check-in-tokens-pass-puppy.html"/>
+    <updated>2011-09-18T21:02:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2011/09/18/distributed-check-in-tokens-pass-puppy</id>
+    <content type="html"><![CDATA[<div class='post'>
+On many software development teams there is a section of code or some development artifacts which will collide if two people/pairs check in at the same time. &nbsp;In order to stop this from happening many teams adopt a check in token. &nbsp;Only the people who have the token can check in the given resource.<div>
+<br /></div>
+<div>
+On my current team we have two such resources: &nbsp;<a href="http://dbdeploy.com/software/net/">our numbered database migration scripts</a> (which will fail if any two have the same number) and our <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html">functional test data csv files</a>. &nbsp;</div>
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://2.bp.blogspot.com/-Mi4d7SwD8Ls/Tna4B3EdDgI/AAAAAAAAAu0/23VjrsvYLjI/s1600/puppy.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://2.bp.blogspot.com/-Mi4d7SwD8Ls/Tna4B3EdDgI/AAAAAAAAAu0/23VjrsvYLjI/s320/puppy.jpg" width="285" /></a></div>
+<div>
+<br /></div>
+<div>
+Co-located teams can use a stuffed animal(like ours above) or some other physical token. &nbsp; For distributed teams a physical token is not an option.</div>
+<div>
+<br /></div>
+<div>
+To enable all of our team members to use the tokens I created a rails app I call <a href="https://github.com/SteveMoyer/pass_the_puppy">pass-the-puppy</a>. This app is simple and low volume, so a free <a href="http://www.heroku.com/">Heroku</a> account is sufficient to host it for the team. &nbsp;Any team which needs &nbsp;a set token can clone&nbsp;<a href="https://github.com/SteveMoyer/pass_the_puppy">the app</a> from <a href="https://github.com/">github</a> and create their own Heroku app. &nbsp;<a href="http://pass-the-puppy.heroku.com/">Sample application</a></div>
+<div>
+<br /></div>
+<div>
+As a rails novice I was quite happy to discover how easy it was to deploy an app to Heroku. &nbsp;Warning, it&#8217;s not aesthetically pleasing.</div>
+<div>
+<br /></div>
+<div>
+<br /></div>
+</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Hey Simon,<br />  We actually use the migrations numbering slightly differently.  We only need the token to assign a number and check in the script.  You can develop your script at any time with any desired number and then you reassign a permanent number and check it in when you have the token.  The drawback I see with the ticket book is that it assumes a check-in order.  If you check in your higher numbered script and I check in lower numbered script after my script won&#39;t be run until each machine has it&#39;s database rebuilt(or down version-ed past my number).  However the ticket process would be just about the same if you took the ticket at check-in time rather than in advance.</div>
+</div>
+<div class='comment'>
+<div class='author'>Simon Brunning</div>
+<div class='content'>
+A check-in token is too course grained for dbdeploy script numbering.<br /><br />We use a raffle ticket book. That way we can reserve the numbers we want without blocking anyone else from writing scripts too. Works across branches, too.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Numbing the pain isn't necessarily good]]></title>
+    <link href="http://blog.stevemoyer.net/2011/04/27/numbing-pain-isn-necessarily-good.html"/>
+    <updated>2011-04-27T20:36:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2011/04/27/numbing-pain-isn-necessarily-good</id>
+    <content type="html"><![CDATA[<div class='post'>
+<p>A few months ago I bought a pair of <a href="http://www.vibramfivefingers.com/index.htm">Vibram Five Fingers</a> shoes. &nbsp;When I first started wearing them I realized my normal tennis/running shoes had been hiding a few things from me. &nbsp;The standard way I run/walk is on my heel. &nbsp;This means that I&#8217;m limiting the ability of my foot to absorb some of the impact of taking a step. This causes more of the impact to go directly onto my heel and up my leg. &nbsp;Also my Plantar Fascia were very very tight. &nbsp;This is important feedback that I wasn&#8217;t getting.</p><p>When I had pain from running, I&#8217;d take Aleve to temper the pain and swelling, and continue to run the same way. &nbsp;Eventually the stress lead to more significant problems that weren&#8217;t so easy to ignore. &nbsp; By changing the way I step I&#8217;m able to eliminate a major contributor to the pain. &nbsp;At first the change is hard. &nbsp;I was sore for a while from using a new set of muscles. &nbsp;It took focus to not fall back into the old step pattern.</p><p>Now that I&#8217;m adjusted, my calf muscles and plantar fascia are much more flexible. My calves haven&#8217;t cramped in months. &nbsp;I&#8217;m able to comfortably walk barefoot on previously painful surfaces(stepping down on a rock in the street with your heel is not fun).</p><p>As usual, I&#8217;m only mentioning my Five Fingers experience as a metaphor for software development.</p><p>If you are developing an application and bugs keep popping up all over the place, you <strong>can</strong> just just fix the bug and keep on going adding and changing code. &nbsp;Eventually you&#8217;ll spend the vast majority or your time poking and proding and trying to get the system almost stable. &nbsp;You&#8217;ll be afraid to make any changes. Another alternative is that you can start writing tests. &nbsp;Start with a test for that bug. &nbsp;Writing tests will be painful at first. &nbsp;You&#8217;ll be exposing all of your bad habits. &nbsp;Your code will be difficult to test. &nbsp;As you write more and more tests you&#8217;ll be able to start to clean up that code. &nbsp;You&#8217;ll begin to gain the confidence that you can make changes and add features without introducing a bunch of new bugs.</p><p>If your release cycle is six months and the releases never seem to go as planned, you<strong> can</strong> add more time for manual regression or release only every year. &nbsp;&#8220;It&#8217;s a painful 3 months but it only happens once a year&#8221;, you&#8217;ll say. &nbsp;Alternatively you can decide you want to release every month or every week or every commit. &nbsp;You can automate all of the steps to release. &nbsp;You can write system tests that give you confidence that you haven&#8217;t missed deploying a stored procedure or changing permissions on that directory.  You&#8217;ll have some of the same pain but if you&#8217;re writing tests it&#8217;ll be pain in smaller and smaller amounts.  When you test a release after every commit and run tests against it, you&#8217;ll know immediately if you forgot to add that new step to the deployment</p><p>Usually, when there is pain, there are causes of the pain. &nbsp;While you might need to numb the pain you&#8217;d better make sure you remove the cause of the pain as well. &nbsp;Start fixing the cause first and numb only if you still need to. Stop numbing the pain as soon as possible.</p></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Usage is not a substitute for tests]]></title>
+    <link href="http://blog.stevemoyer.net/2011/04/27/usage-is-not-substitute-for-tests.html"/>
+    <updated>2011-04-27T20:35:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2011/04/27/usage-is-not-substitute-for-tests</id>
+    <content type="html"><![CDATA[<div class='post'>
+<p>Some months ago I encountered a large Sql Server database which was not particularly well understood and didn&#8217;t have a test data set. In order to develop a test data set I decided to use a tool(the precursor to <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html" title="nDump">nDump</a>) which I had slapped together in about an hour in late 2009. The tool, though primitive, was already working reasonably well at importing CSV. It had no tests, unit or otherwise. All it had in the way of testing was my manual inspection of the application which consumed the database to verify that it was working correctly.</p><p>As I used the tool to understand and generate data for the Sql Server database I realized that the tool was buggy and lacking features. I decided to refactor and extend it. Because I was focused not on the tool but on the data set for the application, I continued to make changes and add features without adding tests. I did make an attempt to reasonably factor the new code in a similar manner to how I would if I had been writing tests. Not writing tests at that time was a mistake.</p><p>Later in the development I realized this and went back to add tests.  How well had I done at writing testable code?  Not all that well. Much of the code was easily testable but there were more than a few places where files were being created directly or concrete instances were being new-ed up in the middle of a method doing other work.  It certainly takes much more effort to tease the dependencies out and add the tests after the fact.  Hopefully this post will serve as a reminder to keep me from making the same mistake again.</p></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Breaking Down Unruly Databases: The Problem]]></title>
+    <link href="http://blog.stevemoyer.net/2011/03/08/breaking-down-unruly-databases-problem.html"/>
+    <updated>2011-03-08T00:05:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2011/03/08/breaking-down-unruly-databases-problem</id>
+    <content type="html"><![CDATA[<div class='post'>
+In my <a href="http://blog.stevemoyer.net/2011/03/ndump-managing-development-and-test.html">last post</a> on <a href="https://github.com/SteveMoyer/nDump/wiki">nDump </a>I talked about a tool I&#8217;ve created to import and export data from MS SQL Server databases. &nbsp;In this post I want to lay out some of my motivation for doing so.<br />
+<br />
+Often when starting at a new client we arrive to find a legacy database/databases which seem nearly incomprehensible.  Development and CI often run against a shared databases which are backups of production.  The state of the data is in a constant flux. &nbsp;If someone desires to run a local database, restoring at least a few gigs of database backups is required.  One reason this is necessary is that the database(s) can&#8217;t easily be recreated from scripts.  This is relatively easy to get around by breaking creation scripts into parts and employing tools such as <a href="http://dbdeploy.com/">DBDeploy</a> to run them in order.<br />
+<br />
+Once the problem of creating an empty database is tackled, nobody seems to have the requisite knowledge to populate it with the basic data necessary to run the application.  There are many problems that spring from a lack of the ability to create minimal data sets: <br />
+<div><ol><li>Returning to a known data set is time consuming, requiring  restoring a large backup.</li>
+<li>The development and functional test data sets can&#8217;t be easily version-ed.  While you can check in a backup, there is no reasonable way to diff it against a previous version.</li>
+<li>Functional tests are often brittle as they rely upon the state of the data which tends to be rather inconsistent.</li>
+<li>Finding data requires searching through a large data set.</li>
+<li>Deciphering incremental changes to the state of the data  is no small challenge.</li>
+</ol><div>On past projects, the teams have stored development and test data sets as groups of csv or XML files.  Both of these files can be easily version-ed, diff-ed, and modified using excel or open office.  I prefer csv files as they are more concise and contain a lot less noise.&nbsp; Once you have these file sets and the requisite knowledge of the database structure it&#8217;s relatively pleasant to work with them to maintain known state(s) of the data. By running the database build and load in a CI build we can continually verify that we know how to build a database. Using the populated database we can confirm that our functional tests of the application(s) are still working against a consistent data set. </div></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Hey Toast,<br />Thanks for the comment. I&#39;ve used a lot of the Red Gate Tools and found them helpful in more than a few situations.  Sql Storage Compress sounds interesting and addresses the copy and restore time.  It doesn&#39;t address lack of understanding of the database, having to deal with huge amounts of data, or versioning and diff-ing easily over time.<br />   Steve</div>
+</div>
+<div class='comment'>
+<div class='author'>toast</div>
+<div class='content'>
+Hi!<br /><br />warning - about to plug a product from my current company&#8230;<br /><br />You can detach, copy, reattach a database if you want to quickly restore its contents to a known (saved) point. I guess you would then run your DB deploy scripts to update the schema appropriately.<br /><br />This need not use stupid amounts of disk space if you use something like (get ready for plug) Red Gate&#39;s SQL Storage Compress. That product can be used to compress your database files such that the copy command above takes less time (less to copy) and less disk. The database acts like normal when it is attached, it just happens to be 40% the size&#8230;<br /><br />of course, it costs money while your solution doesn&#39;t, but I think it would be worth checking out both SQL Virtual Restore and SQL Storage Compress.  www.red-gate.com</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[nDump: Managing development and test data sets for MS SQL Server]]></title>
+    <link href="http://blog.stevemoyer.net/2011/03/06/ndump-managing-development-and-test.html"/>
+    <updated>2011-03-06T16:29:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2011/03/06/ndump-managing-development-and-test</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div>I&#8217;ve created a small tool called <a href="https://github.com/SteveMoyer/nDump/wiki">nDump</a> which I&#8217;ve been using to help me gain understanding of and manage data sets for complicated(legacy?) MS Sql Server databases. </div><div><b><br />
+</b><br />
+<b><span class="Apple-style-span">What does it do?</span></b><br />
+<b><span class="Apple-style-span"><br />
+</span></b></div><div></div><div><b>Apply filtering select statements to MSSQL data tables in a source database</b></div><div><b> </b></div><div>By writing select statements to return a small(as small as reasonable) related set of data you force yourself to understand the database while you create a minimal data set.</div><div></div><div><b><br />
+</b><br />
+<b>Save the filtered data to CSV files</b></div><div></div><div>By saving the selected data to CSV files it can be easily version-ed and diff-ed.</div><div></div><div><b><br />
+</b><br />
+<b>Convert and save the CSV files to SQL script files</b></div><div></div><div>Prepare them to be inserted into another database.</div><div></div><div><b><br />
+</b><br />
+<b>Delete the data from the tables in a target database</b></div><div></div><div>Verifies that you have correctly ordered the tables for deletion.  Returns the database to a relatively known starting state.  </div><div><b><br />
+</b><br />
+<b>Apply the SQL script files to the target database</b></div><div></div><div>Ensures that the selected data can be reinserted into the database.  Allows you to run your application against only the data in your set.</div><div></div><div><b><br />
+</b><br />
+<b>Minimal data set generated</b></div><div><b> </b></div><div>Once we have a minimal set of data, a somewhat better understanding of the database, and the application running on this data set there are many things we can do:</div><div><ul><li>Add more data to set by editing the csv files in excel or open office.</li>
+<li>Add more data through the application and use nDump to export it without filters.</li>
+<li>Restore the database to this set of data at any time.  </li>
+<li>Run functional tests off this consistent data set.</li>
+<li>Develop in database isolation without having to restore huge databases.</li>
+</ul></div><div></div><div><div></div></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Feature Toggles for .net: nToggle]]></title>
+    <link href="http://blog.stevemoyer.net/2011/03/05/feature-toggles-for-net-ntoggle.html"/>
+    <updated>2011-03-05T15:05:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2011/03/05/feature-toggles-for-net-ntoggle</id>
+    <content type="html"><![CDATA[<div class='post'>
+Late last year my team and I helped a client to decide against <a href="http://martinfowler.com/bliki/FeatureBranch.html">Feature Branching</a> in favor of <a href="http://martinfowler.com/bliki/FeatureToggle.html">Feature Toggles</a>.  After making this decision we realized that there didn&#8217;t seem to be an implementation available for the .net platform so <a href="https://github.com/SteveMoyer/nToggle">nToggle</a> was born.  Usage is simple and there isn&#8217;t a whole lot to it.<br/>
+<br/>
+Let&#8217;s suppose we have a new feature, BlogComments, that we want to toggle. 
+Configure your new toggle as on or off in the project&#8217;s Web.config file.
+<br/>
+<script type="syntaxhighlighter" class="brush: xml">&lt;![CDATA[  
+<configuration>
+  <appSettings>
+ <add key="BlogComments" value="False"/>
+  </appSettings>
+ ...
+</configuration>
+]]&gt;</script>
+<br/>
+<br/>
+Add a WebFeatureToggle around the new feature in  Asp.net WebForms.
+
+<script type="syntaxhighlighter" class="brush: html">&lt;![CDATA[  
+<%@ Register assembly="nToggle" namespace="nToggle" tagprefix="nToggle" %>
+<nToggle:WebFeatureToggle ID="WebFeatureToggle1" EnabledBy="BlogComments" runat="server" >
+ <span id="enabledby">Blog Comments implementation goes here</span>
+</nToggle:WebFeatureToggle>
+]]&gt;</script>
+<br/>
+If you have Web Form elements which should not show up when the feature is enabled you can toggle them too using the RemovedBy attribute
+<script type="syntaxhighlighter" class="brush: html">&lt;![CDATA[  
+<%@ Register assembly="nToggle" namespace="nToggle" tagprefix="nToggle" %>
+<nToggle:WebFeatureToggle ID="WebFeatureToggle2" RemovedBy="BlogComments"  runat="server" >
+ <span id="removedby">Old feature replaced by Blog Comments</span>
+</nToggle:WebFeatureToggle>
+]]&gt;</script>
+<br/>
+
+Code in a code behind that should be toggled can use the WebFeatureToggle as well.
+<script type="syntaxhighlighter" class="brush: csharp">&lt;![CDATA[  
+protected void Page_Load(object sender, EventArgs e)
+  {
+   WebFeatureToggle1.RunActionWhenDisabled(CodeToRunIfDisabled);
+   WebFeatureToggle1.RunActionWhenEnabled(CodeToRunIfEnabled);
+  }
+  protected void CodeToRunIfDisabled()
+  {
+  //your code
+  }
+  protected void CodeToRunIfEnabled()
+  {
+  //your code
+  }
+]]&gt;</script>
+<br/></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Curious Task of Agile]]></title>
+    <link href="http://blog.stevemoyer.net/2010/12/30/curious-task-of-agile.html"/>
+    <updated>2010-12-30T23:31:00-08:00</updated>
+    <id>http://blog.stevemoyer.net/2010/12/30/curious-task-of-agile</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'><p> This <a href='http://cafehayek.com/2010/12/hayek-poster-contest-winner.html'>poster contest</a> over at <a href='http://cafehayek.com/'>CAFE HAYEK</a> reminded me of one of my favorite economics quotes:</p><p><strong>&#8220;The curious task of economics is to illustrate to men how little they really know about what they imagine they can design.&#8221; - F.A Hayek</strong></p><p>Simply replacing &#8220;economics&#8221; with &#8220;agile&#8221; I think the quote is equally valid:</p><p><strong>The curious task of agile is to illustrate to men how little they really know about what they imagine they can design.</strong></p><p>Software development suffers from many of the same problems as economic planning: complexity, lack of information, changing preferences, and unintended consequences. As with economies, when we attempt top down planning of software or attempt to plan it in detail in advance we almost always end up with a poor result. When developing software we strive for emergent design which parallels the economic concept of spontaneous order. </p><p/></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Freeway Driving]]></title>
+    <link href="http://blog.stevemoyer.net/2010/08/09/freeway-driving.html"/>
+    <updated>2010-08-09T22:20:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/08/09/freeway-driving</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'><p>As a software developer it amazes me how many software developers simply go on doing what they&#8217;ve been doing without making any attempt to grow or improve. At some point I hop in the car and begin the drive home. It doesn&#8217;t take too long before I realize that it&#8217;s not just developers. Many people can&#8217;t be bothered to pay any attention to what they are doing in any setting. How many times during each trip do I come up behind someone in the fast lane (or carpool lane) going 10-20 miles per hour slower than majority of the traffic on the freeway. It&#8217;s at this point that I begin to wonder why they are doing what they are doing. This list usually amounts to something like the following:</p><ol><li>They think it&#8217;s ok because they are going the posted speed limit (or within some miles per hour of it)</li><li>They can&#8217;t stand the thought of anyone going faster than them.</li><li>They&#8217;re taking a moral stand against those going over the posted speed limit.</li><li>They like the far left lanes because there is never anyone close in front of them.</li><li>&#8230;</li></ol><p>As I get down the list, I realize that while there are some people who may identify with the reasons above, the majority of these people are likely just not paying any attention. They get on the freeway, merge over to the fast lane(s), and completely check out. They don&#8217;t notice the large line of cars piling up behind then. They don&#8217;t notice the frustrated people who resort to passing them in the slower lanes (at worst having to pass 2 or 3 lanes over). They&#8217;ve probably been driving many years and at no point have they noticed any of these things happening.</p><p>While I&#8217;m often happy to ridicule and mock them as we drive along, what I&#8217;d really like to do is lay it out for them:</p><p><span style=' font-size:large;'><strong>You are creating traffic</strong></span></p><p>As the cars pile up behind you the amount of congestion is increasing. Two cars driving slowly in the wrong lanes can just about block the entire freeway. Everyone else will be delayed because of you.</p><p><span style=' font-size:large;'><strong>You aren&#8217;t gaining anything</strong></span></p><p>If you just move a few lanes over you can still go the same speed without blocking anyone.</p><p><span style=' font-size:large;'><strong>You are creating a traffic hazard</strong></span></p><p>As cars rapidly approach from behind you they find themselves with the choice to either pass on the slow side or sit in congestion behind you. In either case you are causing the freeway to be less safe than it should be.</p><p><span style=' font-size:large;'><strong>Here are a few simple easy to follow rules</strong></span></p><ol><li>If you can&#8217;t talk and drive at the same time you either a) don&#8217;t talk or b) don&#8217;t drive. Take your pick.</li><li>You should drive in the slowest lane that can contain your speed.</li><li>Should the need to pass arise you need to pass in a reasonable fashion. Speed up at least 5 miles per hour faster than the person you are passing. After completing the pass move back to the prior lane if it&#8217;s safe to do so. If you can&#8217;t pass at a difference of at least 5 miles per hour than you should slow down and stay behind the car until there is a point when you can.</li><li>If you aren&#8217;t going faster than the regular traffic in the fast lanes you have absolutely no business in the carpool lane</li><li>If all of the lanes on the freeway are going a pace that is uncomfortable for you, perhaps you would be more comfortable on surface streets.</li><li>It is your job as a driver to know how many cars are in front of you and how far away they are, how many cars are behind you and how far away they are, what the pace of traffic is in the lanes to either side of you. If you don&#8217;t know these things you are an unsafe driver. </li></ol><p><span style=' font-size:large;'><strong>So, what&#8217;s the point?</strong></span></p><p>I&#8217;m sure that&#8217;s more than enough of me ranting about oblivious freeway drivers. The same thing applies to software developers (and other team members). You may not be the best or fastest at what you do but it is your job to keep up with what other people are doing to be better and or faster. I&#8217;d hope that you&#8217;re also trying to figure out how you could be better and or faster. Even if you aren&#8217;t, the one thing you should make sure you aren&#8217;t doing is holding back others or possibly even the entire team. One or two people clogging up the works is often enough to stall or seriously slow down even the most productive team. </p><p> </p></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>ravi</div>
+<div class='content'>
+Just like cops enforcing free flowing traffic, management needs to expose slow drivers. If management does not care about this, slow drivers will continue driving slower.</div>
+</div>
+<div class='comment'>
+<div class='author'>Bill</div>
+<div class='content'>
+AMEN!!!!</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Learning Emacs and Clojure]]></title>
+    <link href="http://blog.stevemoyer.net/2010/08/06/learning-emacs-and-clojure.html"/>
+    <updated>2010-08-06T00:36:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/08/06/learning-emacs-and-clojure</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'><p>I&#8217;ve recently embarked on a journey to learn both Emacs and Clojure (on Ubuntu). I&#8217;ve made some progress learning the basics of clojure and the basics of emacs but I&#8217;ve struggled with getting a development flow going. </p><p>I&#8217;m going to try and document what I&#8217;ve learned and am learning. I&#8217;d appreciate any helpful hints, tips, or comments that people have. <strong> While writing this post I stumbled on </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2009/03/learning-clojure-and-emacs.html'><strong>Curran&#8217;s blog</strong></a><strong> which has most of what I wanted to capture and </strong><a href='http://lifeofaprogrammergeek.blogspot.com/2008/06/hello.htmlblogspot.com/'><strong>a lot more</strong></a><strong>.  </strong></p><p><strong>Emacs Installation</strong></p><p>I&#8217;m not sure it&#8217;s the best way to do it but I installed emacs 23 from the from the ubuntu package manager and followed Bradford Cross&#8217;s emacs <a href='http://measuringmeasures.blogspot.com/2010/01/my-new-clojure-emacs-setup.html'>setup steps</a>.</p><p>I recently watched this <a href='http://www.vimeo.com/1013263'>screencast</a> by Stuart Halloway (thanks to <a href='http://twitter.com/timwee'>Tim Wee</a>) and enabled ido.el by following the instructions on <a href='http://www.emacswiki.org/emacs/InteractivelyDoThings'>emacswiki</a>. I strongly prefer the file selection with ido.el to the default behavior.</p><p><strong>Clojure installation</strong></p><p>I also started off installing clojure from the package manager as well but I soon started using the <a title='lein' href='http://github.com/technomancy/leiningen'>leiningen</a> build tool for clojure. Leinigen makes things pretty easy and manages your dependencies and classpath.</p><p><strong>Using Leiningen</strong></p><p>(With the lein file in the current directory or on the path</p><p>Starting a new project:</p><p><em>lein new &lt;project name&gt;</em></p><p><em>cp lein &lt;projectname&gt;/</em></p><p><em>cd </em><em>&lt;projectname&gt;/</em></p><p>Download Dependencies:</p><p><em>lein deps</em></p><p>start a repl for the project:</p><p><em>lein repl</em></p><p>starting a swank server:</p><p><em>lein swank</em></p><p/><p><strong>TDD Flow</strong></p><p>I&#8217;ve only recently started to get any flow when coding. I&#8217;m hoping people can give me some tips to make this more effective.</p><p>To get set up I run through a set of steps</p><ol><li>Open a terminal window and start emacs in the terminal. </li><li>Open another terminal tab(ctrl-shift-t) and navigate to the project directory.</li><li>If the project is not new skip to step 6.</li><li>Add the following to the generated project.clj file to enable lein swank:<br/>:dev-dependencies [<br/>[swank-clojure &#8220;1.1.0&#8221;]<br/>[leiningen/lein-swank &#8220;1.1.0&#8221;]<br/>]</li><li>Run <code><em>lein deps</em></code> to download dependencies</li><li>Run <em>lein swank</em> to start the swank server</li><li>Switch back to the emacs tab (ctrl-page up)</li><li>I have a widescreen monitor rotated to profile so I normally split screen horizontally (C-x, 2)</li><li>Start the swank server in one window (M-x slime-connect)</li><li>Switch to the other window (C-x, o)</li><li>Open clojure test file (C-x, C-f, select file)</li><li>Add/edit test</li><li>Save test file (C-x, C-s)</li><li>&#8220;Load the file&#8221; to update the state of the repl (C-c, C-l)</li><li>Switch to the slime repl (C-x, o to switch to the other window)</li><li>Make test fail by executing the unit tests in the repl: (clojure.test/run-tests &#8216;sample.namespace-of-tests) or to run all tests: (clojure.test/run-all-tests)</li><li>Implement code to make test pass. </li><li>Run tests and watch them pass</li></ol><p/></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Thanks MAC!<br />Once I fooled ELPA into actually installing it without error it makes things much easier.</div>
+</div>
+<div class='comment'>
+<div class='author'>MAC</div>
+<div class='content'>
+You should look at clojure-test-mode for emacs. Short description can be found here http://snamellit.com/wordpress/?p=20.<br /><br />Alternatively look at circumspec. Intro video here: http://www.vimeo.com/9770382</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MicroSoft's Total Failure System (MS TFS)]]></title>
+    <link href="http://blog.stevemoyer.net/2010/07/21/microsofts-total-failure-system-ms-tfs.html"/>
+    <updated>2010-07-21T16:36:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/07/21/microsofts-total-failure-system-ms-tfs</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns="http://www.w3.org/1999/xhtml">Let me apologize in advance for my exasperation,  I&#8217;ve been working with TFS.
+<br/>
+My coworker Jonathan McCracken was too nice to MS Team Foundation System in his <a href="http://jonathanmccracken.blogspot.com/2010/07/mvp-microsoftfanboy.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+MyIdeationHasFoundAHome+%28My+Ideation+Has+Found+a+Home%29">MVP != MicrosoftFanBoy post</a>.  Microsoft will tout that all of the tools are integrated.  I would argue that each of the &#8220;integrated&#8221; tools are pretty close to worst in their class.  I enjoy c# as a language but in general I want to use Visual Studio with ReSharper and then get as far away from the other MS tools as possible.  Disclaimer: I haven&#8217;t used TFS 2010 but in my experience when something is this bad it may get a bit better but rarely will be completely transformed.
+<br/><br/>
+<big><big><b>Version Control</b>
+</big></big><br/>
+<br/>I agree with Jonathan&#8217;s assessment that Subversion is a better choice for source control than Team Foundation Version Control(TFVC). I think SVN the gap is quite wide.  Let&#8217;s say we want to use TFS for builds and project management but use SVN (or anything else) for version control.  To the best of my knowledge there is no way to integrate any other version control system with Team Build.
+<br/><br/>
+Better Choices:  SVN, Git, and Hg.  All of which are free and open source.
+<br/><br/>
+<big><big><b>Builds</b></big></big>
+<br/><br/>
+<b>Build Configuration</b><br/>
+Let&#8217;s look at Team Build (appropriately abbreviated TB).  Of course
+to use TB we need to be using TFVC so we&#8217;ll assume we&#8217;ve made the
+mistake of accepting that.
+<br/><br/>
+TB requires you to name your build file TFSBuild.proj.  Upon kicking off a build it downloads the TFSBuild.proj file and rest of that folder&#8217;s contents to a folder(BuildType) that is nested one level less deep than it&#8217;s location in source control (TeamBuildTypes/MyBuildType).  Not a particularly big deal since the rest of my project won&#8217;t be downloaded until after it attempts to load the .proj file.  Say you wanted to have some shared targets between multiple builds: So far as I can tell, you can&#8217;t do it.  Your .proj file will only be able to use files in it&#8217;s folder and we&#8217;ve already established that there can only be one project per build folder because it forces it to be named TFSBuild.proj.  All I want is for the build files to be co-located with the project and be flexible.
+<br/><br/>
+<b>
+Build Status</b><br/>
+I want every team member to be aware of the status of all builds that are relevant to them. TB is integrated with Visual Studio but the interface is awful.  There doesn&#8217;t seem to be an easy way to see the current status of each build type without having to dig through a list of all builds by date.
+<br/><br/>
+Build radiators such as a flat screen showing build status or red/green build light are great to have but unless everyone is consistently in view of them we  probably need a tray icon as well.  The only tray icon I could find would show green any time a build was running.  If you have 9 broken builds and one that was in the process of building the icon would show green!
+<br/><br/>
+When a build fails on TB I almost always have to dig into a raw log to find the details as TB seems to have no intention of giving me the relevant information. Part of this is probably due to that fact that many of the unit tests were NUnit tests.
+<br/><br/>
+<b>Local Builds</b>
+<br/>
+In the past while using NAnt running a build before check-in on a developer machine has been a piece of cake.  With TB 2010 I&#8217;ve heard that the option is to shelve some changes and then queue up a private build.  This is still more complicated than just kicking of a build at the command line and will not work at all if disconnected.  Rather than embracing NAnt and NUnit and making sure they we&#8217;re integrated they instead created MSBuild and MSTest to kill off NAnt and NUnit.
+<br/><br/>
+Better free/open source choices:  Hudson, CC.net(when I last used it in 2005 probably more so now.)<br/>
+Better Paid options:  Team City(free for small projects), Go(formerly Cruise)
+<br/><br/>
+<big><big><b>Project Management</b></big></big>
+<br/><br/>
+I have minimal experience using the project management part of the suite.  This is due to the fact that almost all of the clients I&#8217;ve worked with have chosen not to use it, even those who seem to blindly take whatever MS gives them.
+<br/><br/>
+Better Free Choices:  Anyone have suggestions here???<br/>
+Better Paid Choices:  Mingle, Version One(last touched in 2005)
+<br/><br/>
+<span style="font-size:130%;"><b>Question </b></span><br/>
+What would your preferred tool set be if you were starting a .net project today?
+<br/>
+Considerations: scalable to a large enterprise, easy to use, easy to integrate, easy to maintain,cost
+<br/><br/>
+My default toolset would look something like:<br/>
+Source Control: SVN or Git if the team is distributed<br/>
+Development Environment: Visual Studio w/ ReSharper<br/>
+Continuous Integration Server: Team City(free for small teams),  Hudson for larger teams or organizations<br/>
+Build Scripting: NAnt<br/>
+Unit Testing: NUnit<br/>
+Project Management: Mingle(free for small projects),  ?? for larger projects<br/>
+<br/>
+Other than Visual Studio and ReSharper I&#8217;ve avoided anything with a price tag.  There are paid tools that I might prefer but for my default I don&#8217;t want anyone to be able to kill the setup based on budget.
+<br/><br/>
+I can have most of this set up on my local box in about 30 minutes or set up on a server for the team in a couple hours.
+</div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Jez Humble</div>
+<div class='content'>
+You might be interested to hear that ThoughtWorks makes a pretty awesome tool that does CI (amongst other things) really well. Go Community Edition is free to download and has a bunch of features that Hudson and TeamCity don&#39;t, such as built in pipelines for multi-stage builds, and really powerful test failure analysis. You can download it here: http://bit.ly/c0l3hq</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sustainable Growth]]></title>
+    <link href="http://blog.stevemoyer.net/2010/04/11/sustainable-growth.html"/>
+    <updated>2010-04-11T23:05:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/04/11/sustainable-growth</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'>After reading Ross Petit&#8217;s interesting article on <a href='http://www.rosspettit.com/2010/03/supplying-it-mercenaries.html'><span class='PostTitle'>Supplying IT Mercenaries</span></a> it occurred to me that there is another reason that companies who try to focus on supplying wealth generators(as opposed to income generators) end up having resort to supplying mercenaries so frequently. Sell side firms often see growing the size of their forces as the key piece in increasing their wealth.  <br/><br/>There is a limit to how fast you can effectively increase your forces before the structure becomes unweildy and begins to collapse upon itself.  New forces take resources and time to be appropriately integrated.  In good times highly growth oriented sell side firms attempt to grow as fast as possible.  Supplying inadequately aligned/integrated forces to wealth generating engagements tends to sour those engagements.  <br/> <br/>Because forces seem to be flying out the door, the structure to support these forces lags behind. When a down cycle comes this overgrowth and lagging infrastructure is exposed.  Given the high cost of adding forces, the company attempts to avoid removing forces at all costs. The misaligned forces make it difficult to avoid contraction with wealth generation, thus the company turns to supplying mercenaries.<br/><br/>Given the other effects of supplying mercenary forces that  Ross mentions,  I think that sell side firms would be better off to focus on maximizing wealth generation from existing forces and growing at significantly slower than maximal rate.  While this will likely lower income at peak levels it should also make the troughs less deep.  If hiring and integrating new forces at a more manageable rate helps the firm to avoid mercenary work, this would also lower attrition.  It&#8217;s possible with the lowered attrition that the firm might even grow at the same rate over the longer term with fewer bumps along the way.   <br/></div></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Pointing Stick]]></title>
+    <link href="http://blog.stevemoyer.net/2010/04/09/pointing-stick.html"/>
+    <updated>2010-04-09T12:31:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/04/09/pointing-stick</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'>I&#8217;m against the use of the mouse in most cases.  That&#8217;s not to say that I&#8217;m particularly good at avoiding it.  It requires you to take your hands off the keyboard and breaks up the flow of what you are doing.  There is a solution to this problem, the pointing sticks in the middle of the keyboards. These don&#8217;t require you to stray nearly as far from typing position. They works pretty well but require that you&#8217;re typing on a laptop(an IBM or Dell to be specific).  When you are working on a desktop and not a laptop you&#8217;re pretty much screwed.  Looking around on the web I&#8217;ve seen very few options and most of them have limited availability at best.<br/><br/>In my ideal world I could get something like the <a href='http://www.amazon.com/Microsoft-Natural-Ergo-Keyboard-4000/dp/B000A6PPOK'>Microsoft Natural Ergo Keyboard 4000</a> but with the addition of a pointing stick.  You might say that there are usb keyboards which have a touch pad on them but touchpads aren&#8217;t nearly as integrated and I detest the clunkiness of using them.  This is my opinion and is certainly <a href='http://news.cnet.com/8301-17938_105-10010673-1.html'>not unanimous</a>.  It took me a week or two of using a pointing stick to start liking it.<br/><br/>Why is this such a big deal for me?  Even on a desktop, I like to type with the keyboard sitting on top of my thighs.  The side effect of this is that the mouse is nowhere near me.  My alternate computer usage has been sitting on the couch with my computer hooked up to my HDTV.  If you&#8217;ve ever tried to use a traditional mouse on the couch you probably know how quickly the pain comes.  <br/><br/>While my desire for a desktop keyboard with a pointing stick may not be all that common it&#8217;s certainly not unique.  Why don&#8217;t there seem to be keyboards which meet my requirements?  I&#8217;m guessing patents and the company or companies holding them (IBM?).  Does anyone have any good solutions?<br/></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Kirkistan</div>
+<div class='content'>
+Your idea of a perfect keyboard is just what I am looking for as well. Did you ever find a Microsoft Natural 4000 with a pointing stick? I&#39;d buy it today!</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My QA Value Proposition]]></title>
+    <link href="http://blog.stevemoyer.net/2010/04/06/my-qa-value-proposition.html"/>
+    <updated>2010-04-06T00:13:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/04/06/my-qa-value-proposition</id>
+    <content type="html"><![CDATA[<div class='post'>
+I&#8217;ve heard and observed that Quality Analysts/ Quality Engineer&#8217;s(QA for the purposes of this post) are often valued a lot less than other members of software development teams.  Here are some of the reasons I&#8217;ve heard in support of this view:<br/>
+
+<ul><li>Following a script and clicking through a website is easy, anyone can do it.
+</li><li>We test so we don&#8217;t need someone else to do it.</li><li>They never find any real bugs.</li><li>We&#8217;d rather just have another developer.
+</li></ul>
+<br/>
+I don&#8217;t agree with the perspective so I thought I&#8217;d lay out what I think the QA value proposition is.<br/><br/>
+
+While the entire team must take ownership of the quality of application, the QA&#8217;s are the shepherds of that quality.  If you are simply tossing an untested application over the wall at QA, they will be scrambling(usually ineffectively) to clean up your mess.  To be effective, QA&#8217;s should be full fledged members of your team, co-located with your team, testing in-phase with your team.<br/><br/>
+
+While QA&#8217;s perform a good amount of manual testing they also help create smoke tests, help determine acceptance criteria, help write acceptance tests, and monitor performance testing.
+<br/><br/>
+While QA&#8217;s may follow some test scripts, they also monitor browser compatibility, find creative ways to break the application, and have keen attention to detail.  They are also able to step back and notice things that escape your eye after viewing the functionality in your story for the thousandth time that day.
+<br/><br/>
+Good QA&#8217;s help expose defects, find work-arounds, and help the business to prioritize them.  They monitor, minimize, and mitigate the differences between other environments and production.
+<br/><br/>
+While it&#8217;s certainly possibly to successfully develop quality applications without formal &#8220;QA&#8221;, having good QA&#8217;s around makes it much easier.  I think they are every bit as valuable as other members of the team.
+<br/><br/>
+When people don&#8217;t see much value in QA&#8217;s, I generally think they haven&#8217;t worked with a good QA or have only worked in environments which make all but the most basic QA work impossible (i.e. &#8220;After 6 months, here is our first testable release. We have to be in production in a week.  Good luck.&#8221;).
+<br/><br/>
+I&#8217;m sure I&#8217;ve left out many other things.  How else do QA&#8217;s provide value to projects?</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Theresa Neate</div>
+<div class='content'>
+As a QA who&#39;s worked on projects with you I&#39;m really happy to see your comments.  That&#39;s exactly what I was thinking, and to be honest, I agree that we need to pick up developer skills (especially in an agile world).<br /><br />It saddens me when I hear that &quot;the BA&#39;s can do the tests&quot; or this project does not warrant a full time QA, as in my opinion every project warrants a QA, no matter how small or how technical.<br /><br />In a changing world the QAs should pick up more technical skills (and should be made to), not excluded or considered &quot;extras&quot;.<br /><br />Those are my thoughts for now&#8230;</div>
+</div>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+@ Derek - Great point about QA&#39;s picking up some developer skills.  I agree that all members of the team should edge out and pick up skills associated with other roles.</div>
+</div>
+<div class='comment'>
+<div class='author'>Derek Hammer</div>
+<div class='content'>
+There has been a huge amount of focus on integrating the &quot;front-end&quot; of development in Agile. Teams that are practicing Agile work hard to incorporate the user and business side of their projects into their daily routines. However, QA has been sort of ignored and maintained as a separate entity.<br /><br />Instead, we need to find a way to integrate the QA into the daily workflow of the team, as well. Practically, what this means to me is that QAs are going to have to become a little more general purpose and pick up some developer skills (many of them already do!) and that developers are going to need to pick up some basic QA skills. Then we can throw them all together as one team.<br /><br />I have actually discussed such an approach on my blog : http://www.derekhammer.com/2010/03/24/-programming-inverted-pyramid-.html . This is just one approach (and is likely too extreme but for the most adventurous of teams). There are likely countless others; we just need to start discussing these types of things in front of Agile people.</div>
+</div>
+<div class='comment'>
+<div class='author'>AenimA</div>
+<div class='content'>
+That was an eye-opening read for me. I&#39;m a young developer and i have had the fortune to not be in a team where testers aren&#39;t colocated and first class citizens. You&#39;ve got my mind wondering how bad it could be. Thanks for that.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Offshoring Software Development isn't cheap]]></title>
+    <link href="http://blog.stevemoyer.net/2010/03/31/offshoring-software-development-isn.html"/>
+    <updated>2010-03-31T22:19:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/03/31/offshoring-software-development-isn</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'>I have some thoughts on offshoring that I&#8217;d be interested in getting some feedback on.  Agree/disagree at will.<br/><br/>If a software developer (BA,QA,PM, etc.) is little more than a typist then it makes perfect sense.   <br/>If I send work offshore it costs me 1/X times my onshore rates. <br/><br/>Let&#8217;s assume the average skill level is more or less the same onshore and offshore.  This has been my experience with my fellow thoughtworkers. <br/><br/>To make things easy let&#8217;s also assume a programmer in your favorite offshoring location (I chose India because it has the best food :) ) commands a salary that is 1/9th that of an onshore developer. I made up this number based on the first salary numbers I could find on the net. ( Indian developer ~10k USD (~450k INR), US developer ~90k USD)  If I&#8217;m way off let me know in the comments.<br/><br/>Even the most optimistic person will agree that there is some additional overhead that goes along with this setup.  For Example, network connections between the offices, additional development servers, and a certain amount of overlap of roles in each place.  Given our 1/9th multiplier these costs seem pretty minor. <br/><br/>There are other more substantial issues:  <br/><ul><li>Employee morale decreases on both ends when people constantly have to work late or get up early to have meetings across a wide spread of time zones. <br/></li><li>Network sluggishness makes sharing a common code repository difficult and leads to long  check-in cycles and/or painful merges.</li><li>Communicating requirements through typed documents is not effective and is even less so when crossing cultural boundaries.</li><li>People are blocked and can&#8217;t continue their work because they need answers from people who are not available.  <br/></li><li>Transparency is often low within a single office.  It&#8217;s almost non-existent when you add many time zones and thousands of miles to the mix.</li></ul><br/>The drags on productivity listed above can be mitigated to a fair extent:<br/><ul><li>Have team members alternate spending chunks of time working in both locations.  Getting to know all members of the team and working side by side with them in the trenches will increase morale, communication, and transparency.  Video conferencing equipment can help as well but isn&#8217;t a substitute for working together face to face.  This is a pretty significant cost.<br/></li><li>Collaboration tools like Mingle and Cruise can help keep people on the same page and ensure that you aren&#8217;t stepping on each other&#8217;s toes. (yep, I&#8217;m plugging my employer&#8217;s products)</li><li>Distributed version control such as Git or Mercurial are supposed to help with some of the repository issues.<br/></li></ul>When all of this is added up does offshore development actually cost less?  What have you observed?<br/><br/>My hypothesis is that on average the chances of poor outcomes are higher and the costs may not be significantly different.  <br/><br/>Why do I suspect that this is the case?  Here&#8217;s an anecdote for what I imagine is the average case of offshoring:<br/>Company A spends a lot of money on their in-house product development.  CTO Smith observes that development is slow(and getting slower) and that Company A is getting a poor return on their investment.  Because programming is like typing, they need more typists&#8230; at a lower cost.  They hire a larger number of programmers via the lowest rate offshoring firm available.  The project starts slowly.  When the project is well behind schedule the answer is to increase resources significantly, incurring additional cost.  Not much if anything is delivered and the quality of deliverables is very low.  <br/><br/>This is <b>not</b> a condemnation of offshoring. It&#8217;s a condemnation of that idea that a company which doesn&#8217;t run consistently successful projects onshore will be successful in running projects offshore.  It&#8217;s a challenge to find high performing people.  It&#8217;s a challenge to run successful projects.  Even under good conditions some projects will fail.  Offshoring adds additional challenges.  <br/><br/>Is it worth it to take on these additional challenges?<br/><br/>I think in many cases it is.  If we reviewed successfully offshored projects what would we find? My guess is we&#8217;d find consistently successful deliveries with costs in the realm of 1/2 to 1/3 what it would cost to develop onshore(I just made up these numbers.  Lawyered!).  These companies took the opportunity to scale up(or replace?) their already successful onshore development operation.  They would do so by creating a high end offshore team.  <br/><br/>Assuming my hypothesis is correct, I further suggest:<br/><ul><li>Quality BA&#8217;s, Developers, QA&#8217;s, PM&#8217;s are hard to find.  Offshoring should be utilized to scale up because you will have a  larger pool to draw from. You will assume  additional risk however you may also save a significant amount of money.  <br/></li><li>If costs are really the main driver for outsourcing, I think a company considering outsourcing should do two things:  1. Take a long hard look at why development is so expensive (and/or results are so poor) in your organization.  What makes you think doing things offshore will produce different results.  2. Consider co-locating the entire team, including stakeholders and business owners, offshore for the duration of the project. </li><li>Project success is impacted much more by the abilities of the people on the team than where the project is developed.  if you&#8217;re hiring average typists, you&#8217;re probably ok.  If you&#8217;re hiring average software developers, you&#8217;re in for a lot of pain regardless of where they are physically located.</li></ul><br/>What do you think?<br/></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Brett Miller</div>
+<div class='content'>
+Great article&#8230;especially on the idea: If you can&#39;t do it onshore, why do you think you can do it offshore?<br /><br />Communication is a problem, Blocking is a problem, Perceived Savings is just that &#8230; Perceived.<br /><br />I actually put together my own post on the subject:<br /><br />http://www.customsoftwarebypreston.com/offshore-software-development<br /><br />Any feedback?<br /><br />Thanks,<br /><br />Brett Miller</div>
+</div>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+@Paul,  I thought about breaking out onshore/offshore/mixed but decided I didn&#39;t want to make an already long post any longer.  I think all of those different variables would be interesting to consider in the area of offshoring.  I know where I stand on them when it comes to onshore work(cross functional teams, collaborative, shared responsibility).  I&#39;m not sure if that fact that it&#39;s offshore or mixed would change my perspective on them.  I&#39;m guessing I&#39;d feel that those things are even more important when developing across distances.</div>
+</div>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Thanks Ganesh, I think those are all great points.</div>
+</div>
+<div class='comment'>
+<div class='author'>Ganesh</div>
+<div class='content'>
+Hi Steve, Here goes my thoughts -  Offshoring in my opinion should be considered strategic where you are willing to go throiugh the pain and start reaping the benefits after a stabilization phase. e.g. Trainline program in Thoughtworks India. Tactical engagements (12-6 months less) do not deliver the value proposition including lower cost, ability to scale and access to large talent pool etc. Acutally in my experience though you will deliver you really go through a lot of pain as you point out. It does not make sense. In summray I would say<br />- Think really hard on what, and how long you are going to engage in a offshore relationship. It needs to make not only economic (cost) sense it should also take into account IPs being shared, capabilities being build (or lost)<br />- Cultutral fit of your offshore partner/vendor. Try explaining distributed and/or offshore agile to your customer :). Project success depends on this point, I think<br />- Before engaging an offshore vendor understand the value additions and track those during the relationship (this sadly I think never happens and the focus switches completely on preceived cost savings as the relationship progresses)</div>
+</div>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+@Anon - Thanks for reading my post.  I think I must have done a poor job of communicating because I&#39;m having trouble connecting your summary to what I wrote.<br /><br />&quot;So you find that there are NO benefits out of offshoring?  * Clearly 1/9th of the cost should not be considered as a benefit.<br />&quot;<br /><br />I explicitly described my vision of successful offshoring having quite large benefits(consistent delivery and 1/3 to 1/2 the cost).<br /><br />&quot;* Every manager who offshore the work is essentially an Id**t.&quot;<br /><br />I didn&#39;t say anything approaching this.  I would phrase is this way:  If you have idiot managers managing your project the offshored version is unlikely to turn out any better than the onshored version.(they&#39;ll both run out poorly) <br /><br /><br />&quot;* Only highly paid Onshore BAs, QAs and Developers can do the Enterprise Development/Engg work.&quot;<br /><br />The point I was trying to make here is that the lower cost providers in a given locale are almost certainly not a good bet for successful projects.  If software development was a commodity(or close to it) the lowest cost option might be a consistent winner.  If you have the skill to judge quality and aptitude you&#39;d be better off paying a 2 or 3 times the average wage for offshore talent.   <br /><br /><br />&quot;* If you still offshore, then you should rotate the onshore and offshore folks around the locations, but the onshore folks would be still paid the same while working at an offshore location.&quot;<br /><br />I said nothing about what people should be paid while they are on offshore rotation.  I&#39;d think this would vary based on where they live long term <b>and</b> how long they will be there.  The same goes for people coming onshore.  There are many other factors that would likely play in.<br /><br /><br />&quot;* There are no good Lowly paid - $10K USD - offshore engg teams.&quot;<br /><br />I won&#39;t even speculate on what the lowest amount is you could pay anywhere in the world for a good developer.  I will say if they are good and you are paying them less than average for their locale it&#39;s unlikely that you&#39;ll be paying them that for long.<br /><br />&quot;And still you will not question the fact behind why would a typical Enterprise Engg development job should cost $100K per person.&quot;<br /><br />I would hope that a typical enterprise engineering development job pays what it does is because that person delivers more than that amount of value to the business.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+So you find that there are NO benefits out of offshoring?<br /><br />To Summarize, you mean<br />* Clearly 1/9th of the cost should not be considered as a benefit.<br />* Every manager who offshore the work is essentially an Id**t.<br />* Only highly paid Onshore BAs, QAs and Developers can do the Enterprise Development/Engg work.<br />* If you still offshore, then you should rotate the onshore and offshore folks around the locations, but the onshore folks would be still paid the same while working at an offshore location. <br />* There are no good Lowly paid - $10K USD - offshore engg teams.<br /><br />And still you will not question the fact behind why would a typical Enterprise Engg development job should cost $100K per person.</div>
+</div>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+@Arron - Yep, Brooks Law is the key reason I think costs for failed projects are probably about the same on and off shore. In both cases they are bounded only by the amount of money the company is willing to spend.  Since adding large numbers of people doesn&#39;t help the project they both expand to chew up all available funds.</div>
+</div>
+<div class='comment'>
+<div class='author'>Paul</div>
+<div class='content'>
+I agree - the extra hidden costs are in management and collaboration/teaming. I would break out the organizational and teaming forms used too, like assembly line , functional team oriented vs. cross-functional team, collaborative/component build oriented. Other , shared responsibilities vs. divided. on-shore only vs. off-shore only teams or mixed on-shore/off-shore.<br />Its funny how the assembly line form always creeps back - I attribute to newbie/un-informed managers/management. My two cents.</div>
+</div>
+<div class='comment'>
+<div class='author'>Aaron</div>
+<div class='content'>
+I would add a bit.  I think you are pretty close, but another factor that creeps in is that with the perceived lower cost.  In particular, when the first sign of schedule trouble arrives, the people managing the money tend to more quickly add programmers.  Then Brooks law kicks in, and suddenly, you have 10 pairs doing less than what 2 pairs could, plus several layers of management oversight, etc.<br /><br />As a fellow TWer, I want distributed models to work, but I am also suspicious of the motives of people who want to leverage offshore purely for cost reasons.  It usually comes from a deep misunderstanding of what drives software development cost in the first place.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Consulting Engagement Success Indicators]]></title>
+    <link href="http://blog.stevemoyer.net/2010/03/29/consulting-engagement-success.html"/>
+    <updated>2010-03-29T23:05:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/03/29/consulting-engagement-success</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'>Whenever I roll on to a new client there are a few things that I find to be leading indicators for the success of the engagement.<br/><ul><li>How long it takes to get a badge/computer/access to the building.  Hopefully this stuff is ready and waiting when you arrive. I have seen cases where a badge takes a few weeks and a computer takes up to two months.  It&#8217;s particularly awesome if they won&#8217;t provide you with a computer and won&#8217;t allow your computer on their network.  If I don&#8217;t have all of this stuff by the end of the first week on the client it&#8217;s a bad sign.    <br/></li><li>The amount of time it takes before I hear the first mention of filing a ticket.  Something like &#8220;Here is your laptop, if you want a mouse or keyboard file a separate ticket for each and we&#8217;ll get them for you.&#8221;  I&#8217;ve really come to hate the words &#8220;file a ticket&#8221;, particularly when preceded by &#8220;I forgot to&#8221; and followed by &#8220;so that won&#8217;t be ready for a few weeks.&#8221;</li><li>Availability of client personnel.  If the people I&#8217;m supposed to be working with are MIA or are splitting time with a bunch of other projects I lose a bit of confidence.  <br/></li></ul>I used to have a few more which seem to have slipped my mind.  Do you have any other early indicators for project/engagement success or failure? <br/> <br/></div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Number of times scolded by a facilities manager for rearranging furniture.  This week, &quot;you can&#39;t move your chair between floors!&quot;, &quot;you can&#39;t use those (unused) desks from that (unused) room!&quot;.  I&#39;m hoping next time it&#39;ll be &quot;you can&#39;t take your laptop to a meeting room with filing a facilities ticket and having us move it for you&quot;</div>
+</div>
+<div class='comment'>
+<div class='author'>marc</div>
+<div class='content'>
+Excellent stuff!!  Can it begin before you&#39;ve even started working with the client? We went to visit a prospect yesterday.  We presented ourselves at the reception desk &quot;you are not on our system&quot; says grumpy.  Ummmm.  We call the prospect who comes down to meet us.  &quot;They are with me&quot; he says to grumpy.  &quot;They are not on the system.  They can&#39;t have passes until they are on the system&quot;.  So we spend the next ten minutes having our personal details entered into a system so that we can get passes so that we can be escorted to a meeting room for an hour meeting and be escorted back out again.  And we want to work with there?</div>
+</div>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+Haha, I&#39;ve had that happen as well.  It&#39;s also nice when they think they know why you&#39;re there but are completely wrong.</div>
+</div>
+<div class='comment'>
+<div class='author'>Anonymous</div>
+<div class='content'>
+After we were left with the person we are to work with, the first question he ask is &quot;So, what are you supposed to do here?&quot;</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[agile : large companies :: recovery : heroin addicts]]></title>
+    <link href="http://blog.stevemoyer.net/2010/03/29/agile-large-companies-recovery-heroin.html"/>
+    <updated>2010-03-29T21:35:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/03/29/agile-large-companies-recovery-heroin</id>
+    <content type="html"><![CDATA[<div class='post'>
+<div xmlns='http://www.w3.org/1999/xhtml'><font style='font-weight: bold;'><font style='font-weight: bold;'><br/></font></font><font><font>H</font></font><font>ow are large companies like heroin addicts you ask?</font><br/><ol><li>They make excuses and/or deny the problem. My favorite is: How bad
+could we be? We&#8217;re a billion dollar company! When I hear this, I wonder
+how many companies have gone billion dollar balance sheets to
+bankruptcy in a short amount of time.  Think about Amtrak, the major
+airlines&#8230;size won&#8217;t save your business.</li><li>They can&#8217;t maintain focus and their priorities shift constantly. The
+new highest priority is either the shiniest thing in view or whomever
+is shouting the loudest.</li><li>When they do decide to change, they&#8217;re often only partly committed. </li><li>During the transition, managers are paranoid that you&#8217;re out to get them.  They think the changes will take away their kingdoms.  Developers are paranoid that people will find out that they don&#8217;t know how to write a test.  QA&#8217;s are paranoid because nobody tells them what to expect until they don&#8217;t have enough time to deal with it.  The business is paranoid that they&#8217;re not getting a return from their expensive IT department.<br/></li><li><font>They often flounder through short lived attempts to reform before reverting to their old ways.</font> Management goes back to constant fire fighting.  They could quit fire fighting if they wanted to, but this stuff is extremely important!  <br/></li></ol><font><br/>Recovery for many large companies is about as likely as it is for a heroin addict.  It is possible but it usually requires a few things:<br/></font><ol><li><font> They need to hit rock bottom.  A five year project that cost millions and delivered nothing.  A few days with the production servers down and money flowing out the door.<br/></font></li><li><font> They need to be committed to making serious change from the top of the organization to the bottom.<br/></font></li><li>They need to treat the problems that led down this path in the first place.<br/></li></ol>Given the challenges that companies face in transitioning to agile, what do they need to increase their odds of success?<br/><ol><li><font>Guidance from people who have successfully transitioned.  I don&#8217;t mean a coach or two for a couple days.  When transitioning, the team generally needs to have at least 50% experienced practitioners for at least a few months.  To successfully go below the 50% threshold requires a very high level of motivation from those adopting the agile mindset and XP practices. Even with high motivation, it will take one on one support or the drive to spend a lot of extra time on their own.<br/></font></li><li><font>Cross-functional teams with a strong preference for co-location.  The more inter-team hand-offs it takes to get a project developed and deployed, the less likely the project is to succeed.  Getting the stakeholders, BA&#8217;s, developers, QA&#8217;s, support staff, and IT dedicated to this cross-functional team and to share the same physical space will increase the odds of success significantly. <br/></font></li><li><font>Transparency.  Bring out all the warts and underlying issues.  Make sure everyone understands the problems and issues at hand.  If people don&#8217;t agree that there is a problem, they&#8217;re unlikely to participate in solving it.  In the worst case, a project can be cancelled early. in the best case, problems can be mitigated or resolved and the project delivered. <br/></font></li><li><font>A shared vision of where the business wants to go.   It&#8217;s very difficult to put full effort into going somewhere if you don&#8217;t share the same map.</font></li><li><font>Some quick wins.  If team members see signs of improvement, it can help them sustain their efforts through the instability and insecurity that comes with any change.</font></li></ol></div></div>
+
+]]></content>
+  </entry>
   
 </feed>

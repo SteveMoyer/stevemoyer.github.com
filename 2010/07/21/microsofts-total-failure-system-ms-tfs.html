@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MicroSoft's Total Failure System (MS TFS) - Coding Libetartian</title>
+  <meta name="author" content="Steve Moyer">
+
+  
+  <meta name="description" content="Let me apologize in advance for my exasperation, I&#8217;ve been working with TFS. My coworker Jonathan McCracken was too nice to MS Team Foundation &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.stevemoyer.net/2010/07/21/microsofts-total-failure-system-ms-tfs.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding Libetartian" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Coding Libetartian</a></h1>
+  
+    <h2>STEVE MOYER'S THOUGHTS ON CREATING SOFTWARE FOR REMUNERATION AND FINDING THE FREEDOM TO DO IT.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.stevemoyer.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MicroSoft's Total Failure System (MS TFS)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-21T16:36:00-07:00" pubdate data-updated="true">Jul 21<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><div class='post'>
+<div xmlns="http://www.w3.org/1999/xhtml">Let me apologize in advance for my exasperation,  I&#8217;ve been working with TFS.
+<br/>
+My coworker Jonathan McCracken was too nice to MS Team Foundation System in his <a href="http://jonathanmccracken.blogspot.com/2010/07/mvp-microsoftfanboy.html?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+MyIdeationHasFoundAHome+%28My+Ideation+Has+Found+a+Home%29">MVP != MicrosoftFanBoy post</a>.  Microsoft will tout that all of the tools are integrated.  I would argue that each of the &#8220;integrated&#8221; tools are pretty close to worst in their class.  I enjoy c# as a language but in general I want to use Visual Studio with ReSharper and then get as far away from the other MS tools as possible.  Disclaimer: I haven&#8217;t used TFS 2010 but in my experience when something is this bad it may get a bit better but rarely will be completely transformed.
+<br/><br/>
+<big><big><b>Version Control</b>
+</big></big><br/>
+<br/>I agree with Jonathan&#8217;s assessment that Subversion is a better choice for source control than Team Foundation Version Control(TFVC). I think SVN the gap is quite wide.  Let&#8217;s say we want to use TFS for builds and project management but use SVN (or anything else) for version control.  To the best of my knowledge there is no way to integrate any other version control system with Team Build.
+<br/><br/>
+Better Choices:  SVN, Git, and Hg.  All of which are free and open source.
+<br/><br/>
+<big><big><b>Builds</b></big></big>
+<br/><br/>
+<b>Build Configuration</b><br/>
+Let&#8217;s look at Team Build (appropriately abbreviated TB).  Of course
+to use TB we need to be using TFVC so we&#8217;ll assume we&#8217;ve made the
+mistake of accepting that.
+<br/><br/>
+TB requires you to name your build file TFSBuild.proj.  Upon kicking off a build it downloads the TFSBuild.proj file and rest of that folder&#8217;s contents to a folder(BuildType) that is nested one level less deep than it&#8217;s location in source control (TeamBuildTypes/MyBuildType).  Not a particularly big deal since the rest of my project won&#8217;t be downloaded until after it attempts to load the .proj file.  Say you wanted to have some shared targets between multiple builds: So far as I can tell, you can&#8217;t do it.  Your .proj file will only be able to use files in it&#8217;s folder and we&#8217;ve already established that there can only be one project per build folder because it forces it to be named TFSBuild.proj.  All I want is for the build files to be co-located with the project and be flexible.
+<br/><br/>
+<b>
+Build Status</b><br/>
+I want every team member to be aware of the status of all builds that are relevant to them. TB is integrated with Visual Studio but the interface is awful.  There doesn&#8217;t seem to be an easy way to see the current status of each build type without having to dig through a list of all builds by date.
+<br/><br/>
+Build radiators such as a flat screen showing build status or red/green build light are great to have but unless everyone is consistently in view of them we  probably need a tray icon as well.  The only tray icon I could find would show green any time a build was running.  If you have 9 broken builds and one that was in the process of building the icon would show green!
+<br/><br/>
+When a build fails on TB I almost always have to dig into a raw log to find the details as TB seems to have no intention of giving me the relevant information. Part of this is probably due to that fact that many of the unit tests were NUnit tests.
+<br/><br/>
+<b>Local Builds</b>
+<br/>
+In the past while using NAnt running a build before check-in on a developer machine has been a piece of cake.  With TB 2010 I&#8217;ve heard that the option is to shelve some changes and then queue up a private build.  This is still more complicated than just kicking of a build at the command line and will not work at all if disconnected.  Rather than embracing NAnt and NUnit and making sure they we&#8217;re integrated they instead created MSBuild and MSTest to kill off NAnt and NUnit.
+<br/><br/>
+Better free/open source choices:  Hudson, CC.net(when I last used it in 2005 probably more so now.)<br/>
+Better Paid options:  Team City(free for small projects), Go(formerly Cruise)
+<br/><br/>
+<big><big><b>Project Management</b></big></big>
+<br/><br/>
+I have minimal experience using the project management part of the suite.  This is due to the fact that almost all of the clients I&#8217;ve worked with have chosen not to use it, even those who seem to blindly take whatever MS gives them.
+<br/><br/>
+Better Free Choices:  Anyone have suggestions here???<br/>
+Better Paid Choices:  Mingle, Version One(last touched in 2005)
+<br/><br/>
+<span style="font-size:130%;"><b>Question </b></span><br/>
+What would your preferred tool set be if you were starting a .net project today?
+<br/>
+Considerations: scalable to a large enterprise, easy to use, easy to integrate, easy to maintain,cost
+<br/><br/>
+My default toolset would look something like:<br/>
+Source Control: SVN or Git if the team is distributed<br/>
+Development Environment: Visual Studio w/ ReSharper<br/>
+Continuous Integration Server: Team City(free for small teams),  Hudson for larger teams or organizations<br/>
+Build Scripting: NAnt<br/>
+Unit Testing: NUnit<br/>
+Project Management: Mingle(free for small projects),  ?? for larger projects<br/>
+<br/>
+Other than Visual Studio and ReSharper I&#8217;ve avoided anything with a price tag.  There are paid tools that I might prefer but for my default I don&#8217;t want anyone to be able to kill the setup based on budget.
+<br/><br/>
+I can have most of this set up on my local box in about 30 minutes or set up on a server for the team in a couple hours.
+</div></div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Jez Humble</div>
+<div class='content'>
+You might be interested to hear that ThoughtWorks makes a pretty awesome tool that does CI (amongst other things) really well. Go Community Edition is free to download and has a bunch of features that Hudson and TeamCity don&#39;t, such as built in pipelines for multi-stage builds, and really powerful test failure analysis. You can download it here: http://bit.ly/c0l3hq</div>
+</div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Steve Moyer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-21T16:36:00-07:00" pubdate data-updated="true">Jul 21<span>st</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/build/'>Build</a>, <a class='category' href='/blog/categories/team-foundation-server/'>Team Foundation Server</a>, <a class='category' href='/blog/categories/agile/'>agile</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.stevemoyer.net/2010/07/21/microsofts-total-failure-system-ms-tfs.html" data-via="steve_g_moyer" data-counturl="http://blog.stevemoyer.net/2010/07/21/microsofts-total-failure-system-ms-tfs.html" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2010/04/11/sustainable-growth.html" title="Previous Post: Sustainable Growth">&laquo; Sustainable Growth</a>
+      
+      
+        <a class="basic-alignment right" href="/2010/08/06/learning-emacs-and-clojure.html" title="Next Post: Learning Emacs and Clojure">Learning Emacs and Clojure &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard is for Everyone</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B testing in .net (with nToggle)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/09/18/distributed-check-in-tokens-pass-puppy.html">Distributed Check-in Tokens: Pass-The-Puppy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SteveMoyer">@SteveMoyer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SteveMoyer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Steve Moyer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100589840); }catch(e){}</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'codinglibertarian';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

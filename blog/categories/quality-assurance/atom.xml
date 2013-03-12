@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: quality assurance | Coding Libetartian]]></title>
+  <link href="http://blog.stevemoyer.net/blog/categories/quality-assurance/atom.xml" rel="self"/>
+  <link href="http://blog.stevemoyer.net/"/>
+  <updated>2013-03-12T13:32:17-07:00</updated>
+  <id>http://blog.stevemoyer.net/</id>
+  <author>
+    <name><![CDATA[Steve Moyer]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[My QA Value Proposition]]></title>
+    <link href="http://blog.stevemoyer.net/2010/04/06/my-qa-value-proposition.html"/>
+    <updated>2010-04-06T00:13:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2010/04/06/my-qa-value-proposition</id>
+    <content type="html"><![CDATA[<div class='post'>
+I've heard and observed that Quality Analysts/ Quality Engineer's(QA for the purposes of this post) are often valued a lot less than other members of software development teams.  Here are some of the reasons I've heard in support of this view:<br/>
+
+<ul><li>Following a script and clicking through a website is easy, anyone can do it.
+</li><li>We test so we don't need someone else to do it.</li><li>They never find any real bugs.</li><li>We'd rather just have another developer.
+</li></ul>
+<br/>
+I don't agree with the perspective so I thought I'd lay out what I think the QA value proposition is.<br/><br/>
+
+While the entire team must take ownership of the quality of application, the QA's are the shepherds of that quality.  If you are simply tossing an untested application over the wall at QA, they will be scrambling(usually ineffectively) to clean up your mess.  To be effective, QA's should be full fledged members of your team, co-located with your team, testing in-phase with your team.<br/><br/>
+
+While QA's perform a good amount of manual testing they also help create smoke tests, help determine acceptance criteria, help write acceptance tests, and monitor performance testing.
+<br/><br/>
+While QA's may follow some test scripts, they also monitor browser compatibility, find creative ways to break the application, and have keen attention to detail.  They are also able to step back and notice things that escape your eye after viewing the functionality in your story for the thousandth time that day.
+<br/><br/>
+Good QA's help expose defects, find work-arounds, and help the business to prioritize them.  They monitor, minimize, and mitigate the differences between other environments and production.
+<br/><br/>
+While it's certainly possibly to successfully develop quality applications without formal "QA", having good QA's around makes it much easier.  I think they are every bit as valuable as other members of the team.
+<br/><br/>
+When people don't see much value in QA's, I generally think they haven't worked with a good QA or have only worked in environments which make all but the most basic QA work impossible (i.e. "After 6 months, here is our first testable release. We have to be in production in a week.  Good luck.").
+<br/><br/>
+I'm sure I've left out many other things.  How else do QA's provide value to projects?</div>
+
+
+<h2>Comments</h2>
+
+
+<div class='comments'>
+<div class='comment'>
+<div class='author'>Theresa Neate</div>
+<div class='content'>
+As a QA who&#39;s worked on projects with you I&#39;m really happy to see your comments.  That&#39;s exactly what I was thinking, and to be honest, I agree that we need to pick up developer skills (especially in an agile world).<br /><br />It saddens me when I hear that &quot;the BA&#39;s can do the tests&quot; or this project does not warrant a full time QA, as in my opinion every project warrants a QA, no matter how small or how technical.<br /><br />In a changing world the QAs should pick up more technical skills (and should be made to), not excluded or considered &quot;extras&quot;.<br /><br />Those are my thoughts for now...</div>
+</div>
+<div class='comment'>
+<div class='author'>Steve Moyer</div>
+<div class='content'>
+@ Derek - Great point about QA&#39;s picking up some developer skills.  I agree that all members of the team should edge out and pick up skills associated with other roles.</div>
+</div>
+<div class='comment'>
+<div class='author'>Derek Hammer</div>
+<div class='content'>
+There has been a huge amount of focus on integrating the &quot;front-end&quot; of development in Agile. Teams that are practicing Agile work hard to incorporate the user and business side of their projects into their daily routines. However, QA has been sort of ignored and maintained as a separate entity.<br /><br />Instead, we need to find a way to integrate the QA into the daily workflow of the team, as well. Practically, what this means to me is that QAs are going to have to become a little more general purpose and pick up some developer skills (many of them already do!) and that developers are going to need to pick up some basic QA skills. Then we can throw them all together as one team.<br /><br />I have actually discussed such an approach on my blog : http://www.derekhammer.com/2010/03/24/-programming-inverted-pyramid-.html . This is just one approach (and is likely too extreme but for the most adventurous of teams). There are likely countless others; we just need to start discussing these types of things in front of Agile people.</div>
+</div>
+<div class='comment'>
+<div class='author'>AenimA</div>
+<div class='content'>
+That was an eye-opening read for me. I&#39;m a young developer and i have had the fortune to not be in a team where testers aren&#39;t colocated and first class citizens. You&#39;ve got my mind wondering how bad it could be. Thanks for that.</div>
+</div>
+</div>
+
+]]></content>
+  </entry>
+  
+</feed>
