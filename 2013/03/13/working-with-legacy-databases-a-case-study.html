@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Working with Legacy Databases: A Case Study - Coding Libetartian</title>
+  <meta name="author" content="Steve Moyer">
+
+  
+  <meta name="description" content="I recently blogged about a process for Regaining Agility in the Face of Legacy Databases. A general process is nice but I find that a real example is &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.stevemoyer.net/2013/03/13/working-with-legacy-databases-a-case-study.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Coding Libetartian" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div class="header-image" ><img  src="/images/TANSTAAFL.jpg"/></div>
+  <h1><a href="/">Coding Libetartian</a></h1>
+  
+    <h2>Steve Moyer's thoughts on creating software for remuneration and finding the freedom to do it.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.stevemoyer.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Working With Legacy Databases: A Case Study</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-13T12:45:00-07:00" pubdate data-updated="true">Mar 13<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I recently blogged about a process for <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>. A general process is nice but I find that a real example is more helpful.</p>
+
+<p>The client&#8217;s primary application was a domain-specific content management system. The project charter was to help implement iterative development and automated testing practices while delivering new features. Upon arriving, my ThoughtWorks colleagues and I realized that the legacy code and database would make it extremely risky to make any significant changes. This, of course, was no surprise to the team of client developers. While many development and testing related activities were going on at the same time, this post will focus on the databases and automated testings.</p>
+
+<p>Given the state and size of the code, unit testing all (or even most) of the application was not a feasable way to reduce regression in the code base at large. In order to reduce the risk, we needed to add automated tests. The decision was made to begin adding browser-based system tests. For these tests to be at all consistent and maintainable, we needed to get the database under control and enable team members to work and build tests in local isolation.</p>
+
+<h2>The Situation:</h2>
+
+<ul>
+<li>Three primary Sql Server databases
+
+<ul>
+<li>Total size of the databases without audit and historical data: ~75GB</li>
+<li>Circular references between databases</li>
+</ul>
+</li>
+<li>100-150 tables
+
+<ul>
+<li>Significant data movement back and forth between sets of similar tables</li>
+<li>Significant data which was not valid under the schema constraints</li>
+</ul>
+</li>
+<li>~1000 stored procedures
+
+<ul>
+<li>Many unable to be compiled due to missing references</li>
+</ul>
+</li>
+<li>No automated tests</li>
+<li>Many significant legacy issues in the codebase
+
+<ul>
+<li>Three+ active data access layers (large amounts of overlap)</li>
+<li>Wide scale copy and paste with slight divergence</li>
+<li>Duplicated code in C# and VB.net</li>
+</ul>
+</li>
+<li>Developers primarily using a shared set of databases on a development server
+
+<ul>
+<li>months out of date/rarely updated</li>
+</ul>
+</li>
+<li>DBAs
+
+<ul>
+<li>Had already flagged many out of date stored procedures for recompile with plans to delete if not accessed within a few months</li>
+<li>Had consolidated ~20 databases down into a much smaller number</li>
+<li>Were resistant to automation</li>
+<li>Were resistant to using version control</li>
+<li>Were resistant to participating in the development process</li>
+</ul>
+</li>
+<li>Releases
+
+<ul>
+<li>Multi-week manual QA process</li>
+<li>Multiple consecutive troubled releases</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Prior attempts at wrangling the databases</h2>
+
+<ul>
+<li>Visual Studio Database Projects
+
+<ul>
+<li>Didn&#8217;t deal well with multiple (troubled) databases</li>
+<li>Not incremental, change scripts generated at time of deployment based on database snapshots</li>
+<li>Implicit changes created based of the current state of the complete database</li>
+</ul>
+</li>
+<li>Visual Studio Data Generation Plans
+
+<ul>
+<li>Doesn&#8217;t produce meaningful data</li>
+</ul>
+</li>
+<li>Jailer
+
+<ul>
+<li>More suited to a one time extraction</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>The Process</h2>
+
+<p>Primary Tools: <a href="http://sourceforge.net/projects/dbdeploy-net/">dbdeploy.net</a>, <a href="https://github.com/SteveMoyer/nDump">nDump</a>, <a href="http://sahi.co.in/">Sahi</a>, <a href="http://www.thoughtworks-studios.com/twist-agile-testing">ThoughtWorks Twist</a></p>
+
+<h3>Phase 1: Generating a baseline schema (One person over a few days)</h3>
+
+<p>Schema scripts were generated for each database using Microsoft Sql Server Management Studio. Initially one script per database. Additional scripts were created to work around issues related to ordering of database creation. Bodies of non-compilable stored procedures were emptied but were not completely removed. Leaving the empty stored procedures allowed using the migration process to delete them from production. Creation of the empty databases was fully automated by applying the scripts in a specific order using batch files. Each work around that was created was a spotlight on a problem to be addressed in the future.</p>
+
+<h3>Phase 2: Generating an initial dataset (One person over ~3-4 Weeks)</h3>
+
+<p>Data generation started with tables necessary to use the log in screen of the content management system. Once logging in was possible, data generation progressed to a few other core features such as the content editor. Data was extracted using nDump which exports a set of tables in a manually configured order. As with script generation in phase 1, the problems which came to light during this phase pointed out problems to be corrected in the future.</p>
+
+<p>Multiple data extraction techniques were used to populate the dataset:</p>
+
+<p>Full table extraction from production was used to populate lookup tables using nDump.</p>
+
+<p>Partial table extraction from production was used to selectively export small subsets of data using nDump&#8217;s optional per table filtering.</p>
+
+<p>The target application itself was also used to create data.</p>
+
+<p>Small amounts of data were typed manually into sql tables or into the CSV export files.</p>
+
+<p>After each extraction, the databases were rebuilt and the data was reloaded using nDump. This ensured that the data would pass constraints and go into the databases successfully. Often, foreign keys were violated indicating addition tables needed to be added to the export process.</p>
+
+<h3>Phase 3: Initial browser based testing and continuous integration (Two people over ~1 week)</h3>
+
+<p>Multiple test franework options were considered independent of this of this database effort. Sahi was selected as the tool of choice for browser automation and Twist was selected for test suite management. Once a small set of features were up and running, an initial automated test was created.  The database build and initial automated test were run as a job in the Jenkins CI server.</p>
+
+<h3>Phase 3: Extending the team and moving forward (Ongoing effort across multiple distributed teams)</h3>
+
+<p>With the build and test groundwork in place, the responsibility for writing tests and creating test data were extended to the teams creating new features as well as an additional team set up specifically to create a regression suite. All development changes to the database schemas and stored procedures were done through migration scripts run with dbdeploy.net. Picking a number for a migration script and generating new test data were each limited to one person at a time. This was done to avoid merge conflicts which were particularly difficult given database generated ids which often collided. To ensure only one person was engaging in these activities at a time, the <a href="https://github.com/SteveMoyer/pass_the_puppy">Pass The Puppy - Distributed Token Application</a> was used. If all team members are in a single location, it is easier to use a physical token such as a stuffed animal.</p>
+
+<p>On each commit to source control, the databases were rebuilt from scratch. The current set of migration scripts was then applied. In addition, the migrations were separately applied to production backups. This ensured that the changes, which worked with the test databases, would also work when applied to production. Once the databases were built, the browser tests of the active development teams were run against them.  A few times each day, the entire regression suite was run against the current state of the code and databases.</p>
+
+<h2>Pros/Cons</h2>
+
+<h3>Baseline scripts with migrations run by dbdeploy.net</h3>
+
+<ul>
+<li>Pros:
+
+<ul>
+<li>Transparent and customizable process</li>
+<li>Easy to follow the evolution of the schema and stored procedures</li>
+<li>Changes are explicit</li>
+<li>Repeatable</li>
+</ul>
+</li>
+<li>Cons
+
+<ul>
+<li>A few hours of effort were required to update and audit the baseline after a major release.</li>
+<li>Developers forced to script database changes</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>CSV based data imported and exported with nDump</h3>
+
+<ul>
+<li>Pros:
+
+<ul>
+<li>Repeatable</li>
+<li>Transparent</li>
+<li>Incremental
+
+<ul>
+<li>Continually add data as needed</li>
+</ul>
+</li>
+<li>Easy to diff</li>
+<li>Very flexible, use multiple strategies for data generation</li>
+</ul>
+</li>
+<li>Cons:
+
+<ul>
+<li>CSV files have no native differentiation between empty and null strings</li>
+<li>Data modifications must be serialized, significant merges within an overlapping set of tables are not reasonable</li>
+<li>The data load process can be quite slow depending on the method used. Generally there is a tradeoff between data validation and speed.</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>The Results</h2>
+
+<h3>Progress made</h3>
+
+<ul>
+<li>3 primary Sql Server databases (Total size of test databases: &lt; 150MB)</li>
+<li>~100 CI builds per day</li>
+<li>~3000 browser based regression tests (tested in CI)</li>
+<li>Over 500 database migrations to date (tested in CI)</li>
+<li>Releases
+
+<ul>
+<li>A few days of manual QA prior to release</li>
+<li>New features visible to quality analysts and business users well before release</li>
+<li>Much less stressful</li>
+</ul>
+</li>
+<li>Developers and Quality Engineers work in local isolation (internet connection optional)
+
+<ul>
+<li>Updated on each pull from version control</li>
+</ul>
+</li>
+<li>DBAs
+
+<ul>
+<li>A bit more involved in the development process</li>
+<li>Still resistant to using version control</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Summary</h3>
+
+<p>Over the next couple years, multiple projects were successfully delivered. Some of these projects required wide-ranging changes to the databases. With the added automated test coverage and improved development practices, releases were less stressful and more frequent. The relatively basic toolset (dbdeploy.net, nDump, scripting) allowed for customization at each step of the process. Other tools atttempted offered a nice user interface but left few options when faced with challenges the tool developer had not accounted for. The test data and database development process was not without pain and effort. It alone is not responsible for too much of the progress that has been made. I do think it was crucial in allowing the dedicated test and development teams to significantly improve the situation.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Steve Moyer</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-13T12:45:00-07:00" pubdate data-updated="true">Mar 13<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.stevemoyer.net/2013/03/13/working-with-legacy-databases-a-case-study.html" data-via="steve_g_moyer" data-counturl="http://blog.stevemoyer.net/2013/03/13/working-with-legacy-databases-a-case-study.html" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/03/11/regaining-agility-in-face-of-legacy.html" title="Previous Post: Regaining Agility in the Face of Legacy Databases">&laquo; Regaining Agility in the Face of Legacy Databases</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2013/03/13/working-with-legacy-databases-a-case-study.html">Working with Legacy Databases: A Case Study</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/07/31/the-keyboard-is-for-everyone.html">The Keyboard is for Everyone</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/01/02/asynchronous-pair-programmingduet.html">Asynchronous Pair Programming(Duet Programming?)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2011/11/06/basic-ab-testing-in-net-with-ntoggle.html">Basic A/B testing in .net (with nToggle)</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/SteveMoyer">@SteveMoyer</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'SteveMoyer',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Steve Moyer -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100589840); }catch(e){}</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'codinglibertarian';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.stevemoyer.net/2013/03/13/working-with-legacy-databases-a-case-study.html';
+        var disqus_url = 'http://blog.stevemoyer.net/2013/03/13/working-with-legacy-databases-a-case-study.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

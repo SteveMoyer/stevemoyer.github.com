@@ -4,7 +4,7 @@
   <title><![CDATA[Coding Libetartian]]></title>
   <link href="http://blog.stevemoyer.net/atom.xml" rel="self"/>
   <link href="http://blog.stevemoyer.net/"/>
-  <updated>2013-03-13T07:49:51-07:00</updated>
+  <updated>2013-03-14T11:53:41-07:00</updated>
   <id>http://blog.stevemoyer.net/</id>
   <author>
     <name><![CDATA[Steve Moyer]]></name>
@@ -12,6 +12,227 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Working with Legacy Databases: A Case Study]]></title>
+    <link href="http://blog.stevemoyer.net/2013/03/13/working-with-legacy-databases-a-case-study.html"/>
+    <updated>2013-03-13T12:45:00-07:00</updated>
+    <id>http://blog.stevemoyer.net/2013/03/13/working-with-legacy-databases-a-case-study</id>
+    <content type="html"><![CDATA[<p>I recently blogged about a process for <a href="http://blog.stevemoyer.net/2013/03/11/regaining-agility-in-face-of-legacy.html">Regaining Agility in the Face of Legacy Databases</a>. A general process is nice but I find that a real example is more helpful.</p>
+
+<p>The client&#8217;s primary application was a domain-specific content management system. The project charter was to help implement iterative development and automated testing practices while delivering new features. Upon arriving, my ThoughtWorks colleagues and I realized that the legacy code and database would make it extremely risky to make any significant changes. This, of course, was no surprise to the team of client developers. While many development and testing related activities were going on at the same time, this post will focus on the databases and automated testings.</p>
+
+<p>Given the state and size of the code, unit testing all (or even most) of the application was not a feasable way to reduce regression in the code base at large. In order to reduce the risk, we needed to add automated tests. The decision was made to begin adding browser-based system tests. For these tests to be at all consistent and maintainable, we needed to get the database under control and enable team members to work and build tests in local isolation.</p>
+
+<h2>The Situation:</h2>
+
+<ul>
+<li>Three primary Sql Server databases
+
+<ul>
+<li>Total size of the databases without audit and historical data: ~75GB</li>
+<li>Circular references between databases</li>
+</ul>
+</li>
+<li>100-150 tables
+
+<ul>
+<li>Significant data movement back and forth between sets of similar tables</li>
+<li>Significant data which was not valid under the schema constraints</li>
+</ul>
+</li>
+<li>~1000 stored procedures
+
+<ul>
+<li>Many unable to be compiled due to missing references</li>
+</ul>
+</li>
+<li>No automated tests</li>
+<li>Many significant legacy issues in the codebase
+
+<ul>
+<li>Three+ active data access layers (large amounts of overlap)</li>
+<li>Wide scale copy and paste with slight divergence</li>
+<li>Duplicated code in C# and VB.net</li>
+</ul>
+</li>
+<li>Developers primarily using a shared set of databases on a development server
+
+<ul>
+<li>months out of date/rarely updated</li>
+</ul>
+</li>
+<li>DBAs
+
+<ul>
+<li>Had already flagged many out of date stored procedures for recompile with plans to delete if not accessed within a few months</li>
+<li>Had consolidated ~20 databases down into a much smaller number</li>
+<li>Were resistant to automation</li>
+<li>Were resistant to using version control</li>
+<li>Were resistant to participating in the development process</li>
+</ul>
+</li>
+<li>Releases
+
+<ul>
+<li>Multi-week manual QA process</li>
+<li>Multiple consecutive troubled releases</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Prior attempts at wrangling the databases</h2>
+
+<ul>
+<li>Visual Studio Database Projects
+
+<ul>
+<li>Didn&#8217;t deal well with multiple (troubled) databases</li>
+<li>Not incremental, change scripts generated at time of deployment based on database snapshots</li>
+<li>Implicit changes created based of the current state of the complete database</li>
+</ul>
+</li>
+<li>Visual Studio Data Generation Plans
+
+<ul>
+<li>Doesn&#8217;t produce meaningful data</li>
+</ul>
+</li>
+<li>Jailer
+
+<ul>
+<li>More suited to a one time extraction</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>The Process</h2>
+
+<p>Primary Tools: <a href="http://sourceforge.net/projects/dbdeploy-net/">dbdeploy.net</a>, <a href="https://github.com/SteveMoyer/nDump">nDump</a>, <a href="http://sahi.co.in/">Sahi</a>, <a href="http://www.thoughtworks-studios.com/twist-agile-testing">ThoughtWorks Twist</a></p>
+
+<h3>Phase 1: Generating a baseline schema (One person over a few days)</h3>
+
+<p>Schema scripts were generated for each database using Microsoft Sql Server Management Studio. Initially one script per database. Additional scripts were created to work around issues related to ordering of database creation. Bodies of non-compilable stored procedures were emptied but were not completely removed. Leaving the empty stored procedures allowed using the migration process to delete them from production. Creation of the empty databases was fully automated by applying the scripts in a specific order using batch files. Each work around that was created was a spotlight on a problem to be addressed in the future.</p>
+
+<h3>Phase 2: Generating an initial dataset (One person over ~3-4 Weeks)</h3>
+
+<p>Data generation started with tables necessary to use the log in screen of the content management system. Once logging in was possible, data generation progressed to a few other core features such as the content editor. Data was extracted using nDump which exports a set of tables in a manually configured order. As with script generation in phase 1, the problems which came to light during this phase pointed out problems to be corrected in the future.</p>
+
+<p>Multiple data extraction techniques were used to populate the dataset:</p>
+
+<p>Full table extraction from production was used to populate lookup tables using nDump.</p>
+
+<p>Partial table extraction from production was used to selectively export small subsets of data using nDump&#8217;s optional per table filtering.</p>
+
+<p>The target application itself was also used to create data.</p>
+
+<p>Small amounts of data were typed manually into sql tables or into the CSV export files.</p>
+
+<p>After each extraction, the databases were rebuilt and the data was reloaded using nDump. This ensured that the data would pass constraints and go into the databases successfully. Often, foreign keys were violated indicating addition tables needed to be added to the export process.</p>
+
+<h3>Phase 3: Initial browser based testing and continuous integration (Two people over ~1 week)</h3>
+
+<p>Multiple test franework options were considered independent of this of this database effort. Sahi was selected as the tool of choice for browser automation and Twist was selected for test suite management. Once a small set of features were up and running, an initial automated test was created.  The database build and initial automated test were run as a job in the Jenkins CI server.</p>
+
+<h3>Phase 3: Extending the team and moving forward (Ongoing effort across multiple distributed teams)</h3>
+
+<p>With the build and test groundwork in place, the responsibility for writing tests and creating test data were extended to the teams creating new features as well as an additional team set up specifically to create a regression suite. All development changes to the database schemas and stored procedures were done through migration scripts run with dbdeploy.net. Picking a number for a migration script and generating new test data were each limited to one person at a time. This was done to avoid merge conflicts which were particularly difficult given database generated ids which often collided. To ensure only one person was engaging in these activities at a time, the <a href="https://github.com/SteveMoyer/pass_the_puppy">Pass The Puppy - Distributed Token Application</a> was used. If all team members are in a single location, it is easier to use a physical token such as a stuffed animal.</p>
+
+<p>On each commit to source control, the databases were rebuilt from scratch. The current set of migration scripts was then applied. In addition, the migrations were separately applied to production backups. This ensured that the changes, which worked with the test databases, would also work when applied to production. Once the databases were built, the browser tests of the active development teams were run against them.  A few times each day, the entire regression suite was run against the current state of the code and databases.</p>
+
+<h2>Pros/Cons</h2>
+
+<h3>Baseline scripts with migrations run by dbdeploy.net</h3>
+
+<ul>
+<li>Pros:
+
+<ul>
+<li>Transparent and customizable process</li>
+<li>Easy to follow the evolution of the schema and stored procedures</li>
+<li>Changes are explicit</li>
+<li>Repeatable</li>
+</ul>
+</li>
+<li>Cons
+
+<ul>
+<li>A few hours of effort were required to update and audit the baseline after a major release.</li>
+<li>Developers forced to script database changes</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>CSV based data imported and exported with nDump</h3>
+
+<ul>
+<li>Pros:
+
+<ul>
+<li>Repeatable</li>
+<li>Transparent</li>
+<li>Incremental
+
+<ul>
+<li>Continually add data as needed</li>
+</ul>
+</li>
+<li>Easy to diff</li>
+<li>Very flexible, use multiple strategies for data generation</li>
+</ul>
+</li>
+<li>Cons:
+
+<ul>
+<li>CSV files have no native differentiation between empty and null strings</li>
+<li>Data modifications must be serialized, significant merges within an overlapping set of tables are not reasonable</li>
+<li>The data load process can be quite slow depending on the method used. Generally there is a tradeoff between data validation and speed.</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>The Results</h2>
+
+<h3>Progress made</h3>
+
+<ul>
+<li>3 primary Sql Server databases (Total size of test databases: &lt; 150MB)</li>
+<li>~100 CI builds per day</li>
+<li>~3000 browser based regression tests (tested in CI)</li>
+<li>Over 500 database migrations to date (tested in CI)</li>
+<li>Releases
+
+<ul>
+<li>A few days of manual QA prior to release</li>
+<li>New features visible to quality analysts and business users well before release</li>
+<li>Much less stressful</li>
+</ul>
+</li>
+<li>Developers and Quality Engineers work in local isolation (internet connection optional)
+
+<ul>
+<li>Updated on each pull from version control</li>
+</ul>
+</li>
+<li>DBAs
+
+<ul>
+<li>A bit more involved in the development process</li>
+<li>Still resistant to using version control</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Summary</h3>
+
+<p>Over the next couple years, multiple projects were successfully delivered. Some of these projects required wide-ranging changes to the databases. With the added automated test coverage and improved development practices, releases were less stressful and more frequent. The relatively basic toolset (dbdeploy.net, nDump, scripting) allowed for customization at each step of the process. Other tools atttempted offered a nice user interface but left few options when faced with challenges the tool developer had not accounted for. The test data and database development process was not without pain and effort. It alone is not responsible for too much of the progress that has been made. I do think it was crucial in allowing the dedicated test and development teams to significantly improve the situation.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Regaining Agility in the Face of Legacy Databases]]></title>
@@ -588,23 +809,6 @@ I&#8217;m sure I&#8217;ve left out many other things.  How else do QA&#8217;s pr
 <div xmlns='http://www.w3.org/1999/xhtml'>Whenever I roll on to a new client there are a few things that I find to be leading indicators for the success of the engagement.<br/><ul><li>How long it takes to get a badge/computer/access to the building.  Hopefully this stuff is ready and waiting when you arrive. I have seen cases where a badge takes a few weeks and a computer takes up to two months.  It&#8217;s particularly awesome if they won&#8217;t provide you with a computer and won&#8217;t allow your computer on their network.  If I don&#8217;t have all of this stuff by the end of the first week on the client it&#8217;s a bad sign.    <br/></li><li>The amount of time it takes before I hear the first mention of filing a ticket.  Something like &#8220;Here is your laptop, if you want a mouse or keyboard file a separate ticket for each and we&#8217;ll get them for you.&#8221;  I&#8217;ve really come to hate the words &#8220;file a ticket&#8221;, particularly when preceded by &#8220;I forgot to&#8221; and followed by &#8220;so that won&#8217;t be ready for a few weeks.&#8221;</li><li>Availability of client personnel.  If the people I&#8217;m supposed to be working with are MIA or are splitting time with a bunch of other projects I lose a bit of confidence.  <br/></li></ul>I used to have a few more which seem to have slipped my mind.  Do you have any other early indicators for project/engagement success or failure? <br/> <br/></div></div>
 
 
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[agile : large companies :: recovery : heroin addicts]]></title>
-    <link href="http://blog.stevemoyer.net/2010/03/29/agile-large-companies-recovery-heroin.html"/>
-    <updated>2010-03-29T21:35:00-07:00</updated>
-    <id>http://blog.stevemoyer.net/2010/03/29/agile-large-companies-recovery-heroin</id>
-    <content type="html"><![CDATA[<div class='post'>
-<div xmlns='http://www.w3.org/1999/xhtml'><font style='font-weight: bold;'><font style='font-weight: bold;'><br/></font></font><font><font>H</font></font><font>ow are large companies like heroin addicts you ask?</font><br/><ol><li>They make excuses and/or deny the problem. My favorite is: How bad
-could we be? We&#8217;re a billion dollar company! When I hear this, I wonder
-how many companies have gone billion dollar balance sheets to
-bankruptcy in a short amount of time.  Think about Amtrak, the major
-airlines&#8230;size won&#8217;t save your business.</li><li>They can&#8217;t maintain focus and their priorities shift constantly. The
-new highest priority is either the shiniest thing in view or whomever
-is shouting the loudest.</li><li>When they do decide to change, they&#8217;re often only partly committed. </li><li>During the transition, managers are paranoid that you&#8217;re out to get them.  They think the changes will take away their kingdoms.  Developers are paranoid that people will find out that they don&#8217;t know how to write a test.  QA&#8217;s are paranoid because nobody tells them what to expect until they don&#8217;t have enough time to deal with it.  The business is paranoid that they&#8217;re not getting a return from their expensive IT department.<br/></li><li><font>They often flounder through short lived attempts to reform before reverting to their old ways.</font> Management goes back to constant fire fighting.  They could quit fire fighting if they wanted to, but this stuff is extremely important!  <br/></li></ol><font><br/>Recovery for many large companies is about as likely as it is for a heroin addict.  It is possible but it usually requires a few things:<br/></font><ol><li><font> They need to hit rock bottom.  A five year project that cost millions and delivered nothing.  A few days with the production servers down and money flowing out the door.<br/></font></li><li><font> They need to be committed to making serious change from the top of the organization to the bottom.<br/></font></li><li>They need to treat the problems that led down this path in the first place.<br/></li></ol>Given the challenges that companies face in transitioning to agile, what do they need to increase their odds of success?<br/><ol><li><font>Guidance from people who have successfully transitioned.  I don&#8217;t mean a coach or two for a couple days.  When transitioning, the team generally needs to have at least 50% experienced practitioners for at least a few months.  To successfully go below the 50% threshold requires a very high level of motivation from those adopting the agile mindset and XP practices. Even with high motivation, it will take one on one support or the drive to spend a lot of extra time on their own.<br/></font></li><li><font>Cross-functional teams with a strong preference for co-location.  The more inter-team hand-offs it takes to get a project developed and deployed, the less likely the project is to succeed.  Getting the stakeholders, BA&#8217;s, developers, QA&#8217;s, support staff, and IT dedicated to this cross-functional team and to share the same physical space will increase the odds of success significantly. <br/></font></li><li><font>Transparency.  Bring out all the warts and underlying issues.  Make sure everyone understands the problems and issues at hand.  If people don&#8217;t agree that there is a problem, they&#8217;re unlikely to participate in solving it.  In the worst case, a project can be cancelled early. in the best case, problems can be mitigated or resolved and the project delivered. <br/></font></li><li><font>A shared vision of where the business wants to go.   It&#8217;s very difficult to put full effort into going somewhere if you don&#8217;t share the same map.</font></li><li><font>Some quick wins.  If team members see signs of improvement, it can help them sustain their efforts through the instability and insecurity that comes with any change.</font></li></ol></div></div>
 
 ]]></content>
   </entry>
