@@ -4,7 +4,7 @@
   <title><![CDATA[Coding Libetartian]]></title>
   <link href="http://blog.stevemoyer.net/atom.xml" rel="self"/>
   <link href="http://blog.stevemoyer.net/"/>
-  <updated>2013-03-14T21:26:31-07:00</updated>
+  <updated>2013-03-19T13:27:31-07:00</updated>
   <id>http://blog.stevemoyer.net/</id>
   <author>
     <name><![CDATA[Steve Moyer]]></name>
@@ -45,6 +45,7 @@
 
 <ul>
 <li>Many unable to be compiled due to missing references</li>
+<li>DBAs/developers already removed many to get to ~1000</li>
 </ul>
 </li>
 <li>No automated tests</li>
@@ -159,8 +160,13 @@
 <li>Cons
 
 <ul>
-<li>A few hours of effort were required to update and audit the baseline after a major release.</li>
-<li>Developers forced to script database changes</li>
+<li>A few hours of effort were required to update and audit the baseline after a major release
+
+<ul>
+<li>Releases with only a few changes may be applied directly to the existing baseline</li>
+</ul>
+</li>
+<li>Developers are forced to script database changes</li>
 </ul>
 </li>
 </ul>
