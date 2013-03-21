@@ -213,7 +213,7 @@
 
 <p>Multiple test franework options were considered independent of this of this database effort. Sahi was selected as the tool of choice for browser automation and Twist was selected for test suite management. Once a small set of features were up and running, an initial automated test was created.  The database build and initial automated test were run as a job in the Jenkins CI server.</p>
 
-<h3>Phase 3: Extending the team and moving forward (Ongoing effort across multiple distributed teams)</h3>
+<h3>Phase 4: Extending the team and moving forward (Ongoing effort across multiple distributed teams)</h3>
 
 <p>With the build and test groundwork in place, the responsibility for writing tests and creating test data were extended to the teams creating new features as well as an additional team set up specifically to create a regression suite. All development changes to the database schemas and stored procedures were done through migration scripts run with dbdeploy.net. Picking a number for a migration script and generating new test data were each limited to one person at a time. This was done to avoid merge conflicts which were particularly difficult given database generated ids which often collided. To ensure only one person was engaging in these activities at a time, the <a href="https://github.com/SteveMoyer/pass_the_puppy">Pass The Puppy - Distributed Token Application</a> was used. If all team members are in a single location, it is easier to use a physical token such as a stuffed animal.</p>
 
