@@ -4,7 +4,7 @@
   <title><![CDATA[Coding Libetartian]]></title>
   <link href="http://blog.stevemoyer.net/atom.xml" rel="self"/>
   <link href="http://blog.stevemoyer.net/"/>
-  <updated>2013-03-21T08:47:18-07:00</updated>
+  <updated>2013-03-21T12:30:27-07:00</updated>
   <id>http://blog.stevemoyer.net/</id>
   <author>
     <name><![CDATA[Steve Moyer]]></name>
@@ -254,19 +254,18 @@
 <b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Goals and Guidelines For a Solution:</u></span></b></h2>
 <b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">If all of your database applications were well-understood, had robust automated test coverage, or were not under development, it’s likely you would have stopped reading. To improve the situation, what needs to be accomplished? </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
 <h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Build Knowledge about the Databases</span></b></h3>
+<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Build Knowledge about the Databases</span></h3>
 <b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Legacy databases contain a large amount of latent knowledge. Stored procedures are often the source of truth when it comes to portions of business logic. How the tables relate to each other may describe requirements of the system. Quirks in the design may tell parts of the development story. The people who originally held this knowledge may be long gone. It would be a shame to spend significant time untangling the web only to start over the next time someone moves on.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Allow for an Iterative Progress</span></b></h3>
+<h3><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Allow for an Iterative Progress</span></h3>
 <b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">To solve a problem of this size it is necessary to take it one piece at a time. Legacy databases are usually too complex for any one person to hold in memory. When one section is understood, the knowledge can be captured and the process can move to the next section. It should be easy run the automated process over and over. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
 <h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate a Minimum Viable Database </span></b></h3>
+<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate a Minimum Viable Database </span></h3>
 <b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copies of production databases are great for troubleshooting and reporting. They’re terrible for development and automated testing. For development and testing, the dataset should be small enough to understand what is in it. The data it contains should be meaningful. It also needs to allow a functional application to run on top of it.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
 <h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Keep the Schema Close to Production </span></b></h3>
+<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Keep the Schema Close to Production </span></h3>
 <b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Once the Minimum Viable Database is reasonably under control, you’re going to want to start making schema and procedure changes, eventually propagating them to production. Maintaining a list of things that are different in development and production is annoying and error prone. Keep the list as short as possible.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
 <h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Version Changes</span></b></h3>
+<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Version Changes</span></h3>
 <b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The schema, data, and other products of the process are important and valuable. They should be kept in source control alongside the application code. While database backups are useful for many purposes, they should be avoided as products of the process.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
 <h2>
 <b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Solving the Problem:</u></span></b></h2>
