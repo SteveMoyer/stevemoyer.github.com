@@ -353,107 +353,127 @@
   </header>
 
 
-  <div class="entry-content"><div class='post'>
-<br />
-<h2>
-<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Problem Statement:</u></span></b></h2>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">As organizations embrace iterative software development they often find themselves weighed down by their legacy databases. These databases seem nearly impossible to understand. &nbsp;They have multiple levels of tangled stored procedure calls, missing relational integrity, obsolete and duplicated data, circular references between databases, etc. &nbsp;Some employees understand portions of the database. Nobody wants to make any significant changes for fear of unintended consequences. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Developers(henceforth devs) and Quality Engineers(QEs) typically work off of a shared development environment which hosts backups from production. The development environment often diverges from production as devs make their changes directly to the shared database. QEs add data to support their testing. Temporary changes often persist and the data is in a constant state of flux. The devs and QEs are reluctant to restore new backups as they may lose the schema changes and data they have built up.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Database Administrators(DBAs) tend to host their own production copies outside of the development environment. &nbsp;They’re less interested in what is going on in development. They are concerned with Production. &nbsp;They deploy changes to production on their own cycle and often do not apply the changes to the development environment.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">When it’s time to deploy a release, a barrage of development changes are dropped on the DBAs. They most likely do not have context for the development changes and don’t have much time to review them. They are not happy that someone sent a script that would overwrite the performance optimizations they have already deployed to production. Eventually the changes are applied and verified in a staging environment. There are times when releases are smooth. More often, they are followed by a mad scramble to fix the problems.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Unfortunately, this situation is more the rule than the exception. Within the software development process, the lowest cost next step appears to be adding another table/procedure/band aid to the picture. Priorities, deadlines, and fear rarely afford the opportunity to reduce the &nbsp;technical debt and improve the process in a meaningful way. How can an organization regain flexibility and start to chip away at the mounting cost of change?</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h2>
-<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Goals and Guidelines For a Solution:</u></span></b></h2>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">If all of your database applications were well-understood, had robust automated test coverage, or were not under development, it’s likely you would have stopped reading. To improve the situation, what needs to be accomplished? </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Build Knowledge about the Databases</span></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Legacy databases contain a large amount of latent knowledge. Stored procedures are often the source of truth when it comes to portions of business logic. How the tables relate to each other may describe requirements of the system. Quirks in the design may tell parts of the development story. The people who originally held this knowledge may be long gone. It would be a shame to spend significant time untangling the web only to start over the next time someone moves on.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Allow for an Iterative Progress</span></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">To solve a problem of this size it is necessary to take it one piece at a time. Legacy databases are usually too complex for any one person to hold in memory. When one section is understood, the knowledge can be captured and the process can move to the next section. It should be easy run the automated process over and over. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate a Minimum Viable Database </span></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copies of production databases are great for troubleshooting and reporting. They’re terrible for development and automated testing. For development and testing, the dataset should be small enough to understand what is in it. The data it contains should be meaningful. It also needs to allow a functional application to run on top of it.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Keep the Schema Close to Production </span></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Once the Minimum Viable Database is reasonably under control, you’re going to want to start making schema and procedure changes, eventually propagating them to production. Maintaining a list of things that are different in development and production is annoying and error prone. Keep the list as short as possible.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-<span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Version Changes</span></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The schema, data, and other products of the process are important and valuable. They should be kept in source control alongside the application code. While database backups are useful for many purposes, they should be avoided as products of the process.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h2>
-<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Solving the Problem:</u></span></b></h2>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Many tools on the market seem to go a long way towards unraveling the problem. Some compare two database structures and generate differential scripts to sync them. Others generate test data. None of them are open, robust, iterative, and able to be fully automated. Keep them in your arsenal. They will come in handy.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Through exercising the following process you can accomplish the goals stated above.</span></b><br />
-<h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create a Schema Baseline </span></b></h3>
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">1. Generate schema and stored procedure scripts </span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Generate scripts capable of creating your databases complete with schema and stored procedures but without data. Modify the scripts until they run successfully through without intervention.&nbsp;</span></b><br />
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><br /></span></b>
-<br />
-<h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create an Initial Dataset </span></b></h3>
-<br />
-<b style="font-weight: normal;"><span style="font-family: Arial;"><span style="font-size: 15.333333015441895px; white-space: pre-wrap;"><br /></span></span></b>
-<br />
-<div class="separator" style="clear: both; text-align: center;">
-<a href="http://4.bp.blogspot.com/-q_r0EQ3_WU8/UT4-Wy-qfTI/AAAAAAAABHg/Sfv5D6kezBM/s1600/DataCreationCycle.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="370" src="http://4.bp.blogspot.com/-q_r0EQ3_WU8/UT4-Wy-qfTI/AAAAAAAABHg/Sfv5D6kezBM/s400/DataCreationCycle.jpg" width="400" /></a></div>
-<b style="font-weight: normal;"><span style="font-family: Arial;"><span style="font-size: 15.333333015441895px; white-space: pre-wrap;"><br /></span></span></b>
-<br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.1 Pick a Target Feature<span class="Apple-tab-span" style="white-space: pre;"> </span> &nbsp;</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Select a feature or area of the application to work on. A good starting place my be log a user into the application and viewing the start screen.</span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.2 Automate a test to perform the steps(Optional but recommended)</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The feature will be tested over and over as additional data is added. To save time and effort, an automated test should be created for. As the application my not be functioning, a working deployment of the application can be used to construct your test.</span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.3 Run the Selected Feature</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Exercise the test(s) of the selected feature. Debug the application or review errors to determine which missing data caused the failures. If the feature is working as expected, <u>return to step 2.1.</u></span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.4 Select a Group of Tables</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Select a small numbers of tables related to the feature being worked on.</span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.5 Create Data to Populate the Selected Tables</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">There are many strategies to get data for a given table:</span></b><br />
-<ul><b style="font-weight: normal;">
-<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create it manually in the database tables</span></b></li>
-<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Create it manually in storage files(xml,csv,tab delimited, etc.)</span></b></li>
-<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copy a filtered subset from production(if appropriate). Recommended for “reference” tables</span></b></li>
-<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Use the working portions of the application to create data</span></b></li>
-<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Use a data generator</span></b></li>
-<li><b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Copy and modify other data you have already created</span></b></li>
-</b></ul>
-<b style="font-weight: normal;">
-</b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.6 Export the data to storage files, if necessary</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Storage files should be human readable, version-able, and diff-able (CSV,tab delimited,XML, etc.). &nbsp;Unless the data was entered directly into the storage files it will need to be exported to them. &nbsp;There are many tools that can export data to the above mentioned file types. Select a tool that suitable tool as needed. Exporting will be done repeatedly and must be completely automated. </span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.7 Re-create the databases and load the data</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Re-create the database schemas from scratch and load all of the data from the storage files. There are many options for loading the data from the storage files. Most database tools have bulk load facilities. The re-creation and load should be transparent on failure and must be completely automated. If the load fails, addition data may need be created for dependent tables. &nbsp;When the load is successful, <u>return to step 2.3 and continue until the feature is working.</u></span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">2.8 Commit changes</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Working in small cycles is highly recommended. Commit to version control frequently. If desired, <u>return to step 2.1 and select another feature.</u></span></b><br />
-<h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Ongoing Development</span></b></h3>
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Changing Schema and/or Stored Procedures</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Once the baseline structure is established, version control should be treated as the beginning of the path to production for schema and stored procedure changes. To introduce a change, create a numbered or time-stamped migration script. Store the migration scripts in a single location within your version control.</span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Adding or Changing Data</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">The process of adding and changing data is similar to the initial data creation process. &nbsp;Load the current the data locally, or in an isolated environment. Change the data as desired. Care should be take to minimize the changes to only those that are desired. Export the data again and commit the changes.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Application Releases</span></b></h4>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Migration scripts can be packaged with application builds and deployed to a given environment at the same time as the application. Good migration systems track which migrations have been applied and run only migrations which have not already been applied to the target environment.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h2>
-<b><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"><u>Benefits:</u></span></b></h2>
-<h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Reduced Risk of Releases</span></b></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">With the database build, migration, and load process completely automated, each member of the team can operate on a local copy of the database. DBAs can easily follow the proposed changes to the databases and expose their own to developers. &nbsp;All internal releases (Continuous Integration, test, staging) can employ the automation as well. Before hitting production, all changes will have been executed many times. Breaking changes will be visible earlier when intervention is less costly.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Increased Consistency of Automated Tests</span></b></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Employing an explicitly created dataset, which does not rely on consistency of data refreshed from production, will decrease false negative test results.</span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Increased developer productivity</span></b></h3>
-<b style="font-weight: normal;"><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;">Working with smaller datasets in a local environment allows devs to cut down cycle times and suffer fewer unintended collisions. Working locally also significantly decreases the impact of network or shared environment downtime. </span><br /><span style="font-family: Arial; font-size: 15px; vertical-align: baseline; white-space: pre-wrap;"></span></b><br />
-<h3>
-</h3>
-</div>
+  <div class="entry-content"><h2>Problem Statement:</h2>
 
+<p>As organizations embrace iterative software development they often find themselves weighed down by their legacy databases. These databases seem nearly impossible to understand. They have multiple levels of tangled stored procedure calls, missing relational integrity, obsolete and duplicated data, circular references between databases, etc. Some employees understand portions of the database. Nobody wants to make any significant changes for fear of unintended consequences.</p>
+
+<p>Developers(henceforth devs) and Quality Engineers(QEs) typically work off of a shared development environment which hosts backups from production. The development environment often diverges from production as devs make their changes directly to the shared database. QEs add data to support their testing. Temporary changes often persist and the data is in a constant state of flux. The devs and QEs are reluctant to restore new backups as they may lose the schema changes and data they have built up.</p>
+
+<p>Database Administrators(DBAs) tend to host their own production copies outside of the development environment. They’re less interested in what is going on in development. They are concerned with Production.They deploy changes to production on their own cycle and often do not apply the changes to the development environment.</p>
+
+<p>When it’s time to deploy a release, a barrage of development changes are dropped on the DBAs. They most likely do not have context for the development changes and don’t have much time to review them They are not happy that someone sent a script that would overwrite the performance optimizations they have already deployed to production. Eventually the changes are applied and verified in a staging environment. There are times when releases are smooth. More often, they are followed by a mad scramble to fix the problems.</p>
+
+<p>Unfortunately, this situation is more the rule than the exception. Within the software development process, the lowest cost next step appears to be adding another table/procedure/band aid to the picture. Priorities, deadlines, and fear rarely afford the opportunity to reduce the technical debt and improve the process in a meaningful way. How can an organization regain flexibility and start to chip away at the mounting cost of change?</p>
+
+<h2>Goals and Guidelines For a Solution:</h2>
+
+<p>If all of your database applications were well-understood, had robust automated test coverage, or were not under development, it’s likely you would have stopped reading. To improve the situation, what needs to be accomplished?</p>
+
+<h3>Build Knowledge about the Databases</h3>
+
+<p>Legacy databases contain a large amount of latent knowledge. Stored procedures are often the source of truth when it comes to portions of business logic. How the tables relate to each other may describe requirements of the system. Quirks in the design may tell parts of the development story. The people who originally held this knowledge may be long gone. It would be a shame to spend significant time untangling the web only to start over the next time someone moves on.</p>
+
+<h3>Allow for an Iterative Progress</h3>
+
+<p>To solve a problem of this size it is necessary to take it one piece at a time. Legacy databases are usually too complex for any one person to hold in memory. When one section is understood, the knowledge can be captured and the process can move to the next section. It should be easy run the automated process over and over.</p>
+
+<h3>Generate a Minimum Viable Database</h3>
+
+<p>Copies of production databases are great for troubleshooting and reporting. They’re terrible for development and automated testing. For development and testing, the dataset should be small enough to understand what is in it. The data it contains should be meaningful. It also needs to allow a functional application to run on top of it.</p>
+
+<h3>Keep the Schema Close to Production</h3>
+
+<p>Once the Minimum Viable Database is reasonably under control, you’re going to want to start making schema and procedure changes, eventually propagating them to production. Maintaining a list of things that are different in development and production is annoying and error prone. Keep the list as short as possible.</p>
+
+<h3>Version Changes</h3>
+
+<p>The schema, data, and other products of the process are important and valuable. They should be kept in source control alongside the application code. While database backups are useful for many purposes, they should be avoided as products of the process.</p>
+
+<h2>Solving the Problem:</h2>
+
+<p>Many tools on the market seem to go a long way towards unraveling the problem. Some compare two database structures and generate differential scripts to sync them. Others generate test data. None of them are open, robust, iterative, and able to be fully automated. Keep them in your arsenal. They will come in handy. Through exercising the following process you can accomplish the goals stated above.</p>
+
+<h3>Create a Schema Baseline</h3>
+
+<h4>1. Generate schema and stored procedure scripts</h4>
+
+<p>Generate scripts capable of creating your databases complete with schema and stored procedures but without data. Modify the scripts until they run successfully through without intervention.</p>
+
+<h3>Create an Initial Dataset</h3>
+
+<div class="separator" style="clear: both; text-align: center;">
+<a href="http://blog.stevemoyer.net/images/DataCreationCycle.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="370" src="http://blog.stevemoyer.net/images/DataCreationCycle.jpg" width="400" /></a></div>
+
+
+<h4>2.1 Pick a Target Feature</h4>
+
+<p>Select a feature or area of the application to work on. A good starting place my be log a user into the application and viewing the start screen.</p>
+
+<h4>2.2 Automate a test to perform the steps(Optional but recommended)</span></b></h4></h4>
+
+<p>The feature will be tested over and over as additional data is added. To save time and effort, an automated test should be created for. As the application my not be functioning, a working deployment of the application can be used to construct your test.</p>
+
+<h4>2.3 Run the Selected Feature</h4>
+
+<p>Exercise the test(s) of the selected feature. Debug the application or review errors to determine which missing data caused the failures. If the feature is working as expected, <u>return to step 2.1.</u></p>
+
+<h4>2.4 Select a Group of Tables</span></b></h4></h4>
+
+<p>Select a small numbers of tables related to the feature being worked on.</p>
+
+<h4>2.5 Create Data to Populate the Selected Tables</h4>
+
+<p>There are many strategies to get data for a given table:</p>
+
+<ul>
+<li>Create it manually in the database tables</li>
+<li>Create it manually in storage files(xml,csv,tab delimited, etc.)</li>
+<li>Copy a filtered subset from production(if appropriate). Recommended for reference tables</li>
+<li>Use the working portions of the application to create data</li>
+<li>Use a data generator</li>
+<li>Copy and modify other data you have already created</li>
+</ul>
+
+
+<h4>2.6 Export the data to storage files, if necessary</h4>
+
+<p>Storage files should be human readable, version-able, and diff-able (CSV,tab delimited,XML, etc.). Unless the data was entered directly into the storage files it will need to be exported to them. There are many tools that can export data to the above mentioned file types. Select a tool that suitable tool as needed. Exporting will be done repeatedly and must be completely automated.</p>
+
+<h4>2.7 Re-create the databases and load the data</h4>
+
+<p>Re-create the database schemas from scratch and load all of the data from the storage files. There are many options for loading the data from the storage files. Most database tools have bulk load facilities. The re-creation and load should be transparent on failure and must be completely automated. If the load fails, addition data may need be created for dependent tables. When the load is successful, <u>return to step 2.3 and continue until the feature is working.</u></p>
+
+<h4>2.8 Commit changes</h4>
+
+<p>Working in small cycles is highly recommended. Commit to version control frequently. If desired, <u>return to step 2.1 and select another feature.</u></p>
+
+<h3>Ongoing Development</h3>
+
+<h4>Changing Schema and/or Stored Procedures</h4>
+
+<p>Once the baseline structure is established, version control should be treated as the beginning of the path to production for schema and stored procedure changes. To introduce a change, create a numbered or time-stamped migration script. Store the migration scripts in a single location within your version control.</p>
+
+<h4>Adding or Changing Data</h4>
+
+<p>The process of adding and changing data is similar to the initial data creation process. Load the current the data locally, or in an isolated environment. Change the data as desired. Care should be take to minimize the changes to only those that are desired. Export the data again and commit the changes.</p>
+
+<h4>Application Releases</h4>
+
+<p>Migration scripts can be packaged with application builds and deployed to a given environment at the same time as the application. Good migration systems track which migrations have been applied and run only migrations which have not already been applied to the target environment.</p>
+
+<h2>Benefits:</h2>
+
+<h3>Reduced Risk of Releases</h3>
+
+<p>With the database build, migration, and load process completely automated, each member of the team can operate on a local copy of the database. DBAs can easily follow the proposed changes to the databases and expose their own to developers. All internal releases (Continuous Integration, test, staging) can employ the automation as well. Before hitting production, all changes will have been executed many times. Breaking changes will be visible earlier when intervention is less costly.</p>
+
+<h3>Increased Consistency of Automated Tests</h3>
+
+<p>Employing an explicitly created dataset, which does not rely on consistency of data refreshed from production, will decrease false negative test results.</p>
+
+<h3>Increased developer productivity</h3>
+
+<p>Working with smaller datasets in a local environment allows devs to cut down cycle times and suffer fewer unintended collisions. Working locally also significantly decreases the impact of network or shared environment downtime.</p>
 </div>
   
   
